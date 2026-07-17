@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مرکز تخصصی فرزهای دندانپزشکی | خرید عمده فرز دندان</title>
+<meta name="description" content="مرکز تخصصی فروش عمده فرزهای دندانپزشکی. انواع فرز سوزنی، استوانه‌ای، فیسر، فوتبالی، کارباید و عمق‌سنج با کیفیت برتر. تخفیف پلکانی تا ۲۰٪ برای سفارشات عمده.">
+<meta name="keywords" content="فرز دندانپزشکی, فرز سوزنی, فرز استوانه‌ای, فرز فیسر, فرز فوتبالی, فرز کارباید, خرید فرز دندان, فرز الماسی, مرکز فرز دندانپزشکی">
+<meta name="author" content="مرکز تخصصی فرزهای دندانپزشکی">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="مرکز تخصصی فرزهای دندانپزشکی">
+<meta property="og:description" content="خرید عمده فرزهای دندانپزشکی با کیفیت برتر، قیمت رقابتی و تخفیف پلکانی.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fa_IR">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#1565c0;--primary-dark:#0d47a1;--primary-light:#e3f2fd;
+  --bg:#f0f4f8;--surface:#fff;--text:#1a2a3a;--text-light:#607080;
+  --border:#dde4ec;--success:#2e7d32;--danger:#c62828;--warning:#ef6c00;
+  --radius:12px;--shadow:0 2px 8px rgba(21,101,192,.08);--shadow-lg:0 8px 30px rgba(21,101,192,.15);
+}
+body{font-family:'Vazirmatn',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;-webkit-font-smoothing:antialiased}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* Header */
+header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.header-inner{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.header-brand{display:flex;align-items:center;gap:12px}
+.logo-badge{flex-shrink:0;animation:badgeFloat 3s ease-in-out infinite}
+@keyframes badgeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+h1{font-size:1.05rem;font-weight:700;letter-spacing:-.3px;line-height:1.3}
+.header-subtitle{font-size:.72rem;opacity:.85;margin-top:2px}
+.search-wrap{position:relative;flex:1;max-width:380px;min-width:200px}
+#searchInput{width:100%;padding:10px 40px 10px 14px;border:none;border-radius:50px;font-size:.88rem;font-family:inherit;background:#fff;color:var(--text);outline:none;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-light);pointer-events:none;display:flex}
+
+/* Main Layout */
+main{max-width:1280px;margin:0 auto;padding:16px}
+
+/* Two-column Wrapper for Intro & Slideshow */
+.info-wrapper {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+  align-items: stretch;
+}
+@media (max-width: 768px) {
+  .info-wrapper {
+    grid-template-columns: 1fr; /* Stacks vertically on mobile */
+  }
+}
+
+.intro {
+  padding: 16px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.intro h2{font-size:1rem;color:var(--primary-dark);margin-bottom:6px}
+.intro p{font-size:.82rem;color:var(--text-light);line-height:1.7}
+
+/* Grit Info Box */
+.grit-info-box {
+  background: #eef4fb;
+  border: 1px solid #dde9f7;
+  border-right: 4px solid var(--primary);
+  padding: 10px 14px;
+  margin-top: 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: var(--text);
+  font-weight: 600;
+}
+.grit-info-box span {
+  margin-left: 8px;
+  display: inline-block;
+}
+
+/* Slideshow Section */
+.trust-section {
+  padding: 16px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  text-align: center;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.trust-section h2 {
+  font-size: 1rem;
+  color: var(--primary-dark);
+  margin-bottom: 12px;
+}
+.slider-container {
+  position: relative;
+  width: 100%;
+  max-width: 280px; /* Keeps the 9:16 image from getting too tall on desktop */
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 8px;
+  direction: ltr;
+  background: var(--bg); /* Adds a nice background for the image edges */
+}
+.slider-wrapper {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+.slide {
+  min-width: 100%;
+  box-sizing: border-box;
+}
+/* Adjusted for 9:16 vertical screenshots */
+.slide img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 9/16;
+  object-fit: contain; /* Prevents cropping of your screenshots */
+  display: block;
+}
+.slider-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(21, 101, 192, 0.8);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 1rem;
+  z-index: 10;
+  transition: background 0.2s;
+}
+.slider-nav:hover {
+  background: var(--primary-dark);
+}
+.slider-nav.prev { right: 8px; }
+.slider-nav.next { left: 8px; }
+
+.results-info{font-size:.82rem;color:var(--text-light);margin-bottom:12px;padding:0 4px}
+
+/* Product Grid */
+.product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:640px){.product-grid{grid-template-columns:repeat(3,1fr);gap:14px}}
+@media(min-width:960px){.product-grid{grid-template-columns:repeat(4,1fr);gap:16px}}
+
+/* Product Card */
+.product-card{background:var(--surface);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);border:1px solid var(--border);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.product-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.product-card.out-of-stock{opacity:.6}
+.product-img-wrap{background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-radius:8px;aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;margin-bottom:10px;overflow:hidden}
+.product-img-wrap img{max-width:75%;max-height:85%;object-fit:contain;transition:transform .3s}
+.product-card:hover .product-img-wrap img{transform:scale(1.08)}
+.product-shape{font-size:.92rem;font-weight:700;color:var(--primary-dark);margin-bottom:2px}
+.product-model{font-size:.74rem;color:var(--text-light);margin-bottom:8px;letter-spacing:.3px;font-weight:600}
+.product-specs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.spec-tag{font-size:.68rem;padding:3px 7px;background:var(--bg);border-radius:6px;color:var(--text-light);border:1px solid var(--border)}
+.spec-tag.grit{font-weight:700}
+.product-price{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.product-price-unit{font-size:.68rem;color:var(--text-light);font-weight:400}
+.pack-info-box {
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  background: #e3f2fd;
+  color: var(--primary-dark);
+  border-radius: 50px;
+  display: inline-block;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.inventory-badge{font-size:.68rem;padding:3px 8px;border-radius:50px;display:inline-block;margin-bottom:10px;width:fit-content;font-weight:600}
+.inventory-badge.in-stock{background:#e8f5e9;color:var(--success)}
+.inventory-badge.out-stock{background:#ffebee;color:var(--danger)}
+.add-btn{width:100%;padding:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:700;font-family:inherit;cursor:pointer;transition:background .2s;margin-top:auto}
+.add-btn:hover:not(:disabled){background:var(--primary-dark)}
+.add-btn:active:not(:disabled){transform:scale(.97)}
+.add-btn:disabled{background:#b0bec5;cursor:not-allowed}
+
+/* Floating Cart */
+.cart-fab{position:fixed;bottom:20px;left:20px;width:58px;height:58px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(21,101,192,.4);z-index:200;display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.cart-fab:hover{transform:scale(1.08)}
+.cart-count-badge{position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;border-radius:50px;font-size:.7rem;min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;padding:0 6px;border:2px solid #fff;font-weight:700;transition:transform .2s}
+.cart-count-badge.pulse{animation:pulse .4s}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+
+/* Cart Drawer */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s;z-index:300}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;top:0;left:0;bottom:0;width:100%;max-width:420px;background:var(--bg);z-index:400;transform:translateX(-100%);transition:transform .3s ease;display:flex;flex-direction:column;box-shadow:4px 0 30px rgba(0,0,0,.2)}
+.cart-drawer.open{transform:translateX(0)}
+.cart-header{background:var(--primary-dark);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.cart-header h2{font-size:1rem;font-weight:700}
+.cart-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.cart-close:hover{background:rgba(255,255,255,.25)}
+.cart-body{flex:1;overflow-y:auto;padding:12px 14px}
+
+/* Cart Empty */
+.cart-empty{text-align:center;padding:50px 20px;color:var(--text-light)}
+.cart-empty svg{margin-bottom:12px;opacity:.4}
+
+/* Cart Item */
+.cart-item{background:var(--surface);border-radius:var(--radius);padding:12px;margin-bottom:10px;border:1px solid var(--border)}
+.cart-item-line1{font-size:.82rem;font-weight:700;margin-bottom:3px;color:var(--text);line-height:1.5}
+.cart-item-line2{font-size:.76rem;color:var(--text-light);margin-bottom:10px}
+.cart-item-controls{display:flex;align-items:center;justify-content:space-between}
+.stepper{display:flex;align-items:center;gap:6px}
+.step-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:1.1rem;color:var(--primary-dark);font-weight:700;display:flex;align-items:center;justify-content:center;transition:all .15s;line-height:1}
+.step-btn:hover{background:var(--primary-light);border-color:var(--primary)}
+.step-btn:active{transform:scale(.92)}
+.step-value{min-width:28px;text-align:center;font-weight:700;font-size:.88rem}
+.cart-item-remove{background:none;border:none;color:var(--danger);cursor:pointer;font-size:.72rem;padding:4px 8px;font-family:inherit}
+.cart-item-remove:hover{text-decoration:underline}
+
+/* Gamified Discount Section */
+.discount-gamify{background:linear-gradient(135deg,#fff8e1,#fffde7);border:2px solid #ffe0b2;border-radius:var(--radius);padding:14px;margin-bottom:14px;text-align:center;font-weight:700;color:var(--warning);position:relative;overflow:hidden;animation:gamifyPulse 1.5s infinite}
+.discount-gamify.achieved{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-color:#66bb6a;color:var(--success)}
+.discount-gamify.maxed{background:linear-gradient(135deg,#e8f5e9,#81c784);border-color:#4caf50;color:var(--success);animation:gamifyCelebrate 0.8s infinite}
+@keyframes gamifyPulse{0%{box-shadow:0 0 0 0 rgba(239,108,0,0.5)}70%{box-shadow:0 0 0 12px rgba(239,108,0,0)}100%{box-shadow:0 0 0 0 rgba(239,108,0,0)}}
+@keyframes gamifyCelebrate{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(46,125,50,0.5)}50%{transform:scale(1.03);box-shadow:0 0 0 8px rgba(46,125,50,0)}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(46,125,50,0)}}
+.gamify-row{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;margin-bottom:6px}
+.gamify-price{font-size:1rem;background:rgba(255,255,255,0.6);padding:2px 8px;border-radius:50px}
+.gamify-discount{font-size:1.4rem;margin:6px 0;font-weight:800}
+.gamify-next{font-size:.78rem;opacity:.9;margin-bottom:10px}
+.progress-bar{height:10px;background:rgba(255,255,255,.6);border-radius:50px;margin-top:8px;overflow:hidden;position:relative}
+.progress-fill{height:100%;border-radius:50px;transition:width .5s ease;position:relative;overflow:hidden}
+.discount-gamify:not(.achieved):not(.maxed) .progress-fill{background:var(--warning)}
+.discount-gamify.achieved .progress-fill{background:var(--success)}
+.discount-gamify.maxed .progress-fill{background:var(--success);width:100%!important}
+.progress-fill::after{content:'';position:absolute;top:0;left:0;bottom:0;right:0;background-image:linear-gradient(-45deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);z-index:1;background-size:30px 30px;animation:move 1s linear infinite;width:100%}
+@keyframes move{0%{background-position:0 0}100%{background-position:30px 30px}}
+
+/* Cart Totals */
+.cart-totals{background:var(--surface);border-top:1px solid var(--border);padding:14px 16px}
+.total-row{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px;color:var(--text-light)}
+.total-row.discount{color:var(--success);font-weight:600}
+.total-row.shipping{color:var(--text);font-weight:600}
+.total-row.final{font-size:1.05rem;font-weight:700;color:var(--text);border-top:1px dashed var(--border);padding-top:10px;margin-top:8px}
+.total-row.final span:last-child{color:var(--primary-dark)}
+.checkout-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.checkout-btn{padding:12px 8px;border:none;border-radius:8px;color:#fff;font-weight:700;font-size:.78rem;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;transition:opacity .2s}
+.checkout-btn.telegram{background:#0088cc}
+.checkout-btn.whatsapp{background:#25d366}
+.checkout-btn:hover{opacity:.88}
+.checkout-btn:disabled{background:#b0bec5;cursor:not-allowed;opacity:1}
+
+/* No Results */
+.no-results{text-align:center;padding:50px 20px;color:var(--text-light);grid-column:1/-1}
+
+/* Footer */
+footer{text-align:center;padding:24px 20px;color:var(--text-light);font-size:.78rem;background:var(--surface);border-top:1px solid var(--border);margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:10px}
+footer a{color:var(--primary);text-decoration:none}
+
+/* Mobile Tweaks */
+@media(max-width:480px){
+  h1{font-size:.92rem}
+  .header-subtitle{font-size:.68rem}
+  .product-card{padding:10px}
+  .product-shape{font-size:.85rem}
+  .cart-fab{bottom:16px;left:16px;width:52px;height:52px}
+  .intro h2{font-size:.92rem}
+  .intro p{font-size:.78rem}
+  .gamify-discount{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="header-brand">
+        <!-- DDS Verified Logo Badge -->
+        <img src="logo.png" alt="لوگوی مرکز تخصصی فرزهای دندانپزشکی" class="logo-badge" style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
+        <div>
+          <h1>مرکز تخصصی فرزهای دندانپزشکی</h1>
+          <div class="header-subtitle">خرید عمده فرزهای الماسی و کارباید با تخفیف پلکانی</div>
+        </div>
+      </div>
+      <div class="search-wrap">
+        <input type="search" id="searchInput" placeholder="جستجو: مدل، شکل، قطر..." autocomplete="off" aria-label="جستجوی محصولات">
+        <span class="search-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+    <div class="info-wrapper">
+    <!-- Left Column: Intro Text -->
+    <section class="intro">
+      <h2>خرید عمده فرزهای دندانپزشکی</h2>
+      <p>مرکز تخصصی فرزهای دندانپزشکی، ارائه‌دهنده انواع فرزهای سوزنی، استوانه‌ای، فیسر، شعله‌ای، کارباید و عمق‌سنج. هر بسته شامل ۵ عدد فرز می‌باشد (به جز محصولات ۱ عددی). با خرید عمده از تخفیف پلکانی (۰.۲٪ برای هر ۵ عدد) بهره‌مند شوید. هزینه پست در مرحله تسویه محاسبه و نمایش داده می‌شود.</p>
+      <div class="grit-info-box">
+        از سخت‌ترین به نرم‌ترین به ترتیب رنگ زیر است: 
+        <span>مشکی ⚫</span>
+        <span>سبز 🟢</span>
+        <span>آبی 🔵</span>
+        <span>زرد 🟡</span>
+        <span>قرمز 🔴</span>
+      </div>
+    </section>
+
+    <!-- Right Column: Slideshow -->
+    <section class="trust-section">
+      <h2>اعتماد همکاران</h2>
+      <div class="slider-container">
+        <div class="slider-wrapper" id="sliderWrapper">
+          <div class="slide"><img src="proof1.webp" alt="رضایت همکاران ۱" loading="lazy"></div>
+          <div class="slide"><img src="proof2.webp" alt="رضایت همکاران ۲" loading="lazy"></div>
+          <div class="slide"><img src="proof3.webp" alt="رضایت همکاران ۳" loading="lazy"></div>
+          <div class="slide"><img src="proof4.webp" alt="رضایت همکاران ۴" loading="lazy"></div>
+          <div class="slide"><img src="proof5.webp" alt="رضایت همکاران ۵" loading="lazy"></div>
+          <div class="slide"><img src="proof6.webp" alt="رضایت همکاران ۶" loading="lazy"></div>
+        </div>
+        <button class="slider-nav prev" id="prevBtn">❯</button>
+        <button class="slider-nav next" id="nextBtn">❮</button>
+      </div>
+    </section>
+  </div>
+
+  <section>
+    <h2 class="visually-hidden">فهرست محصولات</h2>
+    <div class="results-info" id="resultsInfo"></div>
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+</main>
+
+<footer>
+  <img src="logo.png" alt="لوگوی مرکز تخصصی فرزهای دندانپزشکی" class="logo-badge" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">
+  <p>© ۱۴۰۳ مرکز تخصصی فرزهای دندانپزشکی — تمامی حقوق محفوظ است.</p>
+</footer>
+
+<button class="cart-fab" id="cartFab" aria-label="باز کردن سبد خرید">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+  </svg>
+  <span class="cart-count-badge" id="cartCountBadge" style="display:none;" aria-live="polite">۰</span>
+</button>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+
+<aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="سبد خرید">
+  <div class="cart-header">
+    <h2>سبد خرید</h2>
+    <button class="cart-close" id="cartClose" aria-label="بستن سبد خرید">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-totals" id="cartTotals"></div>
+</aside>
+
+<script>
+// ==========================================
+//  DATA — 50 Dental Bur Products
+// ==========================================
+const PRODUCTS = [
+  // Needle (سوزنی) - 7 items
+  {shape:"needle",model:"TC-26EF",diameter:"012",length:"6.0",grit:"Y🟡",inventory:100},
+  {shape:"needle",model:"TC-21EF",diameter:"014",length:"8.0",grit:"Y🟡",inventory:150},
+  {shape:"needle",model:"TC-28EF",diameter:"012",length:"10",grit:"Y🟡",inventory:150},
+  {shape:"needle",model:"TC-26",diameter:"012",length:"6.0",grit:"B🔵",inventory:300},
+  {shape:"needle",model:"TC-21C",diameter:"014",length:"8.0",grit:"G🟢",inventory:400},
+  {shape:"needle",model:"TC-27",diameter:"010",length:"10",grit:"B🔵",inventory:300},
+  {shape:"needle",model:"TC-10C",diameter:"014",length:"10",grit:"G🟢",inventory:400},
+  // Flat Cylinder / Fissure (استوانه‌ای تخت/فیسر) - 6 items
+  {shape:"flat_cylinder",model:"SF-41",diameter:"010",length:"4.0",grit:"B🔵",inventory:300},
+  {shape:"flat_cylinder",model:"SF-31C",diameter:"012",length:"4.0",grit:"G🟢",inventory:400},
+  {shape:"flat_cylinder",model:"SF-20C",diameter:"012",length:"6.0",grit:"G🟢",inventory:400},
+  {shape:"flat_cylinder",model:"SF-21C",diameter:"014",length:"6.0",grit:"G🟢",inventory:400},
+  {shape:"flat_cylinder",model:"SF-11C",diameter:"012",length:"8.0",grit:"G🟢",inventory:400},
+  {shape:"flat_cylinder",model:"SF-13C",diameter:"016",length:"8.0",grit:"G🟢",inventory:200},
+  // Flat Taper (مخروط تخت) - 7 items
+  {shape:"flat_taper",model:"RS-11",diameter:"019",length:"10.5",grit:"B🔵",inventory:100},
+  {shape:"flat_taper",model:"RS-21",diameter:"018",length:"7.5",grit:"B🔵",inventory:100},
+  {shape:"flat_taper",model:"TF-20C",diameter:"014",length:"6.5",grit:"G🟢",inventory:200},
+  {shape:"flat_taper",model:"TF-09C",diameter:"014",length:"8.0",grit:"G🟢",inventory:250},
+  {shape:"flat_taper",model:"TF-56C",diameter:"018",length:"8.0",grit:"G🟢",inventory:250},
+  {shape:"flat_taper",model:"TF-12C",diameter:"016",length:"10",grit:"G🟢",inventory:250},
+  {shape:"flat_taper",model:"TF-13C",diameter:"018",length:"10",grit:"G🟢",inventory:250},
+  // Flame (شعله‌ای) - 6 items
+  {shape:"flame",model:"FO-21C",diameter:"014",length:"8.0",grit:"G🟢",inventory:100},
+  {shape:"flame",model:"FO-11C",diameter:"012",length:"10",grit:"G🟢",inventory:100},
+  {shape:"flame",model:"FO-40EF",diameter:"010",length:"4.3",grit:"Y🟡",inventory:300},
+  {shape:"flame",model:"FO-41EF",diameter:"012",length:"6.0",grit:"Y🟡",inventory:200},
+  {shape:"flame",model:"FO-21EF",diameter:"014",length:"8.0",grit:"Y🟡",inventory:300},
+  {shape:"flame",model:"FO-11EF",diameter:"012",length:"10",grit:"Y🟡",inventory:200},
+  // Round Taper (مخروط گرد) - 6 items
+  {shape:"round_taper",model:"TR-24C",diameter:"016",length:"8.0",grit:"G🟢",inventory:200},
+  {shape:"round_taper",model:"TR-25C",diameter:"014",length:"8.0",grit:"G🟢",inventory:200},
+  {shape:"round_taper",model:"TR-13C",diameter:"018",length:"9.0",grit:"G🟢",inventory:300},
+  {shape:"round_taper",model:"TR-20EF",diameter:"014",length:"6.5",grit:"Y🟡",inventory:100},
+  {shape:"round_taper",model:"TR-25EF",diameter:"014",length:"8.0",grit:"Y🟡",inventory:100},
+  {shape:"round_taper",model:"CR-12EF",diameter:"016",length:"4.0",grit:"Y🟡",inventory:100},
+  // Round (گرد) - 4 items
+  {shape:"round",model:"BR-40C",diameter:"016",length:"-",grit:"G🟢",inventory:200},
+  {shape:"round",model:"BR-46C",diameter:"012",length:"-",grit:"G🟢",inventory:400},
+  {shape:"round",model:"BR-49",diameter:"008",length:"-",grit:"B🔵",inventory:100},
+  {shape:"round",model:"BR-L46",diameter:"012",length:"-",grit:"B🔵",inventory:250},
+  // Torpedo (تورپدو) - 1 item
+  {shape:"torpedo",model:"SO-21C",diameter:"014",length:"8.0",grit:"G🟢",inventory:500},
+  // Football (فوتبالی) - 4 items
+  {shape:"football",model:"FO-30EF",diameter:"016",length:"3.2",grit:"Y🟡",inventory:100},
+  {shape:"football",model:"FO-32EF",diameter:"018",length:"3.6",grit:"Y🟡",inventory:150},
+  {shape:"football",model:"FO-34EF",diameter:"023",length:"5.0",grit:"Y🟡",inventory:50},
+  {shape:"football",model:"FO-32C",diameter:"018",length:"3.6",grit:"G🟢",inventory:200},
+  // Inverted (مخروط معکوس) - 1 item
+  {shape:"inverted_cone",model:"SI-47C",diameter:"014",length:"-",grit:"G🟢",inventory:100},
+  // Double Barrel and depth cut (دولوله و عمق‌سنج) - 4 items
+  {shape:"depth_cut",model:"EX-11S",diameter:"032",length:"5.0",grit:"K⚫",inventory:50, multiplier:1},
+  {shape:"depth_cut",model:"VP-22",diameter:"0.5",length:"-",grit:"B🔵",inventory:100, multiplier:5},
+  {shape:"depth_cut",model:"VP-21",diameter:"0.4",length:"-",grit:"B🔵",inventory:100, multiplier:5},
+  {shape:"depth_cut",model:"VP-20",diameter:"0.3",length:"-",grit:"B🔵",inventory:100, multiplier:5},
+  // Pointed Cylinder (استوانه‌ای نوک‌تیز) - 1 item
+  {shape:"pointed_cylinder",model:"CP-12C",diameter:"014",length:"8.0",grit:"G🟢",inventory:100},
+  // Round End Cylinder (استوانه‌ای لبه گرد) - 2 items
+  {shape:"round_end_cylinder",model:"SR-21C",diameter:"014",length:"6.0",grit:"G🟢",inventory:60},
+  {shape:"round_end_cylinder",model:"SR-12C",diameter:"014",length:"8.0",grit:"G🟢",inventory:40},
+  // Carbide (کارباید) - 1 item
+  {shape:"carbide",model:"ENDO-Z TI",diameter:"-",length:"-",grit:"-",inventory:36, multiplier:1}
+];
+
+// ==========================================
+//  CONSTANTS & MAPPINGS
+// ==========================================
+const SHAPE_MAP = {
+  needle:"سوزنی", flat_cylinder:"استوانه‌ای تخت (فیسر)", flat_taper:"مخروط تخت", 
+  flame:"شعله‌ای", round_taper:"مخروط گرد", round:"گرد", torpedo:"تورپدو", 
+  football:"فوتبالی", inverted_cone:"مخروط معکوس", depth_cut:"دولوله و عمق‌سنج", 
+  pointed_cylinder:"استوانه‌ای نوک‌تیز", round_end_cylinder:"استوانه‌ای لبه گرد", carbide:"کارباید"
+};
+const GRIT_DISPLAY = {"Y🟡":"زرد 🟡","R🔴":"قرمز 🔴","B🔵":"آبی 🔵","G🟢":"سبز 🟢","K⚫":"مشکی ⚫","-":"-"};
+const GRIT_TEXT = {"Y🟡":"زرد","R🔴":"قرمز","B🔵":"آبی","G🟢":"سبز","K⚫":"مشکی","-":"-"};
+const PRICE_PER_BUR = 95000;
+const BURS_PER_PACK = 5;
+const MAX_DISCOUNT = 20; // 20%
+const SHIPPING_COST = 180000;
+const TELEGRAM_USER = "mamarza_znli";
+const WHATSAPP_NUMBER = "989367070089";
+
+let cart = {};
+let filteredProducts = [...PRODUCTS];
+
+const productGrid = document.getElementById('productGrid');
+const searchInput = document.getElementById('searchInput');
+const cartFab = document.getElementById('cartFab');
+const cartCountBadge = document.getElementById('cartCountBadge');
+const cartDrawer = document.getElementById('cartDrawer');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartClose = document.getElementById('cartClose');
+const cartBody = document.getElementById('cartBody');
+const cartTotals = document.getElementById('cartTotals');
+const resultsInfo = document.getElementById('resultsInfo');
+
+function toPersian(num) { return Number(num).toLocaleString('fa-IR'); }
+function toPersianDigits(str) { return String(str).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]); }
+
+const PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150'%3E%3Crect width='100' height='150' fill='%23e3f2fd' rx='8'/%3E%3Cpath d='M50 35 L50 115 M35 125 Q50 145 65 125' stroke='%231565c0' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Crect x='42' y='25' width='16' height='12' rx='3' fill='%231565c0'/%3E%3C/svg%3E";
+
+// 0.2% discount for every 5 burs
+function calculateDiscount(totalBurs) {
+  let discount = Math.floor(totalBurs / 5) * 0.2;
+  discount = Math.round(discount * 10) / 10; // Fix floating point precision
+  return Math.min(discount, MAX_DISCOUNT);
+}
+
+function getNextDiscountInfo(totalBurs) {
+  const currentDiscount = calculateDiscount(totalBurs);
+  if (currentDiscount >= MAX_DISCOUNT) {
+    return { bursNeeded: 0, nextDiscount: MAX_DISCOUNT, maxed: true };
+  }
+  const remainder = totalBurs % 5;
+  const bursNeeded = remainder === 0 ? 5 : (5 - remainder);
+  return { bursNeeded, nextDiscount: Math.round((currentDiscount + 0.2) * 10) / 10, maxed: false };
+}
+
+function getProgressPercent(totalBurs) {
+  const currentDiscount = calculateDiscount(totalBurs);
+  if (currentDiscount >= MAX_DISCOUNT) return 100;
+  const remainder = totalBurs % 5;
+  return (remainder / 5) * 100;
+}
+
+function renderProducts() {
+  if (filteredProducts.length === 0) {
+    productGrid.innerHTML = '<div class="no-results">محصولی مطابق جستجوی شما یافت نشد.</div>';
+    resultsInfo.textContent = '۰ محصول یافت شد';
+    return;
+  }
+  productGrid.innerHTML = filteredProducts.map(p => {
+    const shapeName = SHAPE_MAP[p.shape] || p.shape;
+    const gritDisp = GRIT_DISPLAY[p.grit] || p.grit;
+    const inStock = p.inventory > 0;
+    const altText = `فرز ${shapeName} ${p.model} قطر ${p.diameter} دور ${GRIT_TEXT[p.grit] || ''}`;
+    const lengthTag = p.length !== "-" ? `<span class="spec-tag">طول: ${toPersianDigits(p.length)}</span>` : '';
+    const multTag = p.multiplier === 1 ? `<span class="spec-tag" style="background:#fff3e0;color:#ef6c00;border-color:#ffe0b2">تک‌فروشی</span>` : '';
+    return `
+      <article class="product-card ${inStock ? '' : 'out-of-stock'}">
+        <div class="product-img-wrap">
+          <img src="images/${p.model.toLowerCase()}.png" alt="${altText}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
+        </div>
+        <div class="product-shape">${shapeName}</div>
+        <div class="product-model">${p.model}</div>
+        <div class="product-specs">
+          ${p.diameter !== "-" ? `<span class="spec-tag">قطر: ${toPersianDigits(p.diameter)}</span>` : ''}
+          ${lengthTag}
+          <span class="spec-tag grit">${gritDisp}</span>
+          ${multTag}
+        </div>
+        <div class="product-price">${toPersian(PRICE_PER_BUR)} <span class="product-price-unit">تومان / ۱ عدد</span></div>
+        <span class="pack-info-box">${p.multiplier === 1 ? 'فروش به صورت تکی' : 'فروش به صورت بسته ۵ عددی'}</span>
+        <span class="inventory-badge ${inStock ? 'in-stock' : 'out-stock'}">${inStock ? 'موجود' : 'ناموجود'}</span>
+        <button class="add-btn" ${inStock ? '' : 'disabled'} data-model="${p.model}">${inStock ? 'افزودن به سبد' : 'ناموجود'}</button>
+      </article>`;
+  }).join('');
+  resultsInfo.textContent = `${toPersian(filteredProducts.length)} محصول یافت شد`;
+}
+// ==========================================
+//  PROOF SLIDESHOW LOGIC
+// ==========================================
+let slideIndex = 0;
+const sliderWrapper = document.getElementById('sliderWrapper');
+const totalSlides = 6;
+
+function updateSlide() {
+  sliderWrapper.style.transform = `translateX(-${slideIndex * 100}%)`;
+}
+
+function nextSlide() {
+  slideIndex = (slideIndex + 1) % totalSlides;
+  updateSlide();
+}
+
+function prevSlide() {
+  slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+  updateSlide();
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  nextSlide();
+  resetAutoSlide();
+});
+document.getElementById('prevBtn').addEventListener('click', () => {
+  prevSlide();
+  resetAutoSlide();
+});
+
+let autoSlideInterval = setInterval(nextSlide, 4000); // Changes image every 4 seconds
+
+function resetAutoSlide() {
+  clearInterval(autoSlideInterval);
+  autoSlideInterval = setInterval(nextSlide, 4000);
+}
+
+searchInput.addEventListener('input', (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  const persianQ = e.target.value.trim();
+  if (!q) {
+    filteredProducts = [...PRODUCTS];
+  } else {
+    filteredProducts = PRODUCTS.filter(p => {
+      const shapeName = SHAPE_MAP[p.shape] || '';
+      return p.model.toLowerCase().includes(q) || shapeName.includes(persianQ) || p.shape.toLowerCase().includes(q) || p.diameter.includes(q);
+    });
+  }
+  renderProducts();
+});
+
+function addToCart(model) {
+  cart[model] = (cart[model] || 0) + 1;
+  updateCart();
+  cartCountBadge.classList.remove('pulse');
+  void cartCountBadge.offsetWidth;
+  cartCountBadge.classList.add('pulse');
+}
+
+function changePackCount(model, delta) {
+  cart[model] = (cart[model] || 0) + delta;
+  if (cart[model] <= 0) delete cart[model];
+  updateCart();
+}
+
+function removeItem(model) { delete cart[model]; updateCart(); }
+
+function getCartItems() {
+  return Object.keys(cart).map(model => {
+    const product = PRODUCTS.find(p => p.model === model);
+    return product ? { product, packCount: cart[model] } : null;
+  }).filter(Boolean);
+}
+
+function getTotalBurs() {
+  return getCartItems().reduce((sum, item) => sum + item.packCount * (item.product.multiplier || BURS_PER_PACK), 0);
+}
+
+function updateCart() {
+  const items = getCartItems();
+  const totalBurs = getTotalBurs();
+  const totalPacks = items.reduce((s, i) => s + i.packCount, 0);
+
+  if (totalPacks > 0) {
+    cartCountBadge.textContent = toPersian(totalPacks);
+    cartCountBadge.style.display = 'flex';
+  } else {
+    cartCountBadge.style.display = 'none';
+  }
+
+  if (items.length === 0) {
+    cartBody.innerHTML = `
+      <div class="cart-empty">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <p>سبد خرید شما خالی است.</p>
+        <p style="font-size:.78rem;margin-top:6px;">برای افزودن فرز، روی دکمه «افزودن به سبد» کلیک کنید.</p>
+      </div>`;
+    cartTotals.innerHTML = '';
+    return;
+  }
+
+  const discount = calculateDiscount(totalBurs);
+  const subtotal = totalBurs * PRICE_PER_BUR;
+  const discountAmount = Math.round(subtotal * discount / 100);
+  const finalTotal = subtotal - discountAmount + SHIPPING_COST;
+  const pricePerBur = Math.round(PRICE_PER_BUR * (1 - discount / 100));
+
+  // Gamification Section at the Top
+  const nextInfo = getNextDiscountInfo(totalBurs);
+  const progressPct = getProgressPercent(totalBurs);
+  
+  let gamifyClass = "";
+  if (nextInfo.maxed) gamifyClass = "maxed";
+  else if (discount > 0) gamifyClass = "achieved";
+  
+  let gamifyHTML = `
+    <div class="discount-gamify ${gamifyClass}">
+      <div class="gamify-row">
+        <span>قیمت بر حسب دانه‌ای</span>
+        <span class="gamify-price">${toPersian(pricePerBur)} تومان</span>
+      </div>
+      <div class="gamify-discount">تخفیف شما: ${toPersian(discount)}٪ ${discount > 0 ? '🎉' : ''}</div>
+      ${!nextInfo.maxed ? `<div class="gamify-next">با افزودن ${toPersian(nextInfo.bursNeeded)} عدد دیگر، تخفیف به ${toPersian(nextInfo.nextDiscount)}٪ می‌رسد!</div>` : `<div class="gamify-next">بیشترین تخفیف اعمال شد! 🚀</div>`}
+      <div class="progress-bar"><div class="progress-fill" style="width:${progressPct}%"></div></div>
+    </div>
+  `;
+
+  const itemsHTML = items.map(item => {
+    const { product, packCount } = item;
+    const mult = product.multiplier || BURS_PER_PACK;
+    const burCount = packCount * mult;
+    const shapeName = SHAPE_MAP[product.shape] || product.shape;
+    const gritDisp = GRIT_DISPLAY[product.grit] || product.grit;
+    return `
+      <div class="cart-item">
+        <div class="cart-item-line1">${toPersian(burCount)} عدد ${shapeName} قطر ${toPersianDigits(product.diameter)} دور ${gritDisp}</div>
+        <div class="cart-item-line2">${toPersian(burCount)} * (${toPersian(PRICE_PER_BUR)} تومان)</div>
+        <div class="cart-item-controls">
+          <div class="stepper">
+            <button class="step-btn" data-model="${product.model}" data-delta="-1" aria-label="کاهش تعداد">−</button>
+            <span class="step-value">${toPersian(packCount)}</span>
+            <button class="step-btn" data-model="${product.model}" data-delta="1" aria-label="افزایش تعداد">+</button>
+          </div>
+          <button class="cart-item-remove" data-model="${product.model}" data-action="remove">حذف</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  cartBody.innerHTML = gamifyHTML + itemsHTML;
+
+  cartTotals.innerHTML = `
+    <div class="total-row"><span>مبلغ کل قبل از تخفیف</span><span>${toPersian(subtotal)} تومان</span></div>
+    <div class="total-row discount"><span>مبلغ تخفیف (${toPersian(discount)}٪)</span><span>${toPersian(discountAmount)} تومان</span></div>
+    <div class="total-row shipping"><span>هزینه پست</span><span>${toPersian(SHIPPING_COST)} تومان</span></div>
+    <div class="total-row final"><span>مبلغ نهایی قابل پرداخت</span><span>${toPersian(finalTotal)} تومان</span></div>
+    <div class="checkout-buttons">
+      <button class="checkout-btn telegram" id="telegramBtn">تکمیل سفارش در تلگرام</button>
+      <button class="checkout-btn whatsapp" id="whatsappBtn">تکمیل سفارش در واتساپ</button>
+    </div>`;
+
+  document.getElementById('telegramBtn').addEventListener('click', () => {
+    const text = generateOrderMessage(items, totalBurs, discount, finalTotal);
+    window.open(`https://t.me/${TELEGRAM_USER}?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+  });
+  document.getElementById('whatsappBtn').addEventListener('click', () => {
+    const text = generateOrderMessage(items, totalBurs, discount, finalTotal);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+  });
+}
+
+function generateOrderMessage(items, totalBurs, discount, finalTotal) {
+  let msg = 'سلام همکار\nبابت سفارش فرزهای دندانپزشکی:\n\n';
+  items.forEach(item => {
+    const { product, packCount } = item;
+    const mult = product.multiplier || BURS_PER_PACK;
+    const burCount = packCount * mult;
+    const shapeName = SHAPE_MAP[product.shape] || product.shape;
+    const gritName = GRIT_TEXT[product.grit] || '';
+    msg += `${burCount} عدد ${shapeName} قطر ${product.diameter} دور ${gritName} - ${burCount}*(95000 تومان)\n`;
+  });
+  msg += `\nتعداد کل فرزها: ${totalBurs} عدد\n`;
+  msg += `درصد تخفیف اعمال شده: ${discount}%\n`;
+  msg += `هزینه پست: 180000 تومان\n`;
+  msg += `مبلغ نهایی قابل پرداخت: ${finalTotal} تومان\n`;
+  return msg;
+}
+
+productGrid.addEventListener('click', (e) => {
+  const btn = e.target.closest('.add-btn');
+  if (btn && !btn.disabled) addToCart(btn.dataset.model);
+});
+
+cartBody.addEventListener('click', (e) => {
+  const stepBtn = e.target.closest('.step-btn');
+  if (stepBtn) { changePackCount(stepBtn.dataset.model, parseInt(stepBtn.dataset.delta)); return; }
+  const removeBtn = e.target.closest('.cart-item-remove');
+  if (removeBtn) removeItem(removeBtn.dataset.model);
+});
+
+cartFab.addEventListener('click', () => { cartDrawer.classList.add('open'); cartOverlay.classList.add('open'); });
+cartClose.addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
+function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); }
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && cartDrawer.classList.contains('open')) closeCart(); });
+
+renderProducts();
+updateCart();
+</script>
+</body>
+</html>
