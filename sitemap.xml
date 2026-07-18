@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- صفحه اصلی سایت -->
+  <url>
+    <loc>https://ddsverified.ir/</loc>
+    <lastmod>2023-11-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    
+    <!-- تصاویر مهم سایت (لوگو، دکتر و رضایتی‌ها) -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/logo.png</image:loc>
+      <image:title>لوگوی مرکز تخصصی فرزهای دندانپزشکی DDSVerified</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/doctor.png</image:loc>
+      <image:title>دکتر محمدرضا زینلی متخصص دندانپزشکی</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/proof1.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/proof2.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/proof3.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/proof4.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/proof5.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/proof6.webp</image:loc>
+    </image:image>
+
+    <!-- تصاویر ۵۰ محصول -->
+    <image:image><image:loc>https://ddsverified.ir/images/TC-26EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TC-21EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TC-28EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TC-26.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TC-21C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TC-27.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TC-10C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/SF-41.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/SF-31C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/SF-20C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/SF-21C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/SF-11C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/SF-13C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/RS-11.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/RS-21.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TF-20C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TF-09C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TF-56C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TF-12C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TF-13C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/FO-21C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/FO-11C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/FO-40EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/FO-41EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/FO-21EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/FO-11EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TR-24C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TR-25C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TR-13C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TR-20EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/TR-25EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/CR-12EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/BR-40C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/BR-46C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/BR-49.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/BR-L46.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/SO-21C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/FO-30EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/FO-32EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/FO-34EF.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/FO-32C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/SI-47C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/EX-11S.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/VP-22.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/VP-21.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/VP-20.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/CP-12C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/SR-21C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/SR-12C.png</image:loc></image:image>
+    <image:image><image:loc>https://ddsverified.ir/images/ENDO-Z TI.png</image:loc></image:image>
+
+  </url>
+</urlset>
