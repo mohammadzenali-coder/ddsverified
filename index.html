@@ -13,6 +13,9 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fa_IR">
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+
+<!-- Cloudflare Web Analytics: فعال شده با Automatic Setup (از طریق پروکسی CF) -->
+<!-- نیازی به beacon دستی نیست؛ خود Cloudflare آن را به صورت خودکار تزریق می‌کند. -->
 <style>
   /* === Hero (3-column expanded) === */
   .hero-section { display: grid; grid-template-columns: 1.25fr 0.9fr 1fr; gap: 14px; align-items: stretch; background: linear-gradient(135deg, #ffffff 0%, #f5f9ff 100%); padding: 14px; border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); width: 100%; max-width: 100%; overflow: hidden; }
@@ -137,6 +140,190 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .grit-info-box span {
   margin-left: 8px;
   display: inline-block;
+}
+
+/* === Why Us — Banner + Mini Hero Cards === */
+.why-banner-section {
+  margin: 18px 0;
+  width: 100%;
+}
+
+/* Bold section title as a gradient banner */
+.why-banner-title {
+  position: relative;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #1976d2 100%);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.why-banner-title::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 60%);
+  pointer-events: none;
+}
+.why-banner-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
+}
+.why-banner-title .title-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.18);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.why-banner-title .title-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: #fff;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.why-banner-title h2 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  position: relative;
+  z-index: 1;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Cards grid — mobile first */
+.why-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .why-cards { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+@media (min-width: 960px) {
+  .why-cards { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+}
+
+/* Single mini-hero card — horizontal layout (icon + text) */
+.why-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 14px 16px 14px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  min-height: 116px;
+}
+.why-card::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  width: 4px;
+  background: var(--card-accent, var(--primary));
+}
+.why-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-light);
+}
+.why-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-accent-bg, var(--primary-light));
+  flex-shrink: 0;
+}
+.why-card-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--card-accent, var(--primary));
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.why-card-body {
+  flex: 1;
+  min-width: 0;
+}
+.why-card-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-light);
+  letter-spacing: 0.2px;
+  margin: 0 0 4px;
+  line-height: 1.4;
+}
+.why-card-text {
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.8;
+  margin: 0;
+}
+.why-card-highlight {
+  color: var(--warning);
+  font-weight: 800;
+}
+.why-card-sub {
+  font-size: 0.68rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 4px 0 0;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+@media (max-width: 380px) {
+  .why-card { padding: 14px 12px; min-height: 108px; gap: 10px; }
+  .why-card-icon { width: 38px; height: 38px; border-radius: 10px; }
+  .why-card-icon svg { width: 20px; height: 20px; }
+  .why-card-text { font-size: 0.82rem; }
+  .why-banner-title { padding: 14px 14px; gap: 8px; }
+  .why-banner-title h2 { font-size: 0.96rem; }
+  .why-banner-title .title-icon { width: 32px; height: 32px; }
+  .why-banner-title .title-icon svg { width: 18px; height: 18px; }
+}
+
+@keyframes whyCardFadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.why-card { animation: whyCardFadeUp .45s ease-out backwards; }
+.why-card:nth-child(1) { animation-delay: .05s; }
+.why-card:nth-child(2) { animation-delay: .11s; }
+.why-card:nth-child(3) { animation-delay: .17s; }
+.why-card:nth-child(4) { animation-delay: .23s; }
+.why-card:nth-child(5) { animation-delay: .29s; }
+@media (prefers-reduced-motion: reduce) {
+  .why-card { animation: none; }
+  .why-card:hover { transform: none; }
 }
 
 /* Slideshow Section */
@@ -283,6 +470,7 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 /* Cart Item */
 .cart-item{background:var(--surface);border-radius:var(--radius);padding:12px;margin-bottom:10px;border:1px solid var(--border)}
 .cart-item-line1{font-size:.82rem;font-weight:700;margin-bottom:3px;color:var(--text);line-height:1.5}
+.cart-item-line1 .cart-item-model{display:inline-block;font-size:.68rem;font-weight:700;font-family:'Vazirmatn',Tahoma,monospace;letter-spacing:.3px;background:var(--primary-light);color:var(--primary-dark);padding:1px 7px;border-radius:6px;border:1px solid #bbdefb;margin-right:2px;vertical-align:middle;font-feature-settings:"tnum"}
 .cart-item-line2{font-size:.76rem;color:var(--text-light);margin-bottom:10px}
 .cart-item-controls{display:flex;align-items:center;justify-content:space-between}
 .stepper{display:flex;align-items:center;gap:6px}
@@ -299,6 +487,68 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .discount-gamify.maxed{background:linear-gradient(135deg,#e8f5e9,#81c784);border-color:#4caf50;color:var(--success);animation:gamifyCelebrate 0.8s infinite}
 @keyframes gamifyPulse{0%{box-shadow:0 0 0 0 rgba(239,108,0,0.5)}70%{box-shadow:0 0 0 12px rgba(239,108,0,0)}100%{box-shadow:0 0 0 0 rgba(239,108,0,0)}}
 @keyframes gamifyCelebrate{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(46,125,50,0.5)}50%{transform:scale(1.03);box-shadow:0 0 0 8px rgba(46,125,50,0)}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(46,125,50,0)}}
+
+/* === Free Shipping Gamification (high-dopamine) === */
+.free-ship-gamify{
+  background:linear-gradient(135deg,#fff8e1 0%,#ffe0b2 100%);
+  border:2px solid #ffb300;
+  border-radius:var(--radius);
+  padding:12px 14px;
+  margin-bottom:12px;
+  text-align:center;
+  color:#bf6f00;
+  font-weight:700;
+  position:relative;
+  overflow:hidden;
+  animation:freeShipPulse 2s ease-in-out infinite;
+}
+.free-ship-gamify.unlocked{
+  background:linear-gradient(135deg,#e8f5e9 0%,#a5d6a7 50%,#81c784 100%);
+  border-color:#4caf50;
+  color:#1b5e20;
+  animation:freeShipCelebrate 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes freeShipPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,179,0,0.5)}
+  50%{box-shadow:0 0 0 10px rgba(255,179,0,0)}
+}
+@keyframes freeShipCelebrate{
+  0%{transform:scale(0.7);opacity:0}
+  60%{transform:scale(1.08);opacity:1}
+  100%{transform:scale(1);opacity:1}
+}
+.free-ship-row{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;margin-bottom:4px}
+.free-ship-title{font-size:1rem;font-weight:800;display:flex;align-items:center;justify-content:center;gap:6px}
+.free-ship-title .ship-icon{font-size:1.15rem}
+.free-ship-msg{font-size:.78rem;opacity:.9;font-weight:600}
+.free-ship-progress{height:10px;background:rgba(255,255,255,.6);border-radius:50px;overflow:hidden;margin-top:8px;position:relative}
+.free-ship-fill{height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:50px;transition:width .5s ease;position:relative;overflow:hidden}
+.free-ship-gamify.unlocked .free-ship-fill{background:linear-gradient(90deg,#22c55e,#16a34a);width:100%!important}
+.free-ship-fill::after{content:'';position:absolute;inset:0;background-image:linear-gradient(-45deg,rgba(255,255,255,.45) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.45) 50%,rgba(255,255,255,.45) 75%,transparent 75%,transparent);background-size:24px 24px;animation:shipMove 1s linear infinite;width:100%}
+@keyframes shipMove{0%{background-position:0 0}100%{background-position:24px 24px}}
+/* Confetti dots on unlocked state */
+.free-ship-gamify.unlocked::before{
+  content:'';
+  position:absolute;
+  top:-20px; left:-20px; right:-20px; bottom:-20px;
+  background-image:
+    radial-gradient(circle at 20% 30%, #fbbf24 2px, transparent 3px),
+    radial-gradient(circle at 80% 20%, #f87171 2px, transparent 3px),
+    radial-gradient(circle at 50% 80%, #60a5fa 2px, transparent 3px),
+    radial-gradient(circle at 30% 70%, #a78bfa 2px, transparent 3px),
+    radial-gradient(circle at 90% 60%, #34d399 2px, transparent 3px);
+  pointer-events:none;
+  opacity:.7;
+  animation:confetti 2s ease-in-out infinite;
+}
+@keyframes confetti{
+  0%,100%{transform:translateY(0) rotate(0)}
+  50%{transform:translateY(6px) rotate(8deg)}
+}
+/* Strikethrough on shipping row when free */
+.total-row.shipping.free{color:var(--success);font-weight:700}
+.total-row.shipping .ship-original{text-decoration:line-through;opacity:.55;font-size:.74rem;margin-left:6px;font-weight:500}
+.total-row.shipping .ship-free{display:inline-flex;align-items:center;gap:4px;font-weight:800;color:var(--success)}
 .gamify-row{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;margin-bottom:6px}
 .gamify-price{font-size:1rem;background:rgba(255,255,255,0.6);padding:2px 8px;border-radius:50px}
 .gamify-discount{font-size:1.4rem;margin:6px 0;font-weight:800}
@@ -394,6 +644,7 @@ footer a{color:var(--primary);text-decoration:none}
   .checkout-btn{padding:10px 6px;font-size:.72rem}
   .cart-item{padding:10px}
   .cart-item-line1{font-size:.76rem}
+  .cart-item-line1 .cart-item-model{font-size:.62rem;padding:1px 5px}
   .cart-item-line2{font-size:.7rem}
   .step-btn{width:28px;height:28px;font-size:1rem}
   .cart-bulk-notice{padding:8px 10px;margin:6px 2px}
@@ -501,6 +752,110 @@ footer a{color:var(--primary);text-decoration:none}
         <span>قرمز 🔴</span>
       </div>
     </section>
+
+  <!-- Why Work With Us — Banner Title + Mini Hero Cards -->
+  <section class="why-banner-section" aria-label="مزایای همکاری با ما">
+    <div class="why-banner-title">
+      <span class="title-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </span>
+      <h2>صحبت‌هایی فقط با همکاران دندانپزشک</h2>
+    </div>
+
+    <div class="why-cards">
+
+      <!-- 1. Guarantee replacement -->
+      <article class="why-card" style="--card-accent:#0ea5e9; --card-accent-bg:#e0f7ff;">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="why-card-body">
+          <h3 class="why-card-title">ضمانت کیفیت</h3>
+          <p class="why-card-text">اگر کیفیت فرزها مطابق انتظارتان نبود، بدون سؤال تعویض می‌کنیم.</p>
+        </div>
+      </article>
+
+      <!-- 2. Real cost per prep -->
+      <article class="why-card" style="--card-accent:#7c3aed; --card-accent-bg:#f3e8ff;">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="2" width="16" height="20" rx="2"/>
+            <line x1="8" y1="6" x2="16" y2="6"/>
+            <line x1="8" y1="11" x2="8.01" y2="11"/>
+            <line x1="12" y1="11" x2="12.01" y2="11"/>
+            <line x1="16" y1="11" x2="16.01" y2="11"/>
+            <line x1="8" y1="15" x2="8.01" y2="15"/>
+            <line x1="12" y1="15" x2="12.01" y2="15"/>
+            <line x1="16" y1="19" x2="16.01" y2="19" stroke-width="2.2"/>
+          </svg>
+        </div>
+        <div class="why-card-body">
+          <h3 class="why-card-title">هزینه واقعی هر تراش</h3>
+          <p class="why-card-text">هزینه واقعی هر تراش با این فرز: حدود <span class="why-card-highlight">کمتر از ۲۰٬۰۰۰ تومان</span></p>
+          <p class="why-card-sub">هر فرز برای تراش فول کراون ۵ دندان مولر</p>
+        </div>
+      </article>
+
+      <!-- 3. Direct import -->
+      <article class="why-card" style="--card-accent:#059669; --card-accent-bg:#d1fae5;">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <div class="why-card-body">
+          <h3 class="why-card-title">واردات مستقیم</h3>
+          <p class="why-card-text">واردات مستقیم و تمرکز روی پرکاربردترین مدل‌ها.</p>
+        </div>
+      </article>
+
+      <!-- 4. Certificates on request -->
+      <article class="why-card" style="--card-accent:#d97706; --card-accent-bg:#fef3c7;">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="8" y1="13" x2="16" y2="13"/>
+            <line x1="8" y1="17" x2="13" y2="17"/>
+            <circle cx="18" cy="17" r="3" fill="rgba(217,119,6,0.15)" stroke-width="1.8"/>
+            <path d="M18 19l1 1 2-2" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <div class="why-card-body">
+          <h3 class="why-card-title">گواهی‌ها</h3>
+          <p class="why-card-text">جهت مشاهده گواهی‌های ذکر شده به من پیام بدید تا ارسال کنم.</p>
+        </div>
+      </article>
+
+      <!-- 5. Free shipping with min order -->
+      <article class="why-card" style="--card-accent:#16a34a; --card-accent-bg:#dcfce7;">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="3" width="15" height="13" rx="1"/>
+            <path d="M16 8h4l3 3v5h-7V8z"/>
+            <circle cx="5.5" cy="18.5" r="2.5"/>
+            <circle cx="18.5" cy="18.5" r="2.5"/>
+            <path d="M7 8l2 2 4-4" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="why-card-body">
+          <h3 class="why-card-title">ارسال رایگان</h3>
+          <p class="why-card-text">ارسال رایگان با حداقل خرید <span class="why-card-highlight">۱۵۰ عدد</span> فرز.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
 
   <section>
     <h2 class="visually-hidden">فهرست محصولات</h2>
@@ -663,6 +1018,7 @@ const MAX_DISCOUNT = 10; // 10% (max)
 const DISCOUNT_STEP = 0.1; // 0.1% per 5 burs
 const SHIPPING_COST = 190000;
 const SHIPPING_LABEL = "هزینه پست (دریافتی پست از ما)";
+const FREE_SHIPPING_THRESHOLD = 150; // ارسال رایگان برای سفارش‌های بالای ۱۵۰ عدد
 const TELEGRAM_USER = "mamarza_znli";
 const WHATSAPP_NUMBER = "989367070089";
 
@@ -858,7 +1214,10 @@ function updateCart() {
     return sum + (burCount * unitPrice);
   }, 0);
   const discountAmount = Math.round(subtotal * discount / 100);
-  const finalTotal = subtotal - discountAmount + SHIPPING_COST;
+  // === Free Shipping Logic ===
+  const freeShipUnlocked = totalBurs >= FREE_SHIPPING_THRESHOLD;
+  const effectiveShipping = freeShipUnlocked ? 0 : SHIPPING_COST;
+  const finalTotal = subtotal - discountAmount + effectiveShipping;
   const pricePerBur = Math.round(PRICE_PER_BUR * (1 - discount / 100));
 
   // Gamification Section at the Top
@@ -881,6 +1240,31 @@ function updateCart() {
     </div>
   `;
 
+  // === Free Shipping Gamification (high-dopamine) ===
+  const freeShipProgressPct = Math.min(100, Math.round((totalBurs / FREE_SHIPPING_THRESHOLD) * 100));
+  const freeShipBursNeeded = FREE_SHIPPING_THRESHOLD - totalBurs;
+  let freeShipHTML = '';
+  if (freeShipUnlocked) {
+    freeShipHTML = `
+      <div class="free-ship-gamify unlocked">
+        <div class="free-ship-title"><span class="ship-icon">🎁</span> ارسال رایگان شد!</div>
+        <div class="free-ship-msg">سفارش شما بالای ${toPersian(FREE_SHIPPING_THRESHOLD)} عدد است — هزینه پست ${toPersian(SHIPPING_COST)} تومان حذف شد! ✨</div>
+        <div class="free-ship-progress"><div class="free-ship-fill" style="width:100%"></div></div>
+      </div>
+    `;
+  } else {
+    freeShipHTML = `
+      <div class="free-ship-gamify">
+        <div class="free-ship-row">
+          <span><span class="ship-icon">🚚</span> ارسال رایگان</span>
+          <span>${toPersian(freeShipProgressPct)}٪</span>
+        </div>
+        <div class="free-ship-title">با ${toPersian(freeShipBursNeeded)} عدد دیگر، ارسال رایگان می‌شود!</div>
+        <div class="free-ship-progress"><div class="free-ship-fill" style="width:${freeShipProgressPct}%"></div></div>
+      </div>
+    `;
+  }
+
   const itemsHTML = items.map(item => {
     const { product, packCount } = item;
     const mult = product.multiplier || BURS_PER_PACK;
@@ -889,7 +1273,7 @@ function updateCart() {
     const gritDisp = GRIT_DISPLAY[product.grit] || product.grit;
     return `
       <div class="cart-item">
-        <div class="cart-item-line1">${toPersian(burCount)} عدد ${shapeName} قطر ${toPersianDigits(product.diameter)} دور ${gritDisp}</div>
+        <div class="cart-item-line1">${toPersian(burCount)} عدد ${shapeName} قطر ${toPersianDigits(product.diameter)} دور ${gritDisp} <span class="cart-item-model">${product.model}</span></div>
         <div class="cart-item-line2">${toPersian(burCount)} * (${toPersian(PRICE_PER_BUR)} تومان)</div>
         <div class="cart-item-controls">
           <div class="stepper">
@@ -914,32 +1298,37 @@ function updateCart() {
       </div>
     </div>
   ` : '';
-  cartBody.innerHTML = gamifyHTML + bulkNoticeHTML + itemsHTML;
+  cartBody.innerHTML = gamifyHTML + freeShipHTML + bulkNoticeHTML + itemsHTML;
+
+  const shippingRowHTML = freeShipUnlocked
+    ? `<div class="total-row shipping free"><span>${SHIPPING_LABEL}</span><span><span class="ship-original">${toPersian(SHIPPING_COST)} تومان</span><span class="ship-free">رایگان 🎁</span></span></div>`
+    : `<div class="total-row shipping"><span>${SHIPPING_LABEL}</span><span>${toPersian(SHIPPING_COST)} تومان</span></div>`;
 
   cartTotals.innerHTML = `
     <div class="total-row total-burs"><span>🔢 تعداد کل فرزها</span><span>${toPersian(totalBurs)} عدد</span></div>
     <div class="total-row"><span>مبلغ کل قبل از تخفیف</span><span>${toPersian(subtotal)} تومان</span></div>
     <div class="total-row discount"><span>مبلغ تخفیف (${toPersian(discount)}٪)</span><span>${toPersian(discountAmount)} تومان</span></div>
-    <div class="total-row shipping"><span>${SHIPPING_LABEL}</span><span>${toPersian(SHIPPING_COST)} تومان</span></div>
+    ${shippingRowHTML}
     <div class="total-row final"><span>مبلغ نهایی قابل پرداخت</span><span>${toPersian(finalTotal)} تومان</span></div>
     <div class="checkout-buttons">
       <button class="checkout-btn telegram" id="telegramBtn">تکمیل سفارش در تلگرام</button>
       <button class="checkout-btn whatsapp" id="whatsappBtn">تکمیل سفارش در واتساپ</button>
     </div>
     <div style="font-size:.7rem; text-align:center; color:var(--text-light); margin-top:10px;">لیست خریدتون در تلگرام/واتساپ ارسال میشود.</div>`;
-    
 
   document.getElementById('telegramBtn').addEventListener('click', () => {
-    const text = generateOrderMessage(items, totalBurs, discount, finalTotal);
+    const text = generateOrderMessage(items, totalBurs, discount, finalTotal, freeShipUnlocked);
     window.open(`https://t.me/${TELEGRAM_USER}?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    if (typeof window.cfTrack === 'function') window.cfTrack('checkout_telegram', { total_burs: totalBurs, free_shipping: freeShipUnlocked });
   });
   document.getElementById('whatsappBtn').addEventListener('click', () => {
-    const text = generateOrderMessage(items, totalBurs, discount, finalTotal);
+    const text = generateOrderMessage(items, totalBurs, discount, finalTotal, freeShipUnlocked);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    if (typeof window.cfTrack === 'function') window.cfTrack('checkout_whatsapp', { total_burs: totalBurs, free_shipping: freeShipUnlocked });
   });
 }
 
-function generateOrderMessage(items, totalBurs, discount, finalTotal) {
+function generateOrderMessage(items, totalBurs, discount, finalTotal, freeShipUnlocked) {
   let msg = 'سلام همکار\nبابت سفارش فرزهای دندانپزشکی:\n\n';
   items.forEach(item => {
     const { product, packCount } = item;
@@ -948,10 +1337,15 @@ function generateOrderMessage(items, totalBurs, discount, finalTotal) {
     const shapeName = SHAPE_MAP[product.shape] || product.shape;
     const gritName = GRIT_TEXT[product.grit] || '';
     const unitPrice = product.price || PRICE_PER_BUR;
-    msg += `${burCount} عدد ${shapeName} قطر ${product.diameter} دور ${gritName} - ${burCount}*(${unitPrice} تومان)\n`;  });
+    msg += `${burCount} عدد ${shapeName} قطر ${product.diameter} دور ${gritName} مدل ${product.model} - ${burCount}*(${unitPrice} تومان)\n`;  });
   msg += `\nتعداد کل فرزها: ${totalBurs} عدد\n`;
   msg += `درصد تخفیف اعمال شده: ${discount}%\n`;
-  msg += `هزینه پست (دریافتی پست از ما): ${SHIPPING_COST} تومان\n`;
+  if (freeShipUnlocked) {
+    msg += `🎁 ارسال رایگان شد! (سفارش بالای ${FREE_SHIPPING_THRESHOLD} عدد)\n`;
+    msg += `هزینه پست: 0 تومان (رایگان)\n`;
+  } else {
+    msg += `هزینه پست (دریافتی پست از ما): ${SHIPPING_COST} تومان\n`;
+  }
   msg += `مبلغ نهایی قابل پرداخت: ${finalTotal} تومان\n`;
   return msg;
 }
@@ -1161,6 +1555,61 @@ function resetAutoTestimonial() {
   autoTestimonialInterval = setInterval(nextTestimonial, 4000);
 }
 updateTestimonial();
+
+/* === Cloudflare Analytics — Event Tracking Helper === */
+/* توجه: Web Analytics رایگان فقط Page View ثبت می‌کند (به‌صورت خودکار با Automatic Setup).
+   برای ثبت Custom Events (افزودن به سبد / تسویه / جستجو)، باید Zaraz را در
+   داشبورد Cloudflare فعال کنید. Zaraz با پروکسی CF کار می‌کند و نیازی به
+   اسکریپت دستی ندارد. سپس window.zaraz.track() به‌صورت خودکار در دسترس خواهد بود. */
+window.cfTrack = function(eventName, payload) {
+  try {
+    if (typeof window.zaraz !== 'undefined') {
+      window.zaraz.track(eventName, payload || {});
+    }
+    // لاگ توسعه (در production می‌توان حذف کرد)
+    if (window.location.hostname === 'localhost' || window.location.search.includes('debug=1')) {
+      console.log('[CF Track]', eventName, payload || {});
+    }
+  } catch (e) { /* fail silently — analytics should never break the page */ }
+};
+
+// ارسال خودکار رویدادهای conversion کلیدی
+document.addEventListener('click', function(e) {
+  var addToCartBtn = e.target.closest('.add-btn:not(:disabled)');
+  if (addToCartBtn) {
+    window.cfTrack('add_to_cart', { model: addToCartBtn.dataset.model || '' });
+    return;
+  }
+  var telegramCheckout = e.target.closest('#telegramBtn');
+  if (telegramCheckout) {
+    window.cfTrack('checkout_telegram', {});
+    return;
+  }
+  var whatsappCheckout = e.target.closest('#whatsappBtn');
+  if (whatsappCheckout) {
+    window.cfTrack('checkout_whatsapp', {});
+    return;
+  }
+  var bulkTelegram = e.target.closest('.notice-btn.telegram');
+  if (bulkTelegram) { window.cfTrack('bulk_inquiry_telegram', {}); return; }
+  var bulkWhatsapp = e.target.closest('.notice-btn.whatsapp');
+  if (bulkWhatsapp) { window.cfTrack('bulk_inquiry_whatsapp', {}); return; }
+}, { passive: true });
+
+// رویداد جستجو
+var searchInput = document.getElementById('searchInput');
+if (searchInput) {
+  var searchTimer = null;
+  searchInput.addEventListener('input', function() {
+    clearTimeout(searchTimer);
+    var term = this.value.trim();
+    if (term.length >= 2) {
+      searchTimer = setTimeout(function() {
+        window.cfTrack('search', { length: term.length });
+      }, 800);
+    }
+  });
+}
 </script>
 </body>
 </html>
