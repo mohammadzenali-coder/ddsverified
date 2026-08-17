@@ -1596,20 +1596,22 @@ document.addEventListener('click', function(e) {
   if (bulkWhatsapp) { window.cfTrack('bulk_inquiry_whatsapp', {}); return; }
 }, { passive: true });
 
-// رویداد جستجو
-var searchInput = document.getElementById('searchInput');
-if (searchInput) {
-  var searchTimer = null;
-  searchInput.addEventListener('input', function() {
-    clearTimeout(searchTimer);
-    var term = this.value.trim();
-    if (term.length >= 2) {
-      searchTimer = setTimeout(function() {
-        window.cfTrack('search', { length: term.length });
-      }, 800);
-    }
-  });
-}
+// رویداد جستجو (تحلیل جستجو با Cloudflare Zaraz)
+(function() {
+  var searchEl = document.getElementById('searchInput');
+  if (searchEl) {
+    var searchTimer = null;
+    searchEl.addEventListener('input', function() {
+      clearTimeout(searchTimer);
+      var term = this.value.trim();
+      if (term.length >= 2) {
+        searchTimer = setTimeout(function() {
+          window.cfTrack('search', { length: term.length });
+        }, 800);
+      }
+    });
+  }
+})();
 </script>
 </body>
 </html>
