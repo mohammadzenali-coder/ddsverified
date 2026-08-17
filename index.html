@@ -702,7 +702,7 @@ footer a{color:var(--primary);text-decoration:none}
           <img src="images/tuv-rheinland.svg" alt="TÜV Rheinland Certified" title="TÜV Rheinland آلمان">
           <img src="images/iso-certified.svg" alt="ISO Certified" title="ISO 9001">
           <img src="images/dakks-deutsche-akkreditierungsstelle-vector-logo.svg" alt="DAkkS Deutsche Akkreditierungsstelle" title="DAkkS آلمان">
-          <div class="hero-cert-text">تمامی محصولات دارای گواهی استاندارد راینتمتال آلمان و آیزو هستند.</div>
+          <div class="hero-cert-text">تمامی محصولات دارای گواهی استاندارد راینلند آلمان و آیزو 13485 هستند.</div>
         </div>
     </div>
 
@@ -764,7 +764,7 @@ footer a{color:var(--primary);text-decoration:none}
           <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
         </svg>
       </span>
-      <h2>صحبت‌هایی فقط با همکاران دندانپزشک</h2>
+      <h2>صحبت‌هایی با همکاران دندانپزشک</h2>
     </div>
 
     <div class="why-cards">
@@ -867,7 +867,7 @@ footer a{color:var(--primary);text-decoration:none}
 <footer>
   <div class="footer-logos" aria-label="گواهی‌های استاندارد">
     <img src="images/tuv-rheinland.svg" alt="گواهی TÜV Rheinland آلمان" loading="lazy" title="TÜV Rheinland آلمان">
-    <img src="images/iso-certified.svg" alt="گواهی استاندارد ISO" loading="lazy" title="ISO 9001">
+    <img src="images/iso-certified.svg" alt="گواهی استاندارد ISO" loading="lazy" title="ISO 6360">
     <img src="images/dakks-deutsche-akkreditierungsstelle-vector-logo.svg" alt="گواهی DAkkS Deutsche Akkreditierungsstelle" loading="lazy" title="DAkkS آلمان">
   </div>
   <div class="footer-contact">
@@ -1008,7 +1008,7 @@ const SHAPE_MAP = {
   depth_veneer:"فرز دندانپزشکی دپس کات (برای ونیر)", 
   pointed_cylinder:"فرز دندانپزشکی فیشور نوک تیز", 
   round_end_cylinder:"فرز دندانپزشکی فیشور روند اند (استوانه ایی ته گرد)", 
-  carbide:"فرز EndoZ کارباید تیتانیومی ساخت کره"
+  carbide:"فرز EndoZ کارباید تیتانیومی ساخت انگلیس"
 };
 const GRIT_DISPLAY = {"Y🟡":"زرد 🟡","R🔴":"قرمز 🔴","B🔵":"آبی 🔵","G🟢":"سبز 🟢","K⚫":"مشکی ⚫","-":"-"};
 const GRIT_TEXT = {"Y🟡":"زرد","R🔴":"قرمز","B🔵":"آبی","G🟢":"سبز","K⚫":"مشکی","-":"-"};
@@ -1378,6 +1378,9 @@ function injectProductSchema() {
     "این دور مشکی که داری برای تراش اکلوزال کور خیلی خوب بود",
     "راضی بودم",
     "خوب بود کلا راضیم",
+    "برای مدلهای دیگه و خریدهای بعدی هم بهتون خبر میدم",
+    "من حتما همه رو میخوام برام نگه دارید لطفا",
+    "میگم اون فرز ها که دادید کیفیتشون خیلی خوبه",
     "اون بخش الماسه هاش خیلی خوب بود دیدی مثلا یه سریا خیلی کج و بیرون زده و یه جورین؟",
     "ممنونم دکتر راضی بودم"
   ];
@@ -1492,16 +1495,19 @@ bulkOverlay.addEventListener('click', closeBulk);
 //  BLIND TESTIMONIALS SLIDER
 //  Random shuffle of 8 real colleague quotes
 // ==========================================
-const TESTIMONIAL_QUOTES = [
-  "ببین مثلا برای 5 تا مولر فول کراون جوابه هر کدومش",
-  "دکتر جان استفاده کردم و خوب بود فرق خاصی با دیا که میخریدم نداشت",
-  "راضی بودم سری بعدی که باز اوردی خبر بده",
-  "این دور مشکی که داری برای تراش اکلوزال کور خیلی خوب بود",
-  "راضی بودم",
-  "خوب بود کلا راضیم",
-  "اون بخش الماسه هاش خیلی خوب بود دیدی مثلا یه سریا خیلی کج و بیرون زده و یه جورین؟",
-  "ممنونم دکتر راضی بودم"
-];
+  const TESTIMONIAL_QUOTES = [
+    "ببین مثلا برای 5 تا مولر فول کراون جوابه هر کدومش",
+    "دکتر جان استفاده کردم و خوب بود فرق خاصی با دیا که میخریدم نداشت",
+    "راضی بودم سری بعدی که باز اوردی خبر بده",
+    "این دور مشکی که داری برای تراش اکلوزال کور خیلی خوب بود",
+    "راضی بودم",
+    "خوب بود کلا راضیم",
+    "برای مدلهای دیگه و خریدهای بعدی هم بهتون خبر میدم",
+    "من حتما همه رو میخوام برام نگه دارید لطفا",
+    "میگم اون فرز ها که دادید کیفیتشون خیلی خوبه",
+    "اون بخش الماسه هاش خیلی خوب بود دیدی مثلا یه سریا خیلی کج و بیرون زده و یه جورین؟",
+    "ممنونم دکتر راضی بودم"
+  ];
 function shuffleArray(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
