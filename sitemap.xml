@@ -1,93 +1,344 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  
+
   <!-- صفحه اصلی سایت -->
   <url>
     <loc>https://ddsverified.ir/</loc>
-    <lastmod>2023-11-20</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-08-21</lastmod>
     <priority>1.0</priority>
-    
-    <!-- تصاویر مهم سایت (لوگو، دکتر و رضایتی‌ها) -->
+
+    <!-- تصاویر برند -->
     <image:image>
       <image:loc>https://ddsverified.ir/logo.png</image:loc>
       <image:title>لوگوی مرکز تخصصی فرزهای دندانپزشکی DDSVerified</image:title>
+      <image:caption>خرید عمده و تکی انواع فرز دندانپزشکی با تضمین کیفیت و گواهی TÜV آلمان</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://ddsverified.ir/doctor.png</image:loc>
-      <image:title>دکتر محمدرضا زینلی متخصص دندانپزشکی</image:title>
+      <image:title>دکتر محمدرضا زینلی - دندانپزشک</image:title>
+      <image:caption>مرکز تخصصی فرزهای دندانپزشکی DDSVerified توسط همکاران</image:caption>
     </image:image>
+
+    <!-- رضایت همکاران -->
     <image:image>
       <image:loc>https://ddsverified.ir/proof1.webp</image:loc>
+      <image:title>رضایت همکاران ۱ - مرکز فرزهای دندانپزشکی DDSVerified</image:title>
+      <image:caption>نظر همکاران دندانپزشک درباره کیفیت فرزهای توربین DDSVerified</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://ddsverified.ir/proof2.webp</image:loc>
+      <image:title>رضایت همکاران ۲ - مرکز فرزهای دندانپزشکی DDSVerified</image:title>
+      <image:caption>تاییدیه کیفیت فرز دندانپزشکی توسط همکار دندانپزشک</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://ddsverified.ir/proof3.webp</image:loc>
+      <image:title>رضایت همکاران ۳ - مرکز فرزهای دندانپزشکی DDSVerified</image:title>
+      <image:caption>بازخورد همکار دندانپزشک از خرید فرز توربین الماسی</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://ddsverified.ir/proof4.webp</image:loc>
+      <image:title>رضایت همکاران ۴ - مرکز فرزهای دندانپزشکی DDSVerified</image:title>
+      <image:caption>اعتماد همکاران دندانپزشک به فرزهای الماسی DDSVerified</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://ddsverified.ir/proof5.webp</image:loc>
+      <image:title>رضایت همکاران ۵ - مرکز فرزهای دندانپزشکی DDSVerified</image:title>
+      <image:caption>تجربه خرید موفق فرز دندانپزشکی از مرکز DDSVerified</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://ddsverified.ir/proof6.webp</image:loc>
+      <image:title>رضایت همکاران ۶ - مرکز فرزهای دندانپزشکی DDSVerified</image:title>
+      <image:caption>توصیهDDSVerifiedتوسط همکاران دندانپزشک</image:caption>
     </image:image>
 
-    <!-- تصاویر ۵۰ محصول -->
-    <image:image><image:loc>https://ddsverified.ir/images/TC-26EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TC-21EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TC-28EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TC-26.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TC-21C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TC-27.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TC-10C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/SF-41.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/SF-31C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/SF-20C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/SF-21C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/SF-11C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/SF-13C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/RS-11.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/RS-21.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TF-20C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TF-09C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TF-56C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TF-12C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TF-13C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/FO-21C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/FO-11C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/FO-40EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/FO-41EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/FO-21EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/FO-11EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TR-24C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TR-25C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TR-13C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TR-20EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/TR-25EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/CR-12EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/BR-40C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/BR-46C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/BR-49.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/BR-L46.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/SO-21C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/FO-30EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/FO-32EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/FO-34EF.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/FO-32C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/SI-47C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/EX-11S.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/VP-22.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/VP-21.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/VP-20.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/CP-12C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/SR-21C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/SR-12C.png</image:loc></image:image>
-    <image:image><image:loc>https://ddsverified.ir/images/ENDO-Z TI.png</image:loc></image:image>
+    <!-- فرز نیدل (سوزنی) — needle — TC Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TC-26EF.png</image:loc>
+      <image:title>فرز دندانپزشکی نیدل (سوزنی) TC-26EF قطر 012 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز نیدل TC-26EF الماسی، ISO 806 314 164 504 012، طول ۶.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TC-21EF.png</image:loc>
+      <image:title>فرز دندانپزشکی نیدل (سوزنی) TC-21EF قطر 014 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز نیدل TC-21EF الماسی، ISO 806 314 165 504 014، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TC-28EF.png</image:loc>
+      <image:title>فرز دندانپزشکی نیدل (سوزنی) TC-28EF قطر 012 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز نیدل TC-28EF الماسی، ISO 806 314 166 504 012، طول ۱۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TC-26.png</image:loc>
+      <image:title>فرز دندانپزشکی نیدل (سوزنی) TC-26 قطر 012 دور آبی — DDSVerified</image:title>
+      <image:caption>خرید فرز نیدل TC-26، ISO 806 314 164 524 012، طول ۶.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TC-21C.png</image:loc>
+      <image:title>فرز دندانپزشکی نیدل (سوزنی) TC-21C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز نیدل TC-21C، ISO 806 314 165 534 014، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TC-27.png</image:loc>
+      <image:title>فرز دندانپزشکی نیدل (سوزنی) TC-27 قطر 010 دور آبی — DDSVerified</image:title>
+      <image:caption>خرید فرز نیدل TC-27، ISO 806 314 166 524 010، طول ۱۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TC-10C.png</image:loc>
+      <image:title>فرز دندانپزشکی نیدل (سوزنی) TC-10C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز نیدل TC-10C، ISO 806 314 165 534 014، طول ۱۰ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز فیشور (استوانه ایی تخت) — flat_cylinder — SF Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/SF-41.png</image:loc>
+      <image:title>فرز دندانپزشکی فیشور (استوانه ایی تخت) SF-41 قطر 010 دور آبی — DDSVerified</image:title>
+      <image:caption>خرید فرز فیشور SF-41، ISO 806 314 109 524 010، طول ۴.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/SF-31C.png</image:loc>
+      <image:title>فرز دندانپزشکی فیشور (استوانه ایی تخت) SF-31C قطر 012 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز فیشور SF-31C، ISO 806 314 109 534 012، طول ۴.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/SF-20C.png</image:loc>
+      <image:title>فرز دندانپزشکی فیشور (استوانه ایی تخت) SF-20C قطر 012 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز فیشور SF-20C، ISO 806 314 109 534 012، طول ۶.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/SF-21C.png</image:loc>
+      <image:title>فرز دندانپزشکی فیشور (استوانه ایی تخت) SF-21C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز فیشور SF-21C، ISO 806 314 110 534 014، طول ۶.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/SF-11C.png</image:loc>
+      <image:title>فرز دندانپزشکی فیشور (استوانه ایی تخت) SF-11C قطر 012 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز فیشور SF-11C، ISO 806 314 111 534 012، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/SF-13C.png</image:loc>
+      <image:title>فرز دندانپزشکی فیشور (استوانه ایی تخت) SF-13C قطر 016 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز فیشور SF-13C، ISO 806 314 111 534 016، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز تیپر روند اند (مخروطی تخت روند اج) — taper_round_edge — RS Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/RS-11.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر روند اند (مخروطی تخت روند اج) RS-11 قطر 019 دور آبی — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر روند اند RS-11، ISO 806 314 553 524 019، طول ۱۰.۵ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/RS-21.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر روند اند (مخروطی تخت روند اج) RS-21 قطر 018 دور آبی — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر روند اند RS-21، ISO 806 314 545 524 018، طول ۷.۵ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز تیپر فلت اند (مخروطی تخت) — taper_flat — TF Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TF-20C.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر فلت اند (مخروطی تخت) TF-20C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر فلت اند TF-20C، ISO 806 314 171 534 014، طول ۶.۵ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TF-09C.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر فلت اند (مخروطی تخت) TF-09C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر فلت اند TF-09C، ISO 806 314 171 534 014، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TF-56C.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر فلت اند (مخروطی تخت) TF-56C قطر 018 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر فلت اند TF-56C، ISO 806 314 173 534 018، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TF-12C.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر فلت اند (مخروطی تخت) TF-12C قطر 016 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر فلت اند TF-12C، ISO 806 314 173 534 016، طول ۱۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TF-13C.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر فلت اند (مخروطی تخت) TF-13C قطر 018 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر فلت اند TF-13C، ISO 806 314 173 544 018، طول ۱۰ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز فلیم (شعله ایی) — flame — FO Series (coarse) -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/FO-21C.png</image:loc>
+      <image:title>فرز دندانپزشکی فلیم (شعله ایی) FO-21C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز فلیم FO-21C، ISO 806 314 249 534 014، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/FO-11C.png</image:loc>
+      <image:title>فرز دندانپزشکی فلیم (شعله ایی) FO-11C قطر 012 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز فلیم FO-11C، ISO 806 314 250 534 012، طول ۱۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/FO-32C.png</image:loc>
+      <image:title>فرز دندانپزشکی فوتبالی (تخم مرغی) FO-32C قطر 018 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز فوتبالی FO-32C، ISO 806 314 257 534 018، طول ۳.۶ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز فلیم شنک بلند (شعله ایی) — flame_long — FO-40EF -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/FO-40EF.png</image:loc>
+      <image:title>فرز دندانپزشکی فلیم شنک بلند (شعله ایی) FO-40EF قطر 010 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز فلیم شنک بلند FO-40EF الماسی، ISO 806 314 540 504 010، طول ۴.۳ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز فلیم (شعله ایی) — flame — FO Series (yellow/EF) -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/FO-41EF.png</image:loc>
+      <image:title>فرز دندانپزشکی فلیم (شعله ایی) FO-41EF قطر 012 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز فلیم FO-41EF الماسی، ISO 806 314 248 504 012، طول ۶.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/FO-21EF.png</image:loc>
+      <image:title>فرز دندانپزشکی فلیم (شعله ایی) FO-21EF قطر 014 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز فلیم FO-21EF الماسی، ISO 806 314 249 504 014، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/FO-11EF.png</image:loc>
+      <image:title>فرز دندانپزشکی فلیم (شعله ایی) FO-11EF قطر 012 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز فلیم FO-11EF الماسی، ISO 806 314 250 504 012، طول ۱۰ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز فوتبالی (تخم مرغی) — football — FO-30/32/34 EF -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/FO-30EF.png</image:loc>
+      <image:title>فرز دندانپزشکی فوتبالی (تخم مرغی) FO-30EF قطر 016 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز فوتبالی FO-30EF الماسی، ISO 806 314 257 504 016، طول ۳.۲ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/FO-32EF.png</image:loc>
+      <image:title>فرز دندانپزشکی فوتبالی (تخم مرغی) FO-32EF قطر 018 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز فوتبالی FO-32EF الماسی، ISO 806 314 257 504 018، طول ۳.۶ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/FO-34EF.png</image:loc>
+      <image:title>فرز دندانپزشکی فوتبالی (تخم مرغی) FO-34EF قطر 023 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز فوتبالی FO-34EF الماسی، ISO 806 314 257 504 023، طول ۵.۰ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز تیپر روند اند — round_taper — TR Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TR-24C.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر روند اند TR-24C قطر 016 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر روند اند TR-24C، ISO 806 314 198 534 016، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TR-25C.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر روند اند TR-25C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر روند اند TR-25C، ISO 806 314 198 534 014، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TR-13C.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر روند اند TR-13C قطر 018 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر روند اند TR-13C، ISO 806 314 199 534 018، طول ۹.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TR-20EF.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر روند اند TR-20EF قطر 014 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر روند اند TR-20EF الماسی، ISO 806 314 197 504 014، طول ۶.۵ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/TR-25EF.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر روند اند TR-25EF قطر 014 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر روند اند TR-25EF الماسی، ISO 806 314 198 504 014، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز تیپر روند اند — round_taper — CR-12EF -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/CR-12EF.png</image:loc>
+      <image:title>فرز دندانپزشکی تیپر روند اند CR-12EF قطر 016 دور زرد — DDSVerified</image:title>
+      <image:caption>خرید فرز تیپر روند اند CR-12EF الماسی، ISO 806 314 199 504 016، طول ۴.۰ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز روند الماسی توربین — round — BR Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/BR-40C.png</image:loc>
+      <image:title>فرز دندانپزشکی روند الماسی توربین BR-40C قطر 016 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز روند الماسی توربین BR-40C، ISO 806 314 001 534 016</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/BR-46C.png</image:loc>
+      <image:title>فرز دندانپزشکی روند الماسی توربین BR-46C قطر 012 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز روند الماسی توربین BR-46C، ISO 806 314 001 534 012</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/BR-49.png</image:loc>
+      <image:title>فرز دندانپزشکی روند الماسی توربین BR-49 قطر 008 دور آبی — DDSVerified</image:title>
+      <image:caption>خرید فرز روند الماسی توربین BR-49، ISO 806 314 001 524 008</image:caption>
+    </image:image>
+
+    <!-- فرز روند (شنک بلند) (شبیه فرز میولر) — round_long — BR-L46 -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/BR-L46.png</image:loc>
+      <image:title>فرز دندانپزشکی روند (شنک بلند) (شبیه فرز میولر) BR-L46 قطر 012 دور آبی — DDSVerified</image:title>
+      <image:caption>خرید فرز روند شنک بلند BR-L46 (شبیه فرز میولر)، ISO 806 314 001 524 012</image:caption>
+    </image:image>
+
+    <!-- فرز تورپیدو — torpedo — SO Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/SO-21C.png</image:loc>
+      <image:title>فرز دندانپزشکی تورپیدو SO-21C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز تورپیدو SO-21C، ISO 806 314 289 534 014، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز اینورتد (معکوس) — inverted_cone — SI Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/SI-47C.png</image:loc>
+      <image:title>فرز دندانپزشکی اینورتد (معکوس) SI-47C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز اینورتد معکوس SI-47C، ISO 806 314 010 534 014</image:caption>
+    </image:image>
+
+    <!-- فرز دابل برل (بشکه ایی) — barrel — EX Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/EX-11S.png</image:loc>
+      <image:title>فرز دندانپزشکی دابل برل (بشکه ایی) EX-11S قطر 032 دور مشکی — DDSVerified</image:title>
+      <image:caption>خرید فرز دابل برل EX-11S، ISO 806 314 038 544 032، طول ۵.۰ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز دپس کات (برای ونیر) — depth_veneer — VP Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/VP-22.png</image:loc>
+      <image:title>فرز دندانپزشکی دپس کات (برای ونیر) VP-22 قطر 0.5 دور آبی — DDSVerified</image:title>
+      <image:caption>خرید فرز دپس کات ونیر VP-22، ISO 806 314 552 524 021</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/VP-21.png</image:loc>
+      <image:title>فرز دندانپزشکی دپس کات (برای ونیر) VP-21 قطر 0.4 دور آبی — DDSVerified</image:title>
+      <image:caption>خرید فرز دپس کات ونیر VP-21، ISO 806 314 552 524 018</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/VP-20.png</image:loc>
+      <image:title>فرز دندانپزشکی دپس کات (برای ونیر) VP-20 قطر 0.3 دور آبی — DDSVerified</image:title>
+      <image:caption>خرید فرز دپس کات ونیر VP-20، ISO 806 314 552 524 016</image:caption>
+    </image:image>
+
+    <!-- فرز فیشور نوک تیز — pointed_cylinder — CP Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/CP-12C.png</image:loc>
+      <image:title>فرز دندانپزشکی فیشور نوک تیز CP-12C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز فیشور نوک تیز CP-12C، ISO 806 314 167 534 014، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز فیشور روند اند (استوانه ایی ته گرد) — round_end_cylinder — SR Series -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/SR-21C.png</image:loc>
+      <image:title>فرز دندانپزشکی فیشور روند اند (استوانه ایی ته گرد) SR-21C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز فیشور روند اند SR-21C، ISO 806 314 141 534 014، طول ۶.۰ میلیمتر</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/SR-12C.png</image:loc>
+      <image:title>فرز دندانپزشکی فیشور روند اند (استوانه ایی ته گرد) SR-12C قطر 014 دور سبز — DDSVerified</image:title>
+      <image:caption>خرید فرز فیشور روند اند SR-12C، ISO 806 314 141 534 014، طول ۸.۰ میلیمتر</image:caption>
+    </image:image>
+
+    <!-- فرز EndoZ کارباید تیتانیومی ساخت انگلیس — carbide — ENDO-Z TI -->
+    <image:image>
+      <image:loc>https://ddsverified.ir/images/ENDO-Z TI.png</image:loc>
+      <image:title>فرز EndoZ کارباید تیتانیومی ساخت انگلیس ENDO-Z TI — DDSVerified</image:title>
+      <image:caption>خرید فرز EndoZ کارباید تیتانیومی ساخت انگلیس، ISO 807 314 001 524 021</image:caption>
+    </image:image>
 
   </url>
 </urlset>
