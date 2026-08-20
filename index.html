@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -12,6 +13,11 @@
 <meta property="og:description" content="خرید عمده فرزهای دندانپزشکی با کیفیت تست شده، قیمت رقابتی و تخفیف پلکانی.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fa_IR">
+<link rel="canonical" href="https://ddsverified.ir/">
+<meta property="og:url" content="https://ddsverified.ir/">
+<meta property="og:image" content="https://ddsverified.ir/doctor.webp">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="icon" href="logo.webp" type="image/webp">
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
 
 <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "3f65348f8e1948c1b49c94655a8fd132"}'></script>
@@ -948,7 +954,7 @@ const PRODUCTS = [
   // Flame
   {shape:"flame",model:"FO-21C",iso:"806 314 249 534 014",usa:"862-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:100},
   {shape:"flame",model:"FO-11C",iso:"806 314 250 534 012",usa:"863-012C",diameter:"012",length:"10",grit:"G🟢",inventory:100},
-  {shape:"flame_long",model:"FO-40EF",iso:"806 314 540  504 010",usa:"889-010EF",diameter:"010",length:"4.3",grit:"Y🟡",inventory:300},
+  {shape:"flame_long",model:"FO-40EF",iso:"806 314 540 504 010",usa:"889-010EF",diameter:"010",length:"4.3",grit:"Y🟡",inventory:300},
   {shape:"flame",model:"FO-41EF",iso:"806 314 248 504 012",usa:"861-012EF",diameter:"012",length:"6.0",grit:"Y🟡",inventory:200},
   {shape:"flame",model:"FO-21EF",iso:"806 314 249 504 014",usa:"862-014EF",diameter:"014",length:"8.0",grit:"Y🟡",inventory:300},
   {shape:"flame",model:"FO-11EF",iso:"806 314 250 504 012",usa:"863-012EF",diameter:"012",length:"10",grit:"Y🟡",inventory:200},
@@ -1367,26 +1373,12 @@ cartOverlay.addEventListener('click', closeCart);
 function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); }
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && cartDrawer.classList.contains('open')) closeCart(); });
 
-// JSON-LD Product Schema Injection for SEO (with reviews, aggregateRating, returnPolicy, shippingDetails)
+// JSON-LD Product Schema Injection for SEO (returnPolicy, shippingDetails)
+// NOTE: per-product "review"/"aggregateRating" markup intentionally omitted — attaching the
+// same site-wide testimonials to all 50 products violates Google's review snippet guidelines
+// (reviews must pertain to the specific item) and risks a structured-data spam flag in GSC.
+// Re-add per product only when genuine product-specific reviews exist.
 function injectProductSchema() {
-  // Real colleague testimonials collected via Blind survey — reused as Product reviews
-  const TESTIMONIALS = [
-    "ببین مثلا برای 5 تا مولر فول کراون جوابه هر کدومش",
-    "دکتر جان استفاده کردم و خوب بود فرق خاصی با دیا که میخریدم نداشت",
-    "راضی بودم سری بعدی که باز اوردی خبر بده",
-    "این دور مشکی که داری برای تراش اکلوزال کور خیلی خوب بود",
-    "راضی بودم",
-    "خوب بود کلا راضیم",
-    "برای مدلهای دیگه و خریدهای بعدی هم بهتون خبر میدم",
-    "من حتما همه رو میخوام برام نگه دارید لطفا",
-    "میگم اون فرز ها که دادید کیفیتشون خیلی خوبه",
-    "اون بخش الماسه هاش خیلی خوب بود دیدی مثلا یه سریا خیلی کج و بیرون زده و یه جورین؟",
-    "ممنونم دکتر راضی بودم"
-  ];
-  // Star ratings per testimonial (4 or 5 stars, all positive tone)
-  const REVIEW_RATINGS = [5, 4, 5, 5, 5, 5, 4, 5];
-  const AVG_RATING = (REVIEW_RATINGS.reduce((a,b)=>a+b,0) / REVIEW_RATINGS.length).toFixed(1);
-
   // Shared shipping & return policy for all offers
   const shippingDetails = {
     "@type": "OfferShippingDetails",
@@ -1426,33 +1418,13 @@ function injectProductSchema() {
         "position": index + 1,
         "item": {
           "@type": "Product",
-          "name": `فرز دندانپزشکی ${SHAPE_MAP[p.shape]} مدل ${p.model}`,
-          "image": `https://ddsverified.ir/images/${p.model}.webp`,
+          "name": `${SHAPE_MAP[p.shape]} مدل ${p.model}`,
+          "image": `https://ddsverified.ir/images/${p.model.toLowerCase()}.webp`,
           "description": `فرز ${SHAPE_MAP[p.shape]} با قطر ${p.diameter} و طول ${p.length}، گرید ${GRIT_TEXT[p.grit]}. مخصوص استفاده دندانپزشکان. تایید شده توسط دکتر محمدرضا زینلی. دارای گواهی استاندارد TÜV Rheinland آلمان و ISO.`,
           "brand": { "@type": "Brand", "name": "DDSVerified" },
           "sku": p.model,
           "mpn": p.model,
           "category": "Dental Burs",
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": AVG_RATING,
-            "reviewCount": TESTIMONIALS.length,
-            "bestRating": "5",
-            "worstRating": "1"
-          },
-          "review": TESTIMONIALS.map((t, i) => ({
-            "@type": "Review",
-            "author": { "@type": "Person", "name": `همکار دندانپزشک ${i+1}` },
-            "datePublished": "2025-06-15",
-            "reviewBody": t,
-            "name": "بازخورد همکاران",
-            "reviewRating": {
-              "@type": "Rating",
-              "ratingValue": String(REVIEW_RATINGS[i]),
-              "bestRating": "5",
-              "worstRating": "1"
-            }
-          })),
           "offers": {
             "@type": "Offer",
             "url": "https://ddsverified.ir",
@@ -1460,7 +1432,7 @@ function injectProductSchema() {
             "price": String(unitPrice),
             "availability": p.inventory > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
             "itemCondition": "https://schema.org/NewCondition",
-            "priceValidUntil": "2026-12-31",
+            "priceValidUntil": "2027-12-31",
             "hasMerchantReturnPolicy": merchantReturnPolicy,
             "shippingDetails": shippingDetails
           }
