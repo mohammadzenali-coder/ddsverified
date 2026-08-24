@@ -1234,7 +1234,11 @@ function handleCartHash() {
   }
 }
 window.addEventListener('hashchange', handleCartHash);
-if (window.location.hash) { window.addEventListener('load', handleCartHash); }
+// Run immediately: this inline script sits before </body>, so the DOM (product grid) already exists.
+// The old 'load' hook missed desktop cases: cached/bfcache restores and fast loads where 'load'
+// never re-fires after the click (Android Chrome re-fires more aggressively, which is why it worked there).
+if (window.location.hash) { handleCartHash(); }
+window.addEventListener('pageshow', (e) => { if (e.persisted && window.location.hash) handleCartHash(); });
 
 function changePackCount(model, delta) {
   cart[model] = (cart[model] || 0) + delta;
