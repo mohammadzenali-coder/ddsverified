@@ -16,7 +16,9 @@
 <meta property="og:image" content="https://ddsverified.ir/logo.webp">
 <meta property="og:site_name" content="DDSVerified">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+
 
 <style>
   /* === Hero (3-column expanded) === */
@@ -51,8 +53,9 @@
   .hero-testimonials .blind-note { font-size: 0.6rem; color: var(--text-light); text-align: center; margin-bottom: 8px; font-style: italic; padding: 0 4px; }
   .testimonial-slider { position: relative; min-height: 90px; overflow: hidden; width: 100%; }
   .testimonial-track { display: flex; transition: transform 0.5s ease; direction: ltr; }
-  .testimonial-slide { min-width: 100%; padding: 0 4px; box-sizing: border-box; direction: rtl; overflow: hidden; }
-  .testimonial-slide blockquote { font-size: 0.74rem; color: var(--text); line-height: 1.6; text-align: center; padding: 8px 12px; position: relative; background: #fff; border-radius: 8px; border: 1px solid var(--border); margin: 0; overflow-wrap: break-word; word-break: break-word; }
+  .testimonial-slide { min-width: 100%; padding: 0 4px; box-sizing: border-box; direction: rtl; overflow: hidden; display: flex; }
+  /* Reserve vertical space for quotes so slide changes never shift the layout (CLS fix) */
+  .testimonial-slide blockquote { width: 100%; min-height: 118px; display: flex; align-items: center; justify-content: center; font-size: 0.74rem; color: var(--text); line-height: 1.6; text-align: center; padding: 8px 12px; position: relative; background: #fff; border-radius: 8px; border: 1px solid var(--border); margin: 0; overflow-wrap: break-word; word-break: break-word; }
   .testimonial-slide blockquote::before { content: '\201C'; position: absolute; top: -4px; right: 6px; font-size: 1.6rem; color: var(--primary-light); font-family: Georgia, serif; line-height: 1; }
   .testimonial-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(21,101,192,0.85); color: white; border: none; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; z-index: 5; transition: background 0.2s; padding: 0; }
   .testimonial-nav:hover { background: var(--primary-dark); }
@@ -379,12 +382,12 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .slide {
   min-width: 100%;
   box-sizing: border-box;
+  /* Reserve 9:16 box before image loads — prevents layout shift (CLS fix) */
+  aspect-ratio: 9 / 16;
 }
-/* Adjusted for 9:16 vertical screenshots */
 .slide img {
   width: 100%;
-  height: auto;
-  aspect-ratio: 9/16;
+  height: 100%;
   object-fit: contain; /* Prevents cropping of your screenshots */
   display: block;
 }
@@ -755,12 +758,12 @@ footer a{color:var(--primary);text-decoration:none}
         <h2>اعتماد همکاران</h2>
         <div class="slider-container">
           <div class="slider-wrapper" id="sliderWrapper">
-            <div class="slide"><img src="proof1.webp" alt="رضایت همکاران ۱" loading="lazy"></div>
-            <div class="slide"><img src="proof2.webp" alt="رضایت همکاران ۲" loading="lazy"></div>
-            <div class="slide"><img src="proof3.webp" alt="رضایت همکاران ۳" loading="lazy"></div>
-            <div class="slide"><img src="proof4.webp" alt="رضایت همکاران ۴" loading="lazy"></div>
-            <div class="slide"><img src="proof5.webp" alt="رضایت همکاران ۵" loading="lazy"></div>
-            <div class="slide"><img src="proof6.webp" alt="رضایت همکاران ۶" loading="lazy"></div>
+            <div class="slide"><img src="proof1.webp" alt="رضایت همکاران ۱" width="394" height="800" loading="lazy"></div>
+            <div class="slide"><img src="proof2.webp" alt="رضایت همکاران ۲" width="394" height="800" loading="lazy"></div>
+            <div class="slide"><img src="proof3.webp" alt="رضایت همکاران ۳" width="394" height="800" loading="lazy"></div>
+            <div class="slide"><img src="proof4.webp" alt="رضایت همکاران ۴" width="394" height="800" loading="lazy"></div>
+            <div class="slide"><img src="proof5.webp" alt="رضایت همکاران ۵" width="394" height="800" loading="lazy"></div>
+            <div class="slide"><img src="proof6.webp" alt="رضایت همکاران ۶" width="394" height="800" loading="lazy"></div>
           </div>
           <button class="slider-nav prev" id="prevBtn">❯</button>
           <button class="slider-nav next" id="nextBtn">❮</button>
@@ -1111,7 +1114,7 @@ function renderProducts() {
     return `
       <article class="product-card ${inStock ? '' : 'out-of-stock'}">
         <div class="product-img-wrap">
-          <img src="images/${p.model.toLowerCase()}.webp" alt="${altText}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
+          <img src="images/${p.model.toLowerCase()}.webp" alt="${altText}" width="267" height="400" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
         </div>
         <div class="product-shape">${shapeName}</div>
         <div class="product-model">${p.model}</div>
@@ -1398,7 +1401,9 @@ cartOverlay.addEventListener('click', closeCart);
 function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); }
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && cartDrawer.classList.contains('open')) closeCart(); });
 
+// JSON-LD Product Schema Injection for SEO (with reviews, aggregateRating, returnPolicy, shippingDetails)
 function injectProductSchema() {
+  // Real colleague testimonials collected via Blind survey — reused as Product reviews
   const TESTIMONIALS = [
     "ببین مثلا برای 5 تا مولر فول کراون جوابه هر کدومش",
     "دکتر جان استفاده کردم و خوب بود فرق خاصی با دیا که میخریدم نداشت",
