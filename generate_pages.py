@@ -69,8 +69,8 @@ def cat_url(shape_key: str) -> str:
 
 
 def img_rel(model: str) -> str:
-    """Image path relative from inside /category/<slug>/ page."""
-    return quote(f"../images/{model.lower()}.webp")
+    """Absolute image path — safe from any page depth (/category/<slug>/ included)."""
+    return quote(f"{BASE}/images/{model.lower()}.webp", safe="/:")
 
 
 def fmt_price(price: int) -> str:
@@ -215,7 +215,7 @@ def build_category_page(shape_key, data):
 
     ld_items = [{"@type": "ListItem", "position": i + 1,
                  "item": {"@type": "Product", "name": f"فرز {short} {p['model']}",
-                          "image": f"{BASE}/images/{img_rel(p['model']).split('/')[-1]}",
+                          "image": img_rel(p["model"]),
                           "sku": p["model"],
                           "brand": {"@type": "Brand", "name": "DDSVerified"},
                           "offers": {"@type": "Offer", "priceCurrency": "IRR",
