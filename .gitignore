@@ -1,0 +1,6 @@
+psi.json
+_read_pdf.py
+*.pyc
+__pycache__/
+.DS_Store
+.hermes/
