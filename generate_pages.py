@@ -454,45 +454,41 @@ HOME_SLIDER_END = "<!-- BLOG:DRS-CHOICE-END -->"
 
 DRS_CHOICE_TAG = "Drs' Choice"
 
-HOME_SLIDER_CSS = """
-.blogs-strip{margin:16px 0;overflow:hidden}
-.blogs-strip-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.blogs-strip-head h2{font-size:1rem;color:var(--primary-dark);margin:0}
-.blogs-strip-head .blogs-tag{font-size:.62rem;font-weight:700;color:#b45309;background:#fef3c7;border:1px solid #fcd34d;border-radius:20px;padding:2px 10px}
-.blogs-track-mask{position:relative;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.blogs-track{display:flex;gap:10px;width:max-content;animation:blogsSlide 36s linear infinite;direction:ltr}
+SLIDER_CSS_MARK = "/* BLOG:SLIDER-CSS */"
+
+HOME_SLIDER_CSS = SLIDER_CSS_MARK + """
+.blogs-strip{margin:14px 0}
+.blogs-strip-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.blogs-strip-head h2{font-size:.95rem;color:var(--primary-dark);margin:0}
+.blogs-strip-head .blogs-tag{font-size:.6rem;font-weight:700;color:#b45309;background:#fef3c7;border:1px solid #fcd34d;border-radius:20px;padding:2px 10px}
+.blogs-track-mask{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.blogs-track{display:flex;gap:8px;width:max-content;animation:blogsSlide 30s linear infinite;direction:ltr}
 .blogs-strip:hover .blogs-track,.blogs-strip:focus-within .blogs-track{animation-play-state:paused}
 @keyframes blogsSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion: reduce){.blogs-track{animation:none}}
-.blog-card{direction:rtl;width:230px;flex-shrink:0;background:var(--card,#fff);border:1px solid var(--border,#dce3ec);border-radius:12px;padding:12px;text-decoration:none;display:flex;flex-direction:column;gap:6px;transition:transform .2s ease,box-shadow .2s ease;box-shadow:var(--shadow-sm,0 1px 4px rgba(0,0,0,.06))}
-.blog-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg,0 6px 18px rgba(0,0,0,.12))}
-.blog-card .bc-date{font-size:.62rem;color:#78909c}
-.blog-card .bc-title{font-size:.82rem;font-weight:700;color:var(--primary-dark,#0d47a1);line-height:1.55}
-.blog-card .bc-desc{font-size:.68rem;color:#607d8b;line-height:1.6}
-.blog-card .bc-more{font-size:.66rem;font-weight:700;color:#1565c0;margin-top:auto}
+.blog-chip{direction:rtl;flex-shrink:0;display:inline-flex;align-items:center;gap:6px;background:var(--card,#fff);border:1px solid var(--border,#dce3ec);border-radius:50px;padding:7px 14px;text-decoration:none;font-size:.8rem;font-weight:700;color:var(--primary-dark,#0d47a1);box-shadow:var(--shadow-sm,0 1px 4px rgba(0,0,0,.06));transition:border-color .2s,box-shadow .2s;white-space:nowrap}
+.blog-chip:hover{border-color:#1565c0;box-shadow:var(--shadow-lg,0 4px 14px rgba(0,0,0,.1))}
+.blog-chip .bc-arrow{color:#1565c0;font-weight:400}
 """
 
 
 def build_home_slider(posts: list) -> str:
-    """Cards strip for posts tagged DRS_CHOICE_TAG; no-op HTML if none tagged."""
+    """Title-ticker strip for posts tagged DRS_CHOICE_TAG; no-op HTML if none tagged."""
     featured = [p for p in posts if DRS_CHOICE_TAG in p.get("tags", [])]
     if not featured:
         return ""
-    cards = "".join(
-        f"""<a class="blog-card" href="/blog/{p['slug']}/">
-<span class="bc-date">📅 {p['date']}</span>
-<span class="bc-title">{p['title']}</span>
-<span class="bc-desc">{p['description']}</span>
-<span class="bc-more">ادامه مطلب ←</span>
-</a>""" for p in featured)
-    # track duplicated once for a seamless -50% marquee loop
+    chips = "".join(
+        f"""<a class="blog-chip" href="/blog/{p['slug']}/">{p['title']}<span class="bc-arrow">←</span></a>"""
+        for p in featured)
+    # 3 sets per half, track = 2 halves → seamless -50% marquee even with few posts
+    half = chips * 3
     return f"""{HOME_SLIDER_START}
 <section class="blogs-strip" aria-label="مطالب منتخب دندانپزشکان">
 <div class="blogs-strip-head">
-<h2>انتخاب دکتر — راهنماهای برگزیده</h2>
+<h2>بخونین:</h2>
 <span class="blogs-tag">Drs' Choice</span>
 </div>
-<div class="blogs-track-mask"><div class="blogs-track">{cards}{cards}</div></div>
+<div class="blogs-track-mask"><div class="blogs-track">{half}{half}</div></div>
 </section>
 {HOME_SLIDER_END}"""
 
@@ -535,7 +531,18 @@ def main():
     # --- homepage Drs' Choice slider (markers delimit auto-managed block) ---
     with open("index.html", encoding="utf-8") as f:
         home = f.read()
-    if HOME_SLIDER_CSS not in home:
+    # one-time: strip legacy unmarked slider CSS (old card design)
+    legacy_start = home.find(".blogs-strip{margin:16px 0")
+    if SLIDER_CSS_MARK not in home and legacy_start != -1:
+        legacy_end_mark = ".blog-card .bc-more{font-size:.66rem;font-weight:700;color:#1565c0;margin-top:auto}\n"
+        legacy_end = home.index(legacy_end_mark) + len(legacy_end_mark)
+        home = home[:legacy_start] + home[legacy_end:]
+    if SLIDER_CSS_MARK in home:
+        # replace existing CSS between marker and the enclosing </style>
+        start = home.index(SLIDER_CSS_MARK)
+        end = home.index("</style>", start)
+        home = home[:start] + HOME_SLIDER_CSS + home[end:]
+    else:
         home = home.replace("</style>", HOME_SLIDER_CSS + "</style>", 1)
     home = inject_home_slider(home, build_home_slider(posts))
     with open("index.html", "w", encoding="utf-8", newline="\n") as f:
