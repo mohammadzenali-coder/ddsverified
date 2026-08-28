@@ -6,6 +6,7 @@ Re-run any time data changes: python3 generate_pages.py
 """
 import json
 import os
+import re
 from urllib.parse import quote
 
 BASE = "https://ddsverified.ir"
@@ -106,7 +107,205 @@ FAQS = {
     ],
 }
 
-# ---------------------------------------------------------------- layout ----
+# ---------------------------------------------------------------- blog md ----
+def _inline_md(text: str) -> str:
+    """Inline markdown: **bold**, *italic*, `code`, [text](url), ![alt](url)."""
+    text = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)",
+                  lambda m: f'<img src="{m.group(2)}" alt="{m.group(1)}" loading="lazy">',
+                  text)
+    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', text)
+    text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
+    text = re.sub(r"(?<!\*)\*([^*]+)\*(?!\*)", r"<em>\1</em>", text)
+    text = re.sub(r"`([^`]+)`", r"<code>\1</code>", text)
+    return text
+
+
+def md_to_html(md: str) -> str:
+    """Tiny zero-dependency markdown → HTML (headings, lists, tables, paragraphs)."""
+    lines = md.replace("\r\n", "\n").split("\n")
+    out, i = [], 0
+    in_list, list_tag = False, None
+    while i < len(lines):
+        line = lines[i]
+        # table: | a | b | followed by |---|---|
+        if line.strip().startswith("|") and i + 1 < len(lines) and re.match(r"^\s*\|[\s\-|:]+\|\s*$", lines[i + 1]):
+            if in_list:
+                out.append(f"</{list_tag}>"); in_list, list_tag = False, None
+            header = [c.strip() for c in line.strip().strip("|").split("|")]
+            rows, i = [], i + 2
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                rows.append([c.strip() for c in lines[i].strip().strip("|").split("|")])
+                i += 1
+            th = "".join(f"<th>{_inline_md(c)}</th>" for c in header)
+            trs = "".join("<tr>" + "".join(f"<td>{_inline_md(c)}</td>" for c in r) + "</tr>" for r in rows)
+            out.append(f'<div style="overflow-x:auto"><table class="md-t">{th and f"<tr>{th}</tr>"}{trs}</table></div>')
+            continue
+        m = re.match(r"^(#{1,4})\s+(.*)", line)
+        if m:
+            if in_list:
+                out.append(f"</{list_tag}>"); in_list, list_tag = False, None
+            level = max(2, len(m.group(1)))  # h1 is the page title; # and ## both become h2 sections
+            out.append(f"<h{level}>{_inline_md(m.group(2))}</h{level}>")
+            i += 1
+            continue
+        m = re.match(r"^\s*[-*]\s+(.*)", line)
+        if m:
+            if not in_list or list_tag != "ul":
+                if in_list: out.append(f"</{list_tag}>")
+                out.append("<ul>"); in_list, list_tag = True, "ul"
+            out.append(f"<li>{_inline_md(m.group(1))}</li>"); i += 1
+            continue
+        m = re.match(r"^\s*\d+[.)]\s+(.*)", line)
+        if m:
+            if not in_list or list_tag != "ol":
+                if in_list: out.append(f"</{list_tag}>")
+                out.append("<ol>"); in_list, list_tag = True, "ol"
+            out.append(f"<li>{_inline_md(m.group(1))}</li>"); i += 1
+            continue
+        if line.strip().startswith("```"):
+            if in_list:
+                out.append(f"</{list_tag}>"); in_list, list_tag = False, None
+            code, i = [], i + 1
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                code.append(lines[i]); i += 1
+            i += 1
+            out.append(f"<pre dir=\"ltr\">{'&#10;'.join(code)}</pre>")
+            continue
+        if line.strip() == "":
+            if in_list:
+                out.append(f"</{list_tag}>"); in_list, list_tag = False, None
+            i += 1
+            continue
+        if in_list:
+            out.append(f"</{list_tag}>"); in_list, list_tag = False, None
+        out.append(f"<p>{_inline_md(line.strip())}</p>")
+        i += 1
+    if in_list:
+        out.append(f"</{list_tag}>")
+    return "\n".join(out)
+
+
+def parse_post(path: str) -> dict:
+    """Parse posts/<file>.md with a tiny YAML-ish front matter:
+    ---
+    title: ...
+    slug: ...
+    date: 2026-08-29
+    description: ...
+    image: images/blog/foo.webp   (optional, used for og:image)
+    ---
+    """
+    raw = open(path, encoding="utf-8").read()
+    m = re.match(r"^---\s*\n(.*?)\n---\s*\n?(.*)", raw, re.S)
+    meta, body_md = {}, raw
+    if m:
+        for line in m.group(1).split("\n"):
+            if ":" in line:
+                k, v = line.split(":", 1)
+                meta[k.strip().lower()] = v.strip()
+        body_md = m.group(2)
+    slug = meta.get("slug") or os.path.splitext(os.path.basename(path))[0]
+    return {
+        "file": path,
+        "title": meta.get("title", slug),
+        "slug": re.sub(r"[^a-z0-9-]", "", slug.lower()),
+        "date": meta.get("date", ""),
+        "description": meta.get("description", ""),
+        "image": meta.get("image", ""),
+        "body": body_md,
+    }
+
+
+def load_posts() -> list:
+    if not os.path.isdir("posts"):
+        return []
+    posts = [parse_post(os.path.join("posts", f)) for f in sorted(os.listdir("posts")) if f.endswith(".md")]
+    return sorted(posts, key=lambda p: p["date"], reverse=True)
+
+
+BLOG_CSS = """
+.post{background:#fff;border:1px solid #dce3ec;border-radius:12px;padding:16px;font-size:.92rem}
+.post h2{margin-top:20px}.post h3{font-size:.98rem;color:#1565c0;margin:16px 0 8px}
+.post p{margin:8px 0}.post img{max-width:100%;height:auto;border-radius:8px;margin:10px 0}
+.post ul,.post ol{margin:8px 20px;padding:0}.post li{margin:4px 0}
+.post pre{background:#263238;color:#eceff1;border-radius:8px;padding:12px;overflow-x:auto;font-size:.8rem}
+.post code{background:#eceff1;border-radius:4px;padding:1px 5px;font-size:.85em}
+.md-t{border-collapse:collapse;font-size:.84rem;margin:10px 0;width:100%}
+.md-t th,.md-t td{border:1px solid #dce3ec;padding:6px 10px;text-align:right}
+.md-t th{background:#e3f2fd;color:#0d47a1}
+.pdate{font-size:.75rem;color:#78909c}
+.cards{display:flex;flex-direction:column;gap:10px}
+.card{background:#fff;border:1px solid #dce3ec;border-radius:12px;padding:14px}
+.card h3{font-size:1rem;margin-bottom:6px}.card h3 a{color:#1565c0;text-decoration:none}
+.card p{font-size:.84rem;color:#455a64;margin:0 0 8px}.card .pdate{display:block;margin-bottom:6px}
+.readmore{font-size:.82rem;color:#fff;background:#1565c0;border-radius:8px;padding:6px 14px;text-decoration:none;display:inline-block}
+"""
+
+
+def build_post_page(p) -> str:
+    url = f"blog/{p['slug']}/"
+    title = f"{p['title']} | DDSVerified"
+    og_img = f"{BASE}/{p['image']}" if p["image"] else f"{BASE}/logo.webp"
+    date_fa = p["date"]
+    crumbs = f'<a href="/">خانه</a> › <a href="/blog/">وبلاگ</a> › {p["title"]}'
+    body = f"""
+<h1>{p['title']}</h1>
+<span class="pdate">📅 {date_fa} · DDSVerified</span>
+<article class="post">
+{md_to_html(p['body'])}
+</article>
+<div class="trust">✅ تست توسط دندانپزشک &nbsp;·&nbsp; 🇩🇪 گواهی TÜV Rheinland آلمان &nbsp;·&nbsp; 📦 ارسال سراسر ایران</div>
+<p><a class="cta" href="/">🛒 مشاهده و خرید فرزهای دندانپزشکی</a></p>"""
+    ld_article = json.dumps({"@context": "https://schema.org", "@type": "Article",
+                             "headline": p["title"], "description": p["description"],
+                             "image": og_img, "datePublished": p["date"],
+                             "author": {"@type": "Person", "name": "دکتر محمدرضا زینلی"},
+                             "publisher": {"@type": "Organization", "name": "DDSVerified"},
+                             "mainEntityOfPage": f"{BASE}/{url}"}, ensure_ascii=False)
+    ld_bc = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "خانه", "item": f"{BASE}/"},
+        {"@type": "ListItem", "position": 2, "name": "وبلاگ", "item": f"{BASE}/blog/"},
+        {"@type": "ListItem", "position": 3, "name": p["title"], "item": f"{BASE}/{url}"}]}, ensure_ascii=False)
+    extra = (f'<style>{BLOG_CSS}</style>\n'
+             f'<script type="application/ld+json">{ld_article}</script>\n'
+             f'<script type="application/ld+json">{ld_bc}</script>')
+    return _layout(title, p["description"], url, crumbs, body, extra)
+
+
+def build_blog_index(posts: list) -> str:
+    title = "وبلاگ DDSVerified — راهنمای خرید فرز دندانپزشکی"
+    desc = "راهنماهای خرید فرز دندانپزشکی، آموزش انتخاب فرز بر اساس رنگ دور، کد ISO و شکل فرز."
+    if posts:
+        cards = "".join(
+            f"""<div class="card">
+<span class="pdate">📅 {p['date']}</span>
+<h3><a href="/blog/{p['slug']}/">{p['title']}</a></h3>
+<p>{p['description']}</p>
+<a class="readmore" href="/blog/{p['slug']}/">ادامه مطلب ←</a>
+</div>""" for p in posts)
+        posts_html = f'<div class="cards">{cards}</div>'
+    else:
+        posts_html = ""
+    body = f"""
+<h1>راهنمای فرزهای دندانپزشکی</h1>
+<div class="intro"><p>در این بخش راهنماهای جامع انتخاب و خرید فرز دندانپزشکی منتشر می‌شود: معنی رنگ دور فرزها، مفهوم کد ISO، انتخاب فرز مناسب هر کار کلینیکی و مقایسه خانواده‌های مختلف فرز الماسی.</p>
+<p>برای مشاهده و خرید محصولات، به <a href="/">صفحه اصلی فروشگاه</a> مراجعه کنید.</p></div>
+{posts_html}"""
+    crumbs = '<a href="/">خانه</a> › وبلاگ'
+    return _layout(title, desc, "blog/", crumbs, body, f"<style>{BLOG_CSS}</style>")
+
+
+def build_sitemap(data, posts=None) -> str:
+    urls = [("", "1.0"), ("blog/", "0.6")]
+    for key in group_by_page(data):
+        urls.append((cat_url(key), "0.9"))
+    for p in (posts or []):
+        urls.append((f"blog/{p['slug']}/", "0.7"))
+    today = __import__("datetime").date.today().isoformat()
+    entries = "\n".join(
+        f"  <url>\n    <loc>{BASE}/{path}</loc>\n    <lastmod>{today}</lastmod>\n    <priority>{pri}</priority>\n  </url>"
+        for path, pri in urls)
+    return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{entries}\n</urlset>\n'
 CSS = """*{box-sizing:border-box;margin:0}body{font-family:'Vazirmatn',Tahoma,Arial,sans-serif;line-height:1.7;background:#f5f7fa;color:#263238}
 .wrap{max-width:880px;margin:0 auto;padding:14px}.crumbs{font-size:.78rem;margin-bottom:12px;color:#78909c}
 .crumbs a{color:#1565c0;text-decoration:none}h1{font-size:1.3rem;color:#0d47a1;margin:.4rem 0 .6rem}
@@ -247,30 +446,9 @@ def build_category_page(shape_key, data):
     return _layout(title, desc, slug_url, crumbs, body, extra)
 
 
-def build_blog_index():
-    title = "وبلاگ DDSVerified — راهنمای خرید فرز دندانپزشکی"
-    desc = "راهنماهای خرید فرز دندانپزشکی، آموزش انتخاب فرز بر اساس رنگ دور، کد ISO و شکل فرز."
-    body = """
-<h1>راهنمای فرزهای دندانپزشکی</h1>
-<div class="intro"><p>در این بخش راهنماهای جامع انتخاب و خرید فرز دندانپزشکی منتشر می‌شود: معنی رنگ دور فرزها، مفهوم کد ISO، انتخاب فرز مناسب هر کار کلینیکی و مقایسه خانواده‌های مختلف فرز الماسی.</p>
-<p>برای مشاهده و خرید محصولات، به <a href="/">صفحه اصلی فروشگاه</a> مراجعه کنید.</p></div>"""
-    crumbs = '<a href="/">خانه</a> › وبلاگ'
-    return _layout(title, desc, "blog/", crumbs, body)
-
-
-def build_sitemap(data):
-    urls = [("", "1.0"), ("blog/", "0.6")]
-    for key in group_by_page(data):
-        urls.append((cat_url(key), "0.9"))
-    today = __import__("datetime").date.today().isoformat()
-    entries = "\n".join(
-        f"  <url>\n    <loc>{BASE}/{path}</loc>\n    <lastmod>{today}</lastmod>\n    <priority>{pri}</priority>\n  </url>"
-        for path, pri in urls)
-    return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{entries}\n</urlset>\n'
-
-
 def main():
     data = load_data()
+    posts = load_posts()
     n = 0
     for key in group_by_page(data):
         d = f"category/{SLUGS[key]}"
@@ -280,11 +458,17 @@ def main():
         n += 1
     os.makedirs("blog", exist_ok=True)
     with open("blog/index.html", "w", encoding="utf-8", newline="\n") as f:
-        f.write(build_blog_index())
+        f.write(build_blog_index(posts))
     n += 1
+    for p in posts:
+        d = f"blog/{p['slug']}"
+        os.makedirs(d, exist_ok=True)
+        with open(f"{d}/index.html", "w", encoding="utf-8", newline="\n") as f:
+            f.write(build_post_page(p))
+        n += 1
     with open("sitemap.xml", "w", encoding="utf-8", newline="\n") as f:
-        f.write(build_sitemap(data))
-    print(f"Generated {n} pages + sitemap ({len(group_by_page(data))} categories)")
+        f.write(build_sitemap(data, posts))
+    print(f"Generated {n} pages + sitemap ({len(group_by_page(data))} categories, {len(posts)} blog posts)")
 
 
 if __name__ == "__main__":
