@@ -212,6 +212,7 @@ def parse_post(path: str) -> dict:
         "date": meta.get("date", ""),
         "description": meta.get("description", ""),
         "image": meta.get("image", ""),
+        "tags": [t.strip() for t in meta.get("tags", "").split(",") if t.strip()],
         "body": body_md,
     }
 
@@ -446,6 +447,77 @@ def build_category_page(shape_key, data):
     return _layout(title, desc, slug_url, crumbs, body, extra)
 
 
+# ------------------------------------------------- homepage Drs Choice slider ----
+# Markers inside index.html that delimit the auto-managed slider block.
+HOME_SLIDER_START = "<!-- BLOG:DRS-CHOICE-START -->"
+HOME_SLIDER_END = "<!-- BLOG:DRS-CHOICE-END -->"
+
+DRS_CHOICE_TAG = "Drs' Choice"
+
+HOME_SLIDER_CSS = """
+.blogs-strip{margin:16px 0;overflow:hidden}
+.blogs-strip-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.blogs-strip-head h2{font-size:1rem;color:var(--primary-dark);margin:0}
+.blogs-strip-head .blogs-tag{font-size:.62rem;font-weight:700;color:#b45309;background:#fef3c7;border:1px solid #fcd34d;border-radius:20px;padding:2px 10px}
+.blogs-track-mask{position:relative;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.blogs-track{display:flex;gap:10px;width:max-content;animation:blogsSlide 36s linear infinite;direction:ltr}
+.blogs-strip:hover .blogs-track,.blogs-strip:focus-within .blogs-track{animation-play-state:paused}
+@keyframes blogsSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){.blogs-track{animation:none}}
+.blog-card{direction:rtl;width:230px;flex-shrink:0;background:var(--card,#fff);border:1px solid var(--border,#dce3ec);border-radius:12px;padding:12px;text-decoration:none;display:flex;flex-direction:column;gap:6px;transition:transform .2s ease,box-shadow .2s ease;box-shadow:var(--shadow-sm,0 1px 4px rgba(0,0,0,.06))}
+.blog-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg,0 6px 18px rgba(0,0,0,.12))}
+.blog-card .bc-date{font-size:.62rem;color:#78909c}
+.blog-card .bc-title{font-size:.82rem;font-weight:700;color:var(--primary-dark,#0d47a1);line-height:1.55}
+.blog-card .bc-desc{font-size:.68rem;color:#607d8b;line-height:1.6}
+.blog-card .bc-more{font-size:.66rem;font-weight:700;color:#1565c0;margin-top:auto}
+"""
+
+
+def build_home_slider(posts: list) -> str:
+    """Cards strip for posts tagged DRS_CHOICE_TAG; no-op HTML if none tagged."""
+    featured = [p for p in posts if DRS_CHOICE_TAG in p.get("tags", [])]
+    if not featured:
+        return ""
+    cards = "".join(
+        f"""<a class="blog-card" href="/blog/{p['slug']}/">
+<span class="bc-date">📅 {p['date']}</span>
+<span class="bc-title">{p['title']}</span>
+<span class="bc-desc">{p['description']}</span>
+<span class="bc-more">ادامه مطلب ←</span>
+</a>""" for p in featured)
+    # track duplicated once for a seamless -50% marquee loop
+    return f"""{HOME_SLIDER_START}
+<section class="blogs-strip" aria-label="مطالب منتخب دندانپزشکان">
+<div class="blogs-strip-head">
+<h2>انتخاب دکتر — راهنماهای برگزیده</h2>
+<span class="blogs-tag">Drs' Choice</span>
+</div>
+<div class="blogs-track-mask"><div class="blogs-track">{cards}{cards}</div></div>
+</section>
+{HOME_SLIDER_END}"""
+
+
+def inject_home_slider(html: str, slider_html: str) -> str:
+    """Replace (or remove) the marked slider block inside index.html."""
+    if slider_html:
+        if HOME_SLIDER_START in html and HOME_SLIDER_END in html:
+            start = html.index(HOME_SLIDER_START)
+            end = html.index(HOME_SLIDER_END) + len(HOME_SLIDER_END)
+            return html[:start] + slider_html + html[end:]
+        # first run: insert after the Telegram join box in the hero column
+        anchor = '</a>\n      <div class="hero-cert-row">'
+        if anchor in html:
+            return html.replace(anchor, '</a>\n' + slider_html + '\n      <div class="hero-cert-row">', 1)
+        print("WARN: no slider markers and no hero anchor found in index.html — slider not injected")
+        return html
+    # no featured posts: strip existing block
+    if HOME_SLIDER_START in html and HOME_SLIDER_END in html:
+        start = html.index(HOME_SLIDER_START)
+        end = html.index(HOME_SLIDER_END) + len(HOME_SLIDER_END)
+        return html[:start] + html[end:]
+    return html
+
+
 def main():
     data = load_data()
     posts = load_posts()
@@ -460,6 +532,14 @@ def main():
     with open("blog/index.html", "w", encoding="utf-8", newline="\n") as f:
         f.write(build_blog_index(posts))
     n += 1
+    # --- homepage Drs' Choice slider (markers delimit auto-managed block) ---
+    with open("index.html", encoding="utf-8") as f:
+        home = f.read()
+    if HOME_SLIDER_CSS not in home:
+        home = home.replace("</style>", HOME_SLIDER_CSS + "</style>", 1)
+    home = inject_home_slider(home, build_home_slider(posts))
+    with open("index.html", "w", encoding="utf-8", newline="\n") as f:
+        f.write(home)
     for p in posts:
         d = f"blog/{p['slug']}"
         os.makedirs(d, exist_ok=True)
