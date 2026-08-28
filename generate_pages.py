@@ -220,7 +220,8 @@ def parse_post(path: str) -> dict:
 def load_posts() -> list:
     if not os.path.isdir("posts"):
         return []
-    posts = [parse_post(os.path.join("posts", f)) for f in sorted(os.listdir("posts")) if f.endswith(".md")]
+    posts = [parse_post(os.path.join("posts", f)) for f in sorted(os.listdir("posts"))
+             if f.endswith(".md") and not f.startswith("_")]
     return sorted(posts, key=lambda p: p["date"], reverse=True)
 
 
