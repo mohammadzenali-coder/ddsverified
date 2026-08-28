@@ -461,34 +461,41 @@ HOME_SLIDER_CSS = SLIDER_CSS_MARK + """
 .blogs-strip-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .blogs-strip-head h2{font-size:.95rem;color:var(--primary-dark);margin:0}
 .blogs-strip-head .blogs-tag{font-size:.6rem;font-weight:700;color:#b45309;background:#fef3c7;border:1px solid #fcd34d;border-radius:20px;padding:2px 10px}
-.blogs-track-mask{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
-.blogs-track{display:flex;gap:8px;width:max-content;animation:blogsSlide 30s linear infinite;direction:ltr}
-.blogs-strip:hover .blogs-track,.blogs-strip:focus-within .blogs-track{animation-play-state:paused}
-@keyframes blogsSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion: reduce){.blogs-track{animation:none}}
-.blog-chip{direction:rtl;flex-shrink:0;display:inline-flex;align-items:center;gap:6px;background:var(--card,#fff);border:1px solid var(--border,#dce3ec);border-radius:50px;padding:7px 14px;text-decoration:none;font-size:.8rem;font-weight:700;color:var(--primary-dark,#0d47a1);box-shadow:var(--shadow-sm,0 1px 4px rgba(0,0,0,.06));transition:border-color .2s,box-shadow .2s;white-space:nowrap}
-.blog-chip:hover{border-color:#1565c0;box-shadow:var(--shadow-lg,0 4px 14px rgba(0,0,0,.1))}
-.blog-chip .bc-arrow{color:#1565c0;font-weight:400}
+.pushbox{position:relative;height:58px;overflow:hidden}
+.push-item{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card,#fff);border:1px solid var(--border,#dce3ec);border-radius:12px;padding:6px 16px;text-decoration:none;font-size:.8rem;font-weight:700;color:var(--primary-dark,#0d47a1);box-shadow:var(--shadow-sm,0 1px 4px rgba(0,0,0,.06));opacity:0;transform:translateX(-115%);line-height:1.5;text-align:center;overflow:hidden}
+.push-item .bc-arrow{color:#1565c0;font-weight:400;flex-shrink:0}
+.blogs-strip:hover .push-item,.blogs-strip:focus-within .push-item{animation-play-state:paused}
+@media (prefers-reduced-motion: reduce){.push-item{animation:none!important}.push-item:not(:first-child){display:none}.push-item:first-child{opacity:1!important;transform:none!important}}
 """
 
 
 def build_home_slider(posts: list) -> str:
-    """Title-ticker strip for posts tagged DRS_CHOICE_TAG; no-op HTML if none tagged."""
+    """Push rotator: one title bar at a time; next title pushes the current one out.
+    Pure CSS (per-item animation-delay). No-op HTML if no post tagged DRS_CHOICE_TAG."""
     featured = [p for p in posts if DRS_CHOICE_TAG in p.get("tags", [])]
     if not featured:
         return ""
-    chips = "".join(
-        f"""<a class="blog-chip" href="/blog/{p['slug']}/">{p['title']}<span class="bc-arrow">←</span></a>"""
-        for p in featured)
-    # 3 sets per half, track = 2 halves → seamless -50% marquee even with few posts
-    half = chips * 3
+    n = len(featured)
+    seg = 5.5                      # seconds each title stays
+    total = round(seg * n, 2)
+    # keyframe stops (percent of total cycle): each item is active during its seg window
+    a, b, c = round(100 / n * 0.06, 2), round(100 / n * 0.80, 2), round(100 / n * 0.96, 2)
+    kf = (f"@keyframes pushCycle{{0%{{opacity:0;transform:translateX(-115%)}}"
+          f"{a}%{{opacity:1;transform:translateX(0)}}"
+          f"{b}%{{opacity:1;transform:translateX(0)}}"
+          f"{c}%{{opacity:0;transform:translateX(115%)}}"
+          f"100%{{opacity:0;transform:translateX(115%)}}}}")
+    items = "".join(
+        f"""<a class="push-item" style="--i:{i}" href="/blog/{p['slug']}/">{p['title']}<span class="bc-arrow">←</span></a>"""
+        for i, p in enumerate(featured))
     return f"""{HOME_SLIDER_START}
 <section class="blogs-strip" aria-label="مطالب منتخب دندانپزشکان">
+<style>.push-item{{animation:pushCycle {total}s linear infinite;animation-delay:calc(var(--i)*{seg}s)}}{kf}</style>
 <div class="blogs-strip-head">
 <h2>بخونین:</h2>
 <span class="blogs-tag">Drs' Choice</span>
 </div>
-<div class="blogs-track-mask"><div class="blogs-track">{half}{half}</div></div>
+<div class="pushbox">{items}</div>
 </section>
 {HOME_SLIDER_END}"""
 
