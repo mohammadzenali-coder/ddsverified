@@ -81,4 +81,5 @@ def test_pagination_files_and_stale_cleanup(tmp_path):
     f.write_page(payload, 2)
     assert os.path.exists(os.path.join(OUT, "list-2.json"))
     os.remove(old)  # main() cleans stale pages; simulate its sweep
+    os.remove(os.path.join(OUT, "list-2.json"))  # test must not pollute real output
     assert not os.path.exists(old)
