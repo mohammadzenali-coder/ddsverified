@@ -62,7 +62,7 @@ def product_title(p: dict, data: dict) -> str:
     parts = [shape]
     grit = color_fa(p.get("grit", ""))
     if grit and grit != "-":
-        parts.append(f"گریت {grit}")
+        parts.append(f"دور {grit}")
     if p.get("diameter") and p["diameter"] != "-":
         parts.append(f"سایز {p['diameter']}")
     return " — ".join(parts)

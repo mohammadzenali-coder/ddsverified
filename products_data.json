@@ -532,7 +532,8 @@
       "length": "-",
       "grit": "-",
       "inventory": 36,
-      "multiplier": 1
+      "multiplier": 1,
+      "price": 980000
     }
   ]
 }

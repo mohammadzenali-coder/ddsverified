@@ -1061,8 +1061,8 @@ const PRODUCTS = [
   // Round End Cylinder (SR)
   {shape:"round_end_cylinder",model:"SR-21C",iso:"806 314 141 534 014",usa:"881-014C",diameter:"014",length:"6.0",grit:"G🟢",inventory:60},
   {shape:"round_end_cylinder",model:"SR-12C",iso:"806 314 141 534 014",usa:"881-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:40},
-  // Carbide (EndoZ) — same base price as others
-  {shape:"carbide",model:"ENDO-Z TI",iso:"807 314 001 524 021",usa:"953-015M",diameter:"-",length:"-",grit:"-",inventory:36, multiplier:1}
+  // Carbide (EndoZ) — premium pricing
+  {shape:"carbide",model:"ENDO-Z TI",iso:"807 314 001 524 021",usa:"953-015M",diameter:"-",length:"-",grit:"-",inventory:36, multiplier:1, price:980000}
 ];
 
 // ==========================================
@@ -1319,7 +1319,7 @@ function updateCart() {
   const freeShipUnlocked = totalBurs >= FREE_SHIPPING_THRESHOLD;
   const effectiveShipping = freeShipUnlocked ? 0 : SHIPPING_COST;
   const finalTotal = subtotal - discountAmount + effectiveShipping;
-  const pricePerBur = Math.round(PRICE_PER_BUR * (1 - discount / 100));
+  const pricePerBur = Math.round(Math.min(...items.map(i => i.product.price || PRICE_PER_BUR), PRICE_PER_BUR) * (1 - discount / 100));
 
   // Gamification Section at the Top
   const nextInfo = getNextDiscountInfo(totalBurs);
@@ -1375,7 +1375,7 @@ function updateCart() {
     return `
       <div class="cart-item">
         <div class="cart-item-line1">${toPersian(burCount)} عدد ${shapeName} قطر ${toPersianDigits(product.diameter)} دور ${gritDisp} <span class="cart-item-model">${product.model}</span></div>
-        <div class="cart-item-line2">${toPersian(burCount)} * (${toPersian(PRICE_PER_BUR)} تومان)</div>
+        <div class="cart-item-line2">${toPersian(burCount)} * (${toPersian(product.price || PRICE_PER_BUR)} تومان)</div>
         <div class="cart-item-controls">
           <div class="stepper">
             <button class="step-btn" data-model="${product.model}" data-delta="-1" aria-label="کاهش تعداد">−</button>
