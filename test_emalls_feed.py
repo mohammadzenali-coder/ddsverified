@@ -36,7 +36,21 @@ def test_every_product_has_required_fields():
         assert isinstance(p["price"], int) and p["price"] > 0
         assert p["is_available"] is True
         assert p["image"].startswith("https://ddsverified.ir/images/")
-        assert p["url"].startswith("https://ddsverified.ir/category/")
+        assert p["url"].startswith("https://ddsverified.ir/product/")
+
+
+def test_urls_point_to_existing_product_pages():
+    data = f.load_data()
+    d = _load()
+    site_root = f.SITE_ROOT
+    for prod in d["products"]:
+        path = os.path.join(site_root, f.product_page_url(prod["id"]).rstrip("/"), "index.html")
+        assert os.path.exists(path), f"missing product page for {prod['id']}"
+    # no orphan product pages either (pages without feed entries)
+    feed_ids = {f.anchor_id(p["id"]) for p in d["products"]}
+    pdir = os.path.join(site_root, "product")
+    on_disk = {e for e in os.listdir(pdir) if os.path.isdir(os.path.join(pdir, e))}
+    assert on_disk == feed_ids
 
 
 def test_urls_match_category_pages_and_anchors():
@@ -45,10 +59,12 @@ def test_urls_match_category_pages_and_anchors():
     by_id = {p["id"]: p for p in d["products"]}
     assert "TC-21EF" in by_id
     p = by_id["TC-21EF"]
-    assert p["url"] == "https://ddsverified.ir/category/needle-burs/#tc-21ef"
-    # ENDO-Z TI anchor scheme (space dropped, internal hyphen kept)
-    assert by_id["ENDO-Z TI"]["url"].endswith("/endoz-carbide-burs/#endo-zti")
-    # every referenced category slug must exist in the locked SLUGS map
+    assert p["url"] == "https://ddsverified.ir/product/tc-21ef/"
+    # ENDO-Z TI slug scheme (space dropped, internal hyphen kept)
+    assert by_id["ENDO-Z TI"]["url"] == "https://ddsverified.ir/product/endo-zti/"
+    # category anchor version is still generated (homepage buy CTAs rely on it)
+    assert f.anchor_id("ENDO-Z TI") == "endo-zti"
+    # every product's shape must exist in the locked SLUGS map
     for prod in data["products"]:
         assert prod["shape"] in f.SLUGS
 

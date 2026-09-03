@@ -1,3 +1,5 @@
+import re
+
 import generate_pages as g
 
 
@@ -41,3 +43,49 @@ def test_every_category_page_has_canonical_and_models():
         html = g.build_category_page(key, data)
         assert html.count('rel="canonical"') == 1, key
         assert "/index.html#" in html, key              # at least one buy CTA
+
+
+# ------------------------------------------------ per-product pages (Option A) ----
+
+def test_product_page_url_scheme():
+    assert g.product_page_url("TC-21EF") == "product/tc-21ef/"
+    assert g.product_page_url("ENDO-Z TI") == "product/endo-zti/"
+
+
+def test_every_product_page_generated_and_unique_content():
+    data = g.load_data()
+    models = [p["model"] for p in data["products"]]
+    assert len(models) == len(set(models))
+    for p in data["products"]:
+        html = g.build_product_page(p, data)
+        slug = g.anchor_id(p["model"])
+        # self-canonical on its own URL
+        assert f'rel="canonical" href="https://ddsverified.ir/product/{slug}/"' in html, p["model"]
+        # Product JSON-LD with its own price + availability
+        assert '"@type":"Product"' in html.replace(" ", "") or '"@type": "Product"' in html, p["model"]
+        assert str(p.get("price") or data["price_per_bur"]) in html, p["model"]
+        # unique per-model title
+        assert p["model"] in html.split("<title>")[1].split("</title>")[0], p["model"]
+
+
+def test_product_page_json_ld_parses_and_matches_data():
+    import json as _json
+    data = g.load_data()
+    p = next(x for x in data["products"] if x["model"] == "TC-21EF")
+    html = g.build_product_page(p, data)
+    lds = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+    prod = [_json.loads(x) for x in lds if '"Product"' in x]
+    assert len(prod) == 1
+    assert prod[0]["sku"] == "TC-21EF"
+    price = p.get("price") or data["price_per_bur"]
+    assert prod[0]["offers"]["price"] == price
+    assert prod[0]["url"] == "https://ddsverified.ir/product/tc-21ef/"
+
+
+def test_category_pages_link_to_product_pages_and_sitemap_lists_them():
+    data = g.load_data()
+    cat_html = g.build_category_page("needle", data)
+    assert '/product/tc-21ef/' in cat_html            # H3 deep link
+    sitemap = g.build_sitemap(data)
+    assert "<loc>https://ddsverified.ir/product/tc-21ef/</loc>" in sitemap
+    assert sitemap.count("product/") == len(data["products"])

@@ -69,6 +69,11 @@ def cat_url(shape_key: str) -> str:
     return f"category/{SLUGS[shape_key]}/"
 
 
+def product_page_url(model: str) -> str:
+    """Static per-product page path (Torob/Emalls-friendly, crawlable URL)."""
+    return f"product/{anchor_id(model)}/"
+
+
 def img_rel(model: str) -> str:
     """Absolute image path — safe from any page depth (/category/<slug>/ included)."""
     return quote(f"{BASE}/images/{model.lower()}.webp", safe="/:")
@@ -301,6 +306,8 @@ def build_sitemap(data, posts=None) -> str:
     urls = [("", "1.0"), ("blog/", "0.6")]
     for key in group_by_page(data):
         urls.append((cat_url(key), "0.9"))
+    for p in sorted(data["products"], key=lambda x: x["model"]):
+        urls.append((product_page_url(p["model"]), "0.8"))
     for p in (posts or []):
         urls.append((f"blog/{p['slug']}/", "0.7"))
     today = __import__("datetime").date.today().isoformat()
@@ -327,11 +334,13 @@ h2{font-size:1.05rem;color:#0d47a1;margin:18px 0 10px}
 .faq summary{cursor:pointer;font-weight:700;color:#37474f}.related a{display:inline-block;background:#fff;border:1px solid #dce3ec;border-radius:20px;padding:4px 12px;margin:3px;text-decoration:none;color:#1565c0;font-size:.82rem}
 .trust{display:flex;gap:10px;font-size:.75rem;color:#455a64;margin:16px 0;flex-wrap:wrap}
 header{background:#1565c0;color:#fff}header .wrap{padding:12px 14px}header a{color:#fff;text-decoration:none;font-weight:800;font-size:.95rem}
+.model-head h3 a{color:#1565c0;text-decoration:none}
 footer{text-align:center;font-size:.72rem;color:#78909c;padding:18px}"""
 
 
-def _layout(title, description, canonical_path, crumbs_html, body_html, extra_head=""):
+def _layout(title, description, canonical_path, crumbs_html, body_html, extra_head="", og_image=None):
     canon = f"{BASE}/{canonical_path}"
+    og_img = og_image or f"{BASE}/logo.webp"
     return f"""<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -345,7 +354,7 @@ def _layout(title, description, canonical_path, crumbs_html, body_html, extra_he
 <meta property="og:description" content="{description}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{canon}">
-<meta property="og:image" content="{BASE}/logo.webp">
+<meta property="og:image" content="{og_img}">
 <meta property="og:site_name" content="DDSVerified">
 <meta property="og:locale" content="fa_IR">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -377,7 +386,7 @@ def _model_block(p, shape_name_short, data):
     stock_badge = '<span class="stock in">موجود</span>' if in_stock else '<span class="stock out">ناموجود</span>'
     return f"""
 <section class="model-block" id="{anchor_id(model)}">
-  <div class="model-head"><h3>فرز {shape_name_short} مدل {model}</h3>{stock_badge}</div>
+  <div class="model-head"><h3><a href="/{product_page_url(model)}">فرز {shape_name_short} مدل {model}</a></h3>{stock_badge}</div>
   <div class="mbody">
     <img src="{img_rel(model)}" alt="{alt}" width="267" height="400" loading="lazy">
     <table class="specs-t">
@@ -446,6 +455,95 @@ def build_category_page(shape_key, data):
 <div class="trust">✅ تست توسط دندانپزشک &nbsp;·&nbsp; 🇩🇪 گواهی TÜV Rheinland آلمان &nbsp;·&nbsp; 📦 ارسال سراسر ایران &nbsp;·&nbsp; 💰 تخفیف پلکانی تا ۱۰٪</div>"""
     crumbs = f'<a href="/">خانه</a> › {short}'
     return _layout(title, desc, slug_url, crumbs, body, extra)
+
+
+def build_product_page(p, data) -> str:
+    """Per-product static page (Option A): full spec content, Product JSON-LD,
+    self-canonical /product/<model>/ — the crawlable URL Torob/Emalls fetchers need."""
+    model = p["model"]
+    shape_key = p["shape"]
+    sname = shape_fa(shape_key, data)
+    short = sname.replace("فرز دندانپزشکی ", "").replace("فرز ", "", 1) if sname.startswith("فرز") else sname
+    slug = anchor_id(model)
+    page_path = product_page_url(model)
+    cat_path = cat_url(shape_key)
+    price = p.get("price") or data["price_per_bur"]
+    in_stock = p["inventory"] > 0
+    grit_fa = data["grits"].get(p["grit"], "-")
+
+    # --- unique spec-driven sentences (only fields this product actually has) ---
+    spec_bits = []
+    if p.get("diameter") not in (None, "", "-"):
+        spec_bits.append(f"قطر سر کاری {fa(p['diameter'])} میلی‌متر (استاندارد ISO {fa(p['diameter'])})")
+    if p.get("length") not in (None, "", "-"):
+        spec_bits.append(f"طول شنک {fa(p['length'])} میلی‌متر")
+    if grit_fa != "-":
+        spec_bits.append(f"دور الماسی {grit_fa}")
+    if p.get("usa"):
+        spec_bits.append(f"معادل کد آمریکا {p['usa']}")
+    spec_sentence = "به‌همراه " + "، ".join(spec_bits) + " است." if spec_bits else ""
+    pack_note = "تک‌فروشی (هر عدد جداگانه)" if p.get("multiplier") == 1 else f"بسته {fa(data['burs_per_pack'])} عددی"
+    clinical = INTROS.get(shape_key, f"{sname} یکی از خانواده‌های پرکاربرد فرزهای دندانپزشکی است.")
+
+    siblings = [q for q in group_by_page(data)[shape_key] if q["model"] != model]
+    sib_html = "".join(
+        f'<a href="/{product_page_url(q["model"])}">{q["model"]}</a>' for q in siblings)
+    stock_badge = '<span class="stock in">موجود در انبار</span>' if in_stock else '<span class="stock out">ناموجود</span>'
+
+    title = f"فرز {short} {model} | قیمت و مشخصات | DDSVerified"
+    desc = (f"فرز دندانپزشکی {short} مدل {model} — {spec_bits[0] if spec_bits else sname}، تست‌شده توسط دندانپزشک، "
+            f"دارای کد ISO و معادل USA، ارسال به سراسر ایران. قیمت {fmt_price(price)} تومان.")
+    body = f"""
+<h1>فرز {short} مدل {model}</h1>
+<div class="intro"><p>{sname} مدل <strong>{model}</strong> {spec_sentence} این فرز {clinical.strip()}</p>
+<p>همه فرزهای DDSVerified پیش از ارسال شخصاً توسط دندانپزشک تست و بررسی و آزمایش می‌شوند و دارای گواهی TÜV Rheinland آلمان و استاندارد ISO هستند.</p></div>
+<section class="model-block">
+  <div class="model-head"><h3>مشخصات فنی فرز {model}</h3>{stock_badge}</div>
+  <div class="mbody">
+    <img src="{img_rel(model)}" alt="فرز {short} مدل {model} دندانپزشکی" width="267" height="400" loading="lazy">
+    <table class="specs-t">
+      <tr><td>مدل</td><td dir="ltr">{model}</td></tr>
+      <tr><td>خانواده</td><td><a href="/{cat_path}">{sname}</a></td></tr>
+      {'<tr><td>قطر</td><td>' + fa(p['diameter']) + '</td></tr>' if p.get("diameter") not in (None, "", "-") else ''}
+      {'<tr><td>طول</td><td>' + fa(p['length']) + ' mm</td></tr>' if p.get("length") not in (None, "", "-") else ''}
+      <tr><td>دور (گریت)</td><td>{grit_fa}</td></tr>
+      <tr><td>کد ISO</td><td dir="ltr">{p.get('iso', '−')}</td></tr>
+      <tr><td>کد USA</td><td dir="ltr">{p.get('usa', '−')}</td></tr>
+      <tr><td>بسته‌بندی</td><td>{pack_note}</td></tr>
+      <tr><td>موجودی</td><td>{fa(p['inventory'])} عدد</td></tr>
+    </table>
+  </div>
+  <p class="price">{fmt_price(price)} تومان <small>/ هر عدد</small></p>
+  <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model} — افزودن به سبد خرید</a>
+</section>
+<div class="trust">✅ تست توسط دندانپزشک &nbsp;·&nbsp; 🇩🇪 گواهی TÜV Rheinland آلمان &nbsp;·&nbsp; 📦 ارسال سراسر ایران &nbsp;·&nbsp; 💰 تخفیف پلکانی تا ۱۰٪</div>
+<h2>سایر مدل‌های {short}</h2>
+<div class="related">{sib_html}</div>
+<p><a class="cta" href="/{cat_path}">← مشاهده همه مدل‌های {short}</a></p>"""
+
+    ld_product = json.dumps({"@context": "https://schema.org", "@type": "Product",
+                             "name": f"فرز {short} مدل {model}",
+                             "image": img_rel(model),
+                             "description": desc,
+                             "sku": model,
+                             "brand": {"@type": "Brand", "name": "DDSVerified"},
+                             "url": f"{BASE}/{page_path}",
+                             "offers": {"@type": "Offer",
+                                        "url": f"{BASE}/{page_path}",
+                                        "priceCurrency": "IRR",
+                                        "price": price,
+                                        "itemCondition": "https://schema.org/NewCondition",
+                                        "availability": "https://schema.org/InStock" if in_stock else "https://schema.org/OutOfStock"}},
+                            ensure_ascii=False)
+    ld_bc = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "خانه", "item": f"{BASE}/"},
+        {"@type": "ListItem", "position": 2, "name": short, "item": f"{BASE}/{cat_path}"},
+        {"@type": "ListItem", "position": 3, "name": f"فرز {short} {model}", "item": f"{BASE}/{page_path}"}]},
+        ensure_ascii=False)
+    extra = (f'<script type="application/ld+json">{ld_product}</script>\n'
+             f'<script type="application/ld+json">{ld_bc}</script>')
+    crumbs = f'<a href="/">خانه</a> › <a href="/{cat_path}">{short}</a> › {model}'
+    return _layout(title, desc, page_path, crumbs, body, extra, og_image=img_rel(model))
 
 
 # ------------------------------------------------- homepage Drs Choice slider ----
@@ -531,6 +629,13 @@ def main():
         os.makedirs(d, exist_ok=True)
         with open(f"{d}/index.html", "w", encoding="utf-8", newline="\n") as f:
             f.write(build_category_page(key, data))
+        n += 1
+    os.makedirs("product", exist_ok=True)
+    for p in sorted(data["products"], key=lambda x: x["model"]):
+        d = f"product/{anchor_id(p['model'])}"
+        os.makedirs(d, exist_ok=True)
+        with open(f"{d}/index.html", "w", encoding="utf-8", newline="\n") as f:
+            f.write(build_product_page(p, data))
         n += 1
     os.makedirs("blog", exist_ok=True)
     with open("blog/index.html", "w", encoding="utf-8", newline="\n") as f:

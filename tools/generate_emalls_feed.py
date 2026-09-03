@@ -24,7 +24,7 @@ DEFAULT_ITEM_PER_PAGE = 50
 DEFAULT_GUARANTEE = "تست و بررسی و آزمایش شده توسط دندانپزشک قبل از ارسال"
 
 sys.path.insert(0, SITE_ROOT)
-from generate_pages import SLUGS, anchor_id  # noqa: E402  (single source of truth)
+from generate_pages import SLUGS, anchor_id, product_page_url  # noqa: E402  (single source of truth)
 
 
 def load_data() -> dict:
@@ -36,8 +36,8 @@ def shape_fa(key: str, data: dict) -> str:
 
 
 def product_url(shape_key: str, model: str, data: dict) -> str:
-    slug = SLUGS[shape_key]
-    return f"{BASE}/category/{slug}/#{anchor_id(model)}"
+    # Static per-product page (crawlable URL for Torob/Emalls fetchers)
+    return f"{BASE}/{product_page_url(model)}"
 
 
 def image_url(model: str) -> str:
