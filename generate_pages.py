@@ -484,6 +484,8 @@ def build_product_page(p, data) -> str:
     spec_sentence = "به‌همراه " + "، ".join(spec_bits) + " است." if spec_bits else ""
     pack_note = "تک‌فروشی (هر عدد جداگانه)" if p.get("multiplier") == 1 else f"بسته {fa(data['burs_per_pack'])} عددی"
     clinical = INTROS.get(shape_key, f"{sname} یکی از خانواده‌های پرکاربرد فرزهای دندانپزشکی است.")
+    # avoid "این فرز فرز ..." collision when the clinical intro starts with «فرز»
+    clinical_lead = "" if clinical.startswith("فرز") else "این فرز "
 
     siblings = [q for q in group_by_page(data)[shape_key] if q["model"] != model]
     sib_html = "".join(
@@ -495,7 +497,7 @@ def build_product_page(p, data) -> str:
             f"دارای کد ISO و معادل USA، ارسال به سراسر ایران. قیمت {fmt_price(price)} تومان.")
     body = f"""
 <h1>فرز {short} مدل {model}</h1>
-<div class="intro"><p>{sname} مدل <strong>{model}</strong> {spec_sentence} این فرز {clinical.strip()}</p>
+<div class="intro"><p>{sname} مدل <strong>{model}</strong> {spec_sentence} {clinical_lead}{clinical.strip()}</p>
 <p>همه فرزهای DDSVerified پیش از ارسال شخصاً توسط دندانپزشک تست و بررسی و آزمایش می‌شوند و دارای گواهی TÜV Rheinland آلمان و استاندارد ISO هستند.</p></div>
 <section class="model-block">
   <div class="model-head"><h3>مشخصات فنی فرز {model}</h3>{stock_badge}</div>
