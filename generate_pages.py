@@ -363,7 +363,7 @@ def _layout(title, description, canonical_path, crumbs_html, body_html, extra_he
 {extra_head}
 </head>
 <body>
-<header><div class="wrap"><a href="/">DDSVerified — مرکز تخصصی فرزهای دندانپزشکی</a></div></header>
+<header><div class="wrap"><a href="/">مرکز تخصصی فرزهای دندانپزشکی | DDSVerified</a></div></header>
 <div class="wrap">
 <nav class="crumbs">{crumbs_html}</nav>
 {body_html}
