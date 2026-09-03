@@ -428,6 +428,9 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .product-card:hover .product-img-wrap img{transform:scale(1.08)}
 .product-shape{font-size:.92rem;font-weight:700;color:var(--primary-dark);margin-bottom:2px}
 .product-model{font-size:.74rem;color:var(--text-light);margin-bottom:8px;letter-spacing:.3px;font-weight:600}
+.product-model a{color:inherit;text-decoration:none}
+.product-model a:hover{color:var(--primary,#1565c0)}
+.product-img-link{display:block}
 .product-specs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
 .spec-tag{font-size:.68rem;padding:3px 7px;background:var(--bg);border-radius:6px;color:var(--text-light);border:1px solid var(--border)}
 .spec-tag.grit{font-weight:700}
@@ -1090,6 +1093,8 @@ const SHAPE_MAP = {
 const GRIT_DISPLAY = {"Y🟡":"زرد 🟡","R🔴":"قرمز 🔴","B🔵":"آبی 🔵","G🟢":"سبز 🟢","K⚫":"مشکی ⚫","-":"-"};
 const GRIT_TEXT = {"Y🟡":"زرد","R🔴":"قرمز","B🔵":"آبی","G🟢":"سبز","K⚫":"مشکی","-":"-"};
 const PRICE_PER_BUR = 98000;
+// per-product page slug — must mirror generate_pages.anchor_id (space dropped, alnum+hyphen kept)
+const productSlug = m => m.toLowerCase().replace(/ /g, "").replace(/[^a-z0-9-]/g, "");
 const BURS_PER_PACK = 5;
 const MAX_DISCOUNT = 10; // 10% (max)
 const DISCOUNT_STEP = 0.1; // 0.1% per 5 burs
@@ -1158,10 +1163,12 @@ function renderProducts() {
     return `
       <article class="product-card ${inStock ? '' : 'out-of-stock'}">
         <div class="product-img-wrap">
+          <a class="product-img-link" href="/product/${productSlug(p.model)}/" aria-label="صفحه محصول ${p.model}">
           <img src="images/${p.model.toLowerCase()}.webp" alt="${altText}" width="267" height="400" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
+          </a>
         </div>
         <div class="product-shape">${shapeName}</div>
-        <div class="product-model">${p.model}</div>
+        <div class="product-model"><a href="/product/${productSlug(p.model)}/">${p.model}</a></div>
         <div class="product-specs">
           ${p.diameter !== "-" ? `<span class="spec-tag">قطر: ${toPersianDigits(p.diameter)}</span>` : ''}
           ${lengthTag}

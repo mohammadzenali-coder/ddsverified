@@ -510,7 +510,6 @@ def build_product_page(p, data) -> str:
       <tr><td>کد ISO</td><td dir="ltr">{p.get('iso', '−')}</td></tr>
       <tr><td>کد USA</td><td dir="ltr">{p.get('usa', '−')}</td></tr>
       <tr><td>بسته‌بندی</td><td>{pack_note}</td></tr>
-      <tr><td>موجودی</td><td>{fa(p['inventory'])} عدد</td></tr>
     </table>
   </div>
   <p class="price">{fmt_price(price)} تومان <small>/ هر عدد</small></p>
