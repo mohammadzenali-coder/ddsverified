@@ -851,7 +851,7 @@ footer a{color:var(--primary);text-decoration:none}
 
   <!-- جدول قیمت پلکانی عمده — New Price Policy -->
   <section class="tier-section" aria-label="جدول قیمت عمده فرز دندانپزشکی">
-    <h2>🎬 قیمت پلکانی فرزها — هرچی بیشتر، بصرفه تر!</h2>
+    <h2>🎬 قیمت پلکانی فرزها — هرچی بیشتر، ارزون‌تر!</h2>
     <p class="tier-hint">در سبد خرید، پله های تخفیف خودشو باز می‌شن 🎁</p>
     <div class="tier-table-wrap">
       <table class="tier-table" id="tierTable">
@@ -1043,20 +1043,22 @@ footer a{color:var(--primary);text-decoration:none}
 //  DATA — 50 Dental Bur Products
 // ==========================================
 const PRODUCTS = [
-
-  {shape:"needle",model:"TC-26EF",iso:"806 314 164 504 012",usa:"852-012EF",diameter:"012",length:"6.0",grit:"Y🟡",inventory:101},
+  // Needle
+  {shape:"needle",model:"TC-26EF",iso:"806 314 164 504 012",usa:"852-012EF",diameter:"012",length:"6.0",grit:"Y🟡",inventory:100},
   {shape:"needle",model:"TC-21EF",iso:"806 314 165 504 014",usa:"858-014EF",diameter:"014",length:"8.0",grit:"Y🟡",inventory:150},
   {shape:"needle",model:"TC-28EF",iso:"806 314 166 504 012",usa:"859-012EF",diameter:"012",length:"10",grit:"Y🟡",inventory:150},
   {shape:"needle",model:"TC-26",iso:"806 314 164 524 012",usa:"852-012M",diameter:"012",length:"6.0",grit:"B🔵",inventory:300},
   {shape:"needle",model:"TC-21C",iso:"806 314 165 534 014",usa:"858-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:400},
   {shape:"needle",model:"TC-27",iso:"806 314 166 524 010",usa:"859-010M",diameter:"010",length:"10",grit:"B🔵",inventory:300},
   {shape:"needle",model:"TC-10C",iso:"806 314 165 534 014",usa:"858-014C",diameter:"014",length:"10",grit:"G🟢",inventory:400},
+  // Flat Cylinder / Fissure
   {shape:"flat_cylinder",model:"SF-41",iso:"806 314 109 524 010",usa:"835-010M",diameter:"010",length:"4.0",grit:"B🔵",inventory:300},
   {shape:"flat_cylinder",model:"SF-31C",iso:"806 314 109 534 012",usa:"835-012C",diameter:"012",length:"4.0",grit:"G🟢",inventory:400},
   {shape:"flat_cylinder",model:"SF-20C",iso:"806 314 109 534 012",usa:"835-012C",diameter:"012",length:"6.0",grit:"G🟢",inventory:400},
   {shape:"flat_cylinder",model:"SF-21C",iso:"806 314 110 534 014",usa:"836-014C",diameter:"014",length:"6.0",grit:"G🟢",inventory:400},
   {shape:"flat_cylinder",model:"SF-11C",iso:"806 314 111 534 012",usa:"837-012C",diameter:"012",length:"8.0",grit:"G🟢",inventory:400},
   {shape:"flat_cylinder",model:"SF-13C",iso:"806 314 111 534 016",usa:"837-016C",diameter:"016",length:"8.0",grit:"G🟢",inventory:200},
+  // Flat Taper (RS & TF separated based on your request)
   {shape:"taper_round_edge",model:"RS-11",iso:"806 314 553 524 019",usa:"848KR-018M",diameter:"019",length:"10.5",grit:"B🔵",inventory:100},
   {shape:"taper_round_edge",model:"RS-21",iso:"806 314 545 524 018",usa:"846KR-018M",diameter:"018",length:"7.5",grit:"B🔵",inventory:100},
   {shape:"taper_flat",model:"TF-20C",iso:"806 314 171 534 014",usa:"846-014C",diameter:"014",length:"6.5",grit:"G🟢",inventory:200},
@@ -1064,37 +1066,46 @@ const PRODUCTS = [
   {shape:"taper_flat",model:"TF-56C",iso:"806 314 173 534 018",usa:"848-018C",diameter:"018",length:"8.0",grit:"G🟢",inventory:250},
   {shape:"taper_flat",model:"TF-12C",iso:"806 314 173 534 016",usa:"848-016C",diameter:"016",length:"10",grit:"G🟢",inventory:250},
   {shape:"taper_flat",model:"TF-13C",iso:"806 314 173 544 018",usa:"848-018SC",diameter:"018",length:"10",grit:"G🟢",inventory:250},
+  // Flame
   {shape:"flame",model:"FO-21C",iso:"806 314 249 534 014",usa:"862-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:100},
   {shape:"flame",model:"FO-11C",iso:"806 314 250 534 012",usa:"863-012C",diameter:"012",length:"10",grit:"G🟢",inventory:100},
   {shape:"flame_long",model:"FO-40EF",iso:"806 314 540  504 010",usa:"889-010EF",diameter:"010",length:"4.3",grit:"Y🟡",inventory:300},
   {shape:"flame",model:"FO-41EF",iso:"806 314 248 504 012",usa:"861-012EF",diameter:"012",length:"6.0",grit:"Y🟡",inventory:200},
   {shape:"flame",model:"FO-21EF",iso:"806 314 249 504 014",usa:"862-014EF",diameter:"014",length:"8.0",grit:"Y🟡",inventory:300},
   {shape:"flame",model:"FO-11EF",iso:"806 314 250 504 012",usa:"863-012EF",diameter:"012",length:"10",grit:"Y🟡",inventory:200},
+  // Round Taper (TR)
   {shape:"round_taper",model:"TR-24C",iso:"806 314 198 534 016",usa:"856-016C",diameter:"016",length:"8.0",grit:"G🟢",inventory:200},
   {shape:"round_taper",model:"TR-25C",iso:"806 314 198 534 014",usa:"856-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:200},
   {shape:"round_taper",model:"TR-13C",iso:"806 314 199 534 018",usa:"850-018C",diameter:"018",length:"9.0",grit:"G🟢",inventory:300},
   {shape:"round_taper",model:"TR-20EF",iso:"806 314 197 504 014",usa:"855-014EF",diameter:"014",length:"6.5",grit:"Y🟡",inventory:100},
   {shape:"round_taper",model:"TR-25EF",iso:"806 314 198 504 014",usa:"856-014EF",diameter:"014",length:"8.0",grit:"Y🟡",inventory:100},
   {shape:"round_taper",model:"CR-12EF",iso:"806 314 199 504 016",usa:"850-016EF",diameter:"016",length:"4.0",grit:"Y🟡",inventory:100},
+  // Round (BR)
   {shape:"round",model:"BR-40C",iso:"806 314 001 534 016",usa:"801-016C",diameter:"016",length:"-",grit:"G🟢",inventory:200},
   {shape:"round",model:"BR-46C",iso:"806 314 001 534 012",usa:"801-012C",diameter:"012",length:"-",grit:"G🟢",inventory:400},
   {shape:"round",model:"BR-49",iso:"806 314 001 524 008",usa:"801-008M",diameter:"008",length:"-",grit:"B🔵",inventory:100},
   {shape:"round_long",model:"BR-L46",iso:"806 314 001 524 012",usa:"801-012M",diameter:"012",length:"-",grit:"B🔵",inventory:250},
+  // Torpedo (SO)
   {shape:"torpedo",model:"SO-21C",iso:"806 314 289 534 014",usa:"878-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:500},
+  // Football (FO)
   {shape:"football",model:"FO-30EF",iso:"806 314 257 504 016",usa:"368-016EF",diameter:"016",length:"3.2",grit:"Y🟡",inventory:100},
   {shape:"football",model:"FO-32EF",iso:"806 314 257 504 018",usa:"368-018EF",diameter:"018",length:"3.6",grit:"Y🟡",inventory:150},
   {shape:"football",model:"FO-34EF",iso:"806 314 257 504 023",usa:"368-023EF",diameter:"023",length:"5.0",grit:"Y🟡",inventory:50},
   {shape:"football",model:"FO-32C",iso:"806 314 257 534 018",usa:"368-018C",diameter:"018",length:"3.6",grit:"G🟢",inventory:200},
+  // Inverted (SI)
   {shape:"inverted_cone",model:"SI-47C",iso:"806 314 010 534 014",usa:"805-014C",diameter:"014",length:"-",grit:"G🟢",inventory:100},
-  {shape:"barrel",model:"EX-11S",iso:"806 314 038 544 032",usa:"811L-032SC",diameter:"032",length:"5.0",grit:"K⚫",inventory:50,multiplier:1},
-  {shape:"depth_veneer",model:"VP-22",iso:"806 314 552 524 021",usa:"834-021M",diameter:"0.5",length:"-",grit:"B🔵",inventory:100,multiplier:5},
-  {shape:"depth_veneer",model:"VP-21",iso:"806 314 552 524 018",usa:"834-018M",diameter:"0.4",length:"-",grit:"B🔵",inventory:100,multiplier:5},
-  {shape:"depth_veneer",model:"VP-20",iso:"806 314 552 524 016",usa:"834-016M",diameter:"0.3",length:"-",grit:"B🔵",inventory:100,multiplier:5},
+  // Double Barrel (EX) & Depth Cut (VP)
+  {shape:"barrel",model:"EX-11S",iso:"806 314 038 544 032",usa:"811L-032SC",diameter:"032",length:"5.0",grit:"K⚫",inventory:50, multiplier:1},
+  {shape:"depth_veneer",model:"VP-22",iso:"806 314 552 524 021",usa:"834-021M",diameter:"0.5",length:"-",grit:"B🔵",inventory:100, multiplier:5},
+  {shape:"depth_veneer",model:"VP-21",iso:"806 314 552 524 018",usa:"834-018M",diameter:"0.4",length:"-",grit:"B🔵",inventory:100, multiplier:5},
+  {shape:"depth_veneer",model:"VP-20",iso:"806 314 552 524 016",usa:"834-016M",diameter:"0.3",length:"-",grit:"B🔵",inventory:100, multiplier:5},
+  // Pointed Cylinder (CP)
   {shape:"pointed_cylinder",model:"CP-12C",iso:"806 314 167 534 014",usa:"859-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:100},
+  // Round End Cylinder (SR)
   {shape:"round_end_cylinder",model:"SR-21C",iso:"806 314 141 534 014",usa:"881-014C",diameter:"014",length:"6.0",grit:"G🟢",inventory:60},
   {shape:"round_end_cylinder",model:"SR-12C",iso:"806 314 141 534 014",usa:"881-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:40},
-  {shape:"carbide",model:"ENDO-Z TI",iso:"807 314 001 524 021",usa:"953-015M",diameter:"-",length:"-",grit:"-",inventory:36,multiplier:1,price:980000}
-
+  // Carbide (EndoZ) — premium pricing
+  {shape:"carbide",model:"ENDO-Z TI",iso:"807 314 001 524 021",usa:"953-015M",diameter:"-",length:"-",grit:"-",inventory:36, multiplier:1, price:980000}
 ];
 
 // ==========================================
