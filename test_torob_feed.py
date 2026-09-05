@@ -72,7 +72,7 @@ def test_known_product_content():
     assert ez["image_links"] == ["https://ddsverified.ir/images/endo-z%20ti.webp"]
     # TC-21EF: pack sale, yellow grit, size + ISO in spec
     y = d["tc-21ef"]
-    assert y["current_price"] == 98000
+    assert y["current_price"] == 126000
     assert y["spec"]["بسته‌بندی"] == "بسته ۵ عددی"
     assert y["spec"]["دور (گریت)"] == "زرد"
     assert y["spec"]["قطر"] == "014"  # matches site spec-table label (قطر)

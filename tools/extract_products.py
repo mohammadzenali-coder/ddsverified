@@ -23,7 +23,7 @@ def grab(name: str):
 
 
 data = {
-    "price_per_bur": 98000,
+    "price_per_bur": 126000,
     "burs_per_pack": 5,
     "shapes": grab("SHAPE_MAP"),
     "grits": grab("GRIT_TEXT"),
