@@ -517,6 +517,8 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .step-btn:hover{background:var(--primary-light);border-color:var(--primary)}
 .step-btn:active{transform:scale(.92)}
 .step-value{min-width:28px;text-align:center;font-weight:700;font-size:.88rem}
+.step-input{width:48px;height:30px;border:1.5px solid var(--border);border-radius:8px;text-align:center;font-weight:700;font-size:.88rem;font-family:inherit;color:var(--primary-dark);background:var(--surface)}
+.step-input:focus{outline:none;border-color:var(--primary);background:#fff}
 .cart-item-remove{background:none;border:none;color:var(--danger);cursor:pointer;font-size:.72rem;padding:4px 8px;font-family:inherit}
 .cart-item-remove:hover{text-decoration:underline}
 
@@ -850,7 +852,7 @@ footer a{color:var(--primary);text-decoration:none}
   <!-- جدول قیمت پلکانی عمده — New Price Policy -->
   <section class="tier-section" aria-label="جدول قیمت عمده فرز دندانپزشکی">
     <h2>🎬 قیمت پلکانی فرزها — هرچی بیشتر، ارزون‌تر!</h2>
-    <p class="tier-hint">مبلغ سبد رو بچینون، پلکانه‌ها خودش باز می‌شن 🎁 (پرداخت نقدی)</p>
+    <p class="tier-hint">در سبد خرید، پله های تخفیف خودشو باز می‌شن 🎁</p>
     <div class="tier-table-wrap">
       <table class="tier-table" id="tierTable">
         <thead>
@@ -1014,7 +1016,7 @@ footer a{color:var(--primary);text-decoration:none}
 <div class="bulk-modal" id="bulkModal">
   <button class="cart-close" id="bulkClose" style="position:absolute; top:10px; left:10px; background:#f0f0f0; color:#333;">✖</button>
   <h2>سفارشات بالای ۵۰۰۰ عدد؟</h2>
-  <p style="font-size:.85rem; color:var(--text-light); margin-bottom:20px;">برای سفارش بالای ۵۰۰۰ عدد و دریافت تخفیف ویژه، از راه‌های زیر در تماس باشید:</p>
+  <p style="font-size:.85rem; color:var(--text-light); margin-bottom:20px;">برای سفارش بالای ۵۰۰۰ عدد و دریافت تخفیف ویژه با شرایط ویژه پرداخت اقساطی، از راه‌های زیر در تماس باشید:</p>
   <a href="https://t.me/mamarza_znli" class="checkout-btn telegram" style="margin-bottom:10px; text-decoration:none;">تلگرام</a>
   <a href="https://wa.me/989367070089" class="checkout-btn whatsapp" style="margin-bottom:10px; text-decoration:none;">واتساپ</a>
   <a href="sms:09367070089" class="checkout-btn" style="background:#666; margin-bottom:10px; text-decoration:none;">پیامک</a>
@@ -1433,7 +1435,7 @@ function updateCart() {
         <div class="cart-item-controls">
           <div class="stepper">
             <button class="step-btn" data-model="${product.model}" data-delta="-1" aria-label="کاهش تعداد">−</button>
-            <span class="step-value">${toPersian(packCount)}</span>
+            <input class="step-input" type="text" inputmode="numeric" dir="ltr" value="${toPersianDigits(packCount)}" data-model="${product.model}" aria-label="تعداد بسته — عدد را دستی وارد کنید" title="تعداد بسته را دستی وارد کنید (هر بسته ${toPersian(mult)} عدد)">
             <button class="step-btn" data-model="${product.model}" data-delta="1" aria-label="افزایش تعداد">+</button>
           </div>
           <button class="cart-item-remove" data-model="${product.model}" data-action="remove">حذف</button>
@@ -1523,6 +1525,30 @@ cartBody.addEventListener('click', (e) => {
   if (stepBtn) { changePackCount(stepBtn.dataset.model, parseInt(stepBtn.dataset.delta)); return; }
   const removeBtn = e.target.closest('.cart-item-remove');
   if (removeBtn) removeItem(removeBtn.dataset.model);
+});
+
+/* ورود دستی تعداد بسته با کیبورد — اعداد فارسی/عربی/لاتین را می‌پذیرد */
+function parsePackCount(str) {
+  const fa = '۰۱۲۳۴۵۶۷۸۹', ar = '٠١٢٣٤٥٦٧٨٩';
+  const latin = String(str)
+    .replace(/[۰-۹]/g, d => fa.indexOf(d))
+    .replace(/[٠-٩]/g, d => ar.indexOf(d))
+    .replace(/[^0-9]/g, '');
+  if (!latin) return null;
+  const n = parseInt(latin, 10);
+  return n >= 1 ? n : null;
+}
+cartBody.addEventListener('change', (e) => {
+  const inp = e.target.closest('.step-input');
+  if (!inp) return;
+  const model = inp.dataset.model;
+  const parsed = parsePackCount(inp.value);
+  if (parsed === null || parsed === cart[model]) { updateCart(); return; } // نامعتبر/بدون تغییر → بازگردانی مقدار قبلی
+  cart[model] = Math.min(parsed, 99999);
+  updateCart();
+});
+cartBody.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && e.target.closest('.step-input')) { e.target.blur(); e.preventDefault(); }
 });
 
 cartFab.addEventListener('click', () => { cartDrawer.classList.add('open'); cartOverlay.classList.add('open'); });
