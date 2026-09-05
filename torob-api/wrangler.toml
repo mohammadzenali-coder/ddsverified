@@ -12,7 +12,9 @@
 name = "ddsverified-torob-api"
 main = "src/worker.js"
 compatibility_date = "2025-09-01"
-workers_dev = true
+# We deploy only via custom domain (api.ddsverified.ir) — no public
+# *.workers.dev URL needed, so the onboarding wizard doesn't ask for one.
+workers_dev = false
 
 routes = [
   { pattern = "api.ddsverified.ir", custom_domain = true }
