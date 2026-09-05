@@ -1,0 +1,19 @@
+{
+  "name": "ddsverified-torob-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Torob Product API v3 endpoint (Cloudflare Worker) for ddsverified.ir",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node --test --test-reporter=spec test/*.test.mjs"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260903.0",
+    "wrangler": "^4.25.0"
+  },
+  "dependencies": {
+    "jose": "^6.0.11"
+  }
+}

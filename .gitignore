@@ -4,3 +4,5 @@ _read_pdf.py
 __pycache__/
 .DS_Store
 .hermes/
+node_modules/
+torob-api/.wrangler/

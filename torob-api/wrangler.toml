@@ -1,0 +1,22 @@
+# Torob Product API v3 endpoint — Cloudflare Worker for ddsverified.ir
+#
+# Deploy (one-time setup, from torob-api/):
+#   1. npx wrangler login
+#   2. npx wrangler secret put JWT_PUBLIC_KEY
+#      -> paste the base64 body of Torob's public key (see README.md)
+#   3. npx wrangler deploy        # creates the api. DNS + cert automatically
+#
+# The route is a Custom Domain on the ddsverified.ir zone (same CF account as
+# the site). If the zone lives in another account, remove `routes` and use the
+# workers.dev URL that `wrangler deploy` prints instead.
+name = "ddsverified-torob-api"
+main = "src/worker.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+routes = [
+  { pattern = "api.ddsverified.ir", custom_domain = true }
+]
+
+# Torob's token guide: aud claim must equal the API hostname -> with this route
+# the expected aud is "api.ddsverified.ir".

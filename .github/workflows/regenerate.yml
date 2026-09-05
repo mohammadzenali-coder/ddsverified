@@ -1,4 +1,4 @@
-name: Regenerate static pages + Emalls feed
+name: Regenerate static pages + Emalls + Torob feeds
 
 on:
   push:
@@ -8,6 +8,8 @@ on:
       - "products_data.json"
       - "posts/**"
       - "tools/generate_emalls_feed.py"
+      - "tools/generate_torob_feed.py"
+      - "tools/torob_added.json"
       - "generate_pages.py"
   workflow_dispatch:
 
@@ -19,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -29,6 +33,7 @@ jobs:
           python tools/extract_products.py
           python generate_pages.py
           python tools/generate_emalls_feed.py
+          python tools/generate_torob_feed.py
 
       - name: Commit regenerated artifacts
         run: |
@@ -38,6 +43,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nothing to commit"
           else
-            git commit -m "chore: regenerate pages + emalls feed [skip ci]"
+            git commit -m "chore: regenerate pages + emalls + torob feed [skip ci]"
             git push
           fi
