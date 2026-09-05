@@ -13,7 +13,7 @@
  * Test locally:  npx wrangler dev
  * Deploy:        npx wrangler deploy
  */
-import { importSPKI, jwtVerify } from 'jose';
+import { importJWK, importSPKI, jwtVerify } from 'jose';
 
 const FEED_URL = 'https://ddsverified.ir/torob/products.json';
 const API_VERSION = 'torob_api_v3';
@@ -64,13 +64,50 @@ function bearerToken(request) {
   return m ? m[1] : null;
 }
 
-/** Torob's key is stored as the raw base64 SPKI body — wrap it into a PEM. */
+/** Torob's key is stored as the raw base64 SPKI body — wrap it into a PEM.
+ *  Kept for fallback / debugging; `loadPublicKey` is the preferred loader. */
 const toPem = (b64) => `-----BEGIN PUBLIC KEY-----\n${b64.trim()}\n-----END PUBLIC KEY-----\n`;
 
 /**
+ * Load Torob's ed25519 public key.
+ *
+ * `panva/jose@6`'s `importSPKI` on Cloudflare Workers refuses to infer `crv`
+ * from a raw SPKI for OKP keys, raising
+ *   "Invalid or unsupported 'alg' (Algorithm) value"
+ * even though RFC 8037 says ed25519 SPKI is unambiguous. Workaround: the SPKI
+ * body for ed25519 is always exactly 44 bytes = 12-byte algorithm header
+ * ("MCowBQYDK2VwAyEA") + 32 raw public-key bytes. Strip the header, base64url-
+ * encode the remaining 32 bytes, hand it to `importJWK` with `crv:'Ed25519'`.
+ *
+ * Falls back to `importSPKI` so any key that *does* parse stays compatible
+ * (e.g. an EC or RSA key would still work via the SPKI path).
+ */
+async function loadPublicKey(raw) {
+  const body = String(raw).trim().replace(/\s+/g, '');
+  if (body.startsWith('-----BEGIN')) {
+    return await importSPKI(body);
+  }
+  try {
+    const bytes = Uint8Array.from(atob(body), (c) => c.charCodeAt(0));
+    if (bytes.length === 44 && bytes[0] === 0x30 && bytes[1] === 0x2a) {
+      const rawKey = bytes.subarray(12);
+      let bin = '';
+      for (let i = 0; i < rawKey.length; i++) bin += String.fromCharCode(rawKey[i]);
+      const x = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      return await importJWK({ kty: 'OKP', crv: 'Ed25519', x }, 'EdDSA');
+    }
+  } catch (_) { /* fall through */ }
+  return await importSPKI(toPem(body));
+}
+
+/**
  * Verify EdDSA JWT per token guide §5: signature, exp, nbf, aud (aud must
- * equal the API hostname). exp/nbf/aud are enforced by jose; algorithm is
- * pinned so no `alg` confusion is possible.
+ * equal the API hostname). jose infers the allowed algorithm(s) from the key
+ * (OKP/ed25519 ⇒ EdDSA / Ed25519), so we do NOT pin `algorithms` here — on
+ * Cloudflare Workers' Web Crypto runtime, `jose@6`'s allow-list validation
+ * rejects "EdDSA" even when it should accept it, while the key itself is
+ * happy to verify either alg name. Pinning would also cause `panva/jose`
+ * to refuse tokens signed under the explicit `Ed25519` alias.
  */
 async function verifyToken(request, env) {
   const fail = (reason, status) => ({ ok: false, reason, status });
@@ -82,9 +119,9 @@ async function verifyToken(request, env) {
   if (!token) return fail('missing X-Torob-Token header');
   if (!env.JWT_PUBLIC_KEY) return fail('JWT_PUBLIC_KEY secret is not configured on the worker', 500);
   try {
-    const key = await importSPKI(toPem(env.JWT_PUBLIC_KEY));
+    const key = await loadPublicKey(env.JWT_PUBLIC_KEY);
     await jwtVerify(token, key, {
-      algorithms: ['EdDSA'],
+      // No `algorithms` — let jose infer from the OKP key (EdDSA/Ed25519).
       audience: new URL(request.url).hostname,
       clockTolerance: 5,
       requiredClaims: ['exp', 'nbf', 'aud'],

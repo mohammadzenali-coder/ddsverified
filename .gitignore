@@ -6,3 +6,4 @@ __pycache__/
 .hermes/
 node_modules/
 torob-api/.wrangler/
+torob-api/.dev.vars
