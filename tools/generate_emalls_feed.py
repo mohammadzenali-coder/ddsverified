@@ -6,6 +6,11 @@ with per-product
   {title*, id, price*, old_price?, category*, image*, color?, guarantee?, is_available*, url*}
 Prices in Toman. URL/image must be absolute (protocol + domain).
 
+Feed price = what the buyer actually pays for the item as sold. The standard
+line ships as a 5-bur pack, so its feed price is the per-bur sticker ×
+burs_per_pack (matching the بسته‌بندی note); single-sale products
+(multiplier=1, e.g. ENDO-Z TI, EX-11S) are listed at their own price — never ×5.
+
 The endpoint is a static file; pagination is emulated for crawlers by
 emitting /emalls/list-<N>.json for page N (page 1 doubles as /emalls/list.json).
 Emalls' crawler fetches /emalls/list.json (query strings like ?page=&item_per_page=
@@ -23,12 +28,36 @@ OUT_DIR = os.path.join(SITE_ROOT, "emalls")
 DEFAULT_ITEM_PER_PAGE = 50
 DEFAULT_GUARANTEE = "تست و بررسی و آزمایش شده توسط دندانپزشک قبل از ارسال"
 
+# Marketplace trust attributes (owner-approved copy, shared with the Torob feed).
+CERTS = "CE , TÜV Rheinland , ISO"  # quality certificates
+ORIGIN = "چین"  # country of manufacture
+CLINICAL_NOTE = "این فرز و برند آن توسط دندانپزشک آزمایش و بررسی کلینیکی شده"
+# Emalls PDF spec has no spec/description fields — its trust text rides in the
+# free-text `guarantee` field (clinical testing + certificates + origin).
+EMALLS_GUARANTEE = f"{CLINICAL_NOTE} · گواهی {CERTS} · ساخت {ORIGIN}"
+
 sys.path.insert(0, SITE_ROOT)
 from generate_pages import SLUGS, anchor_id, product_page_url  # noqa: E402  (single source of truth)
 
 
 def load_data() -> dict:
     return json.load(open(DATA_FILE, encoding="utf-8"))
+
+
+def feed_price(p: dict, data: dict) -> int:
+    """Marketplace sticker price for the item as sold.
+
+    `price` in products_data.json (and price_per_bur) is the PER-BUR sticker.
+    Marketplaces list the item as it is sold: pack products (multiplier≠1,
+    i.e. the standard بسته ۵ عددی line) are priced per-bur × burs_per_pack so
+    the feed matches the packaging note and what a buyer actually pays.
+    Single-sale products (multiplier=1, e.g. ENDO-Z TI, EX-11S) keep their own
+    price untouched — never multiplied.
+    """
+    price = int(p.get("price") or data["price_per_bur"])
+    if p.get("multiplier") == 1:
+        return price
+    return price * int(data["burs_per_pack"])
 
 
 def shape_fa(key: str, data: dict) -> str:
@@ -77,8 +106,8 @@ def build_products(data: dict) -> list:
     for p in sorted(data["products"], key=lambda x: x["model"]):
         shape = p["shape"]
         grit = color_fa(p.get("grit", ""))
-        # Prefer per-product price override if extract ever adds one; else pack base
-        price = int(p.get("price") or data["price_per_bur"])
+        # Pack line: per-bur sticker × 5 (matches بسته‌بندی note); single-sale keeps own price
+        price = feed_price(p, data)
         old_price = p.get("old_price")
         entry = {
             "title": product_title(p, data),
@@ -88,7 +117,7 @@ def build_products(data: dict) -> list:
             "category": product_category(shape, data),
             "image": image_url(p["model"]),
             "color": grit if grit and grit != "-" else None,
-            "guarantee": DEFAULT_GUARANTEE,
+            "guarantee": EMALLS_GUARANTEE,
             "is_available": bool(p.get("inventory", 0) > 0),
             "url": product_url(shape, p["model"], data),
         }

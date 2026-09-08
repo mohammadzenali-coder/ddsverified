@@ -70,17 +70,39 @@ def test_known_product_content():
     assert ez["spec"]["بسته‌بندی"] == "فروش تکی"
     assert ez["availability"] is True
     assert ez["image_links"] == ["https://ddsverified.ir/images/endo-z%20ti.webp"]
-    # TC-21EF: pack sale, yellow grit, size + ISO in spec
+    # TC-21EF: pack sale (5×126,000 = 630,000 per pack), yellow grit, size + ISO in spec
     y = d["tc-21ef"]
-    assert y["current_price"] == 126000
+    assert y["current_price"] == 630000
     assert y["spec"]["بسته‌بندی"] == "بسته ۵ عددی"
     assert y["spec"]["دور (گریت)"] == "زرد"
     assert y["spec"]["قطر"] == "014"  # matches site spec-table label (قطر)
     assert "806 314 165 504 014" in y["spec"]["کد ISO"]  # actual source ISO (grit 504)
     assert y["guarantee"] == "تست و بررسی و آزمایش شده توسط دندانپزشک قبل از ارسال"
     assert y["product_group_id"] == "needle-burs"
+    # trust attributes present on every product (owner-approved copy)
+    for p in _load():
+        assert p["spec"]["گواهی کیفی"] == "CE , TÜV Rheinland , ISO"
+        assert p["spec"]["کشور ساخت"] == "چین"
+        assert p["spec"]["توضیحات"] == "این فرز و برند آن توسط دندانپزشک آزمایش و بررسی کلینیکی شده"
+        assert len(p["spec"]["توضیحات"]) <= 200  # fits spec value column
     # pointed_cylinder uses owner-confirmed chamfer naming
     assert "شمفر" in d["cp-12c"]["category_name"]
+
+
+def test_feed_price_matches_packaging():
+    # Feed price = item as sold: pack line (multiplier≠1) is per-bur × 5;
+    # single-sale products (multiplier=1) keep their own price, never ×5.
+    data = t.load_data()
+    by_unique = {p["page_unique"]: p for p in _load()}
+    for src in data["products"]:
+        fp = by_unique[t.anchor_id(src["model"])]
+        per_bur = int(src.get("price") or data["price_per_bur"])
+        expected = per_bur if src.get("multiplier") == 1 else per_bur * data["burs_per_pack"]
+        assert fp["current_price"] == expected, src["model"]
+    # ENDO-Z TI (multiplier=1, price override) must never be multiplied
+    assert by_unique[t.anchor_id("ENDO-Z TI")]["current_price"] == 980000
+    # EX-11S (multiplier=1, tier price) stays at the per-bur sticker
+    assert by_unique[t.anchor_id("EX-11S")]["current_price"] == data["price_per_bur"]
 
 
 def test_dates_stable_across_runs():

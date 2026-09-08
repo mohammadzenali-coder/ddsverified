@@ -36,7 +36,14 @@ from generate_pages import (  # noqa: E402  (single source of truth for site nam
     product_page_url,
     shape_fa,
 )
-from generate_emalls_feed import DEFAULT_GUARANTEE, color_fa  # noqa: E402
+from generate_emalls_feed import (  # noqa: E402
+    CERTS,
+    CLINICAL_NOTE,
+    DEFAULT_GUARANTEE,
+    ORIGIN,
+    color_fa,
+    feed_price,
+)
 
 
 def load_data() -> dict:
@@ -73,7 +80,12 @@ def build_product(p: dict, data: dict) -> dict:
     model = p["model"]
     grit = color_fa(p.get("grit", ""))
     note = pack_note(p, data)
-    spec = {"بسته‌بندی": note}
+    spec = {
+        "بسته‌بندی": note,
+        "گواهی کیفی": CERTS,
+        "کشور ساخت": ORIGIN,
+        "توضیحات": CLINICAL_NOTE,
+    }
     if p.get("diameter", "-") != "-":
         spec["قطر"] = p["diameter"]
     if p.get("length", "-") != "-":
@@ -95,7 +107,8 @@ def build_product(p: dict, data: dict) -> dict:
         "product_group_id": SLUGS[p["shape"]],
         "title": product_title(p, data),
         "subtitle": note,
-        "current_price": int(p.get("price") or data["price_per_bur"]),
+        # Marketplace price = item as sold: pack line ×5, single-sale untouched (see feed_price)
+        "current_price": feed_price(p, data),
         "availability": bool(p.get("inventory", 0) > 0),
         "category_name": shape_fa(p["shape"], data),
         "image_links": [img_rel(model)],

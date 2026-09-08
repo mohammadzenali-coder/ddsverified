@@ -83,7 +83,28 @@ def test_optional_fields_shape():
     assert "color" not in carbide  # grit '-' -> omitted, never '-' or empty
     y = next(p for p in d["products"] if p["id"] == "TC-21EF")
     assert y["color"] == "زرد"
-    assert y["guarantee"] == "تست و بررسی و آزمایش شده توسط دندانپزشک قبل از ارسال"
+    assert y["guarantee"] == f.EMALLS_GUARANTEE
+
+
+def test_trust_text_in_every_guarantee():
+    # Emalls has no spec/description fields; trust copy rides in `guarantee`.
+    for p in _load()["products"]:
+        g = p["guarantee"]
+        assert f.CLINICAL_NOTE in g
+        assert "CE" in g and "TÜV Rheinland" in g and "ISO" in g
+        assert "ساخت چین" in g
+
+
+def test_price_matches_packaging():
+    # Feed price = item as sold: pack line (multiplier≠1) is per-bur × 5;
+    # single-sale products (multiplier=1) keep their own price, never ×5.
+    data = f.load_data()
+    by_id = {p["id"]: p for p in _load()["products"]}
+    for src in data["products"]:
+        per_bur = int(src.get("price") or data["price_per_bur"])
+        expected = per_bur if src.get("multiplier") == 1 else per_bur * data["burs_per_pack"]
+        assert by_id[src["model"]]["price"] == expected, src["model"]
+    assert by_id["ENDO-Z TI"]["price"] == 980000  # single-sale, never multiplied
 
 
 def test_pagination_files_and_stale_cleanup(tmp_path):
