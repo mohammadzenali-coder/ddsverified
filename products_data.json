@@ -526,14 +526,15 @@
     {
       "shape": "carbide",
       "model": "ENDO-Z TI",
-      "iso": "807 314 001 524 021",
+      "iso": "500 316 210 007 015",
       "usa": "953-015M",
       "diameter": "-",
       "length": "-",
       "grit": "-",
       "inventory": 36,
       "multiplier": 1,
-      "price": 980000
+      "price": 1200000,
+      "details_img": "endo-z-blueprint"
     }
   ]
 }

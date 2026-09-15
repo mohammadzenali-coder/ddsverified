@@ -326,6 +326,7 @@ h2{font-size:1.05rem;color:#0d47a1;margin:18px 0 10px}
 .model-head h3{font-size:1rem;color:#1565c0}.stock{font-size:.72rem;font-weight:700;border-radius:14px;padding:2px 10px}
 .stock.in{background:#e8f5e9;color:#2e7d32}.stock.out{background:#ffebee;color:#c62828}
 .mbody{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap}.mbody img{width:120px;height:180px;object-fit:contain;background:#e3f2fd;border-radius:8px;padding:6px;flex-shrink:0}
+.bp-figure{margin:14px 0}.bp-figure img{width:100%;height:auto;border-radius:10px;display:block}.bp-figure figcaption{font-size:.75rem;color:#78909c;text-align:center;margin-top:6px}
 .specs-t{flex:1;min-width:230px;font-size:.84rem}.specs-t td{padding:3px 8px;border-bottom:1px dashed #eceff1}
 .specs-t td:first-child{color:#78909c;width:90px}
 .price{font-size:1.15rem;font-weight:800;color:#ef6c00;margin-top:10px}.price small{font-weight:400;font-size:.72rem;color:#78909c}
@@ -495,6 +496,16 @@ def build_product_page(p, data) -> str:
     title = f"فرز {short} {model} | قیمت و مشخصات | DDSVerified"
     desc = (f"فرز دندانپزشکی {short} مدل {model} — {spec_bits[0] if spec_bits else sname}، تست‌شده توسط دندانپزشک، "
             f"دارای کد ISO و معادل USA، ارسال به سراسر ایران. قیمت {fmt_price(price)} تومان.")
+    # optional full-width technical drawing (details_img on the PRODUCTS row)
+    blueprint_html = ""
+    if p.get("details_img"):
+        d_img = p["details_img"]
+        blueprint_html = (
+            f'<figure class="bp-figure"><picture>'
+            f'<source media="(max-width:600px)" srcset="{img_rel(d_img + "-700")}">'
+            f'<img src="{img_rel(d_img)}" width="1280" height="898" loading="lazy" decoding="async" '
+            f'alt="نقشه فنی فرز {model} — شنک کارباید تنگستن، فلوت مارپیچ، نوک غیربرنده">'
+            f'</picture><figcaption>نقشه فنی فرز {model}: شنک کارباید تنگستن، فلوت مارپیچ دوهلیکس، نوک غیربرنده</figcaption></figure>')
     body = f"""
 <h1>فرز {short} مدل {model}</h1>
 <div class="intro"><p>{sname} مدل <strong>{model}</strong> {spec_sentence} {clinical_lead}{clinical.strip()}</p>
@@ -514,6 +525,7 @@ def build_product_page(p, data) -> str:
       <tr><td>بسته‌بندی</td><td>{pack_note}</td></tr>
     </table>
   </div>
+  {blueprint_html}
   <p class="price">{fmt_price(price)} تومان <small>/ هر عدد</small></p>
   <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model} — افزودن به سبد خرید</a>
 </section>
@@ -524,7 +536,7 @@ def build_product_page(p, data) -> str:
 
     ld_product = json.dumps({"@context": "https://schema.org", "@type": "Product",
                              "name": f"فرز {short} مدل {model}",
-                             "image": img_rel(model),
+                             "image": [img_rel(model)] + ([img_rel(p["details_img"])] if p.get("details_img") else []),
                              "description": desc,
                              "sku": model,
                              "brand": {"@type": "Brand", "name": "DDSVerified"},

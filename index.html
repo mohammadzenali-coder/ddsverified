@@ -456,6 +456,21 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .product-pack-price span{font-weight:400;font-size:.66rem;color:var(--text-light)}
 /* === جدول قیمت پلکانی عمده === */
 .tier-section{margin:34px auto 8px;max-width:960px;padding:0 12px}
+/* === EndoZ: luxury hero banner + blueprint feature === */
+.lux-banner{display:block;margin:0 0 14px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--border);line-height:0}
+.lux-banner img{width:100%;height:auto;display:block}
+@media(max-width:768px){ .lux-banner{border-radius:10px;margin-bottom:10px} }
+.endoz-feature{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;align-items:center;background:linear-gradient(135deg,#0b1f3a 0%,#12325c 100%);border-radius:var(--radius);padding:18px;margin:14px 0;box-shadow:var(--shadow-lg);border:1px solid var(--border)}
+.endoz-feature .eimg{min-width:0}
+.endoz-feature .eimg img{width:100%;height:auto;border-radius:10px;display:block}
+.endoz-feature .etxt{min-width:0;color:#eaf1fb}
+.endoz-feature .etag{display:inline-block;background:#f0b429;color:#0b1f3a;font-weight:800;font-size:.72rem;padding:2px 10px;border-radius:20px;margin-bottom:8px}
+.endoz-feature .etxt h2{color:#fff;font-size:1.05rem;margin-bottom:6px;line-height:1.5}
+.endoz-feature .etxt p{font-size:.8rem;line-height:1.8;color:#c8d6ea}
+.endoz-feature .eprice{font-size:.95rem;font-weight:800;color:#f0b429;margin-top:8px}
+.endoz-feature .ecta{display:inline-block;margin-top:10px;background:#1565c0;color:#fff;text-decoration:none;font-weight:700;font-size:.82rem;padding:9px 18px;border-radius:30px;box-shadow:0 4px 14px rgba(21,101,192,.4)}
+.endoz-feature .ecta:hover{background:#0d47a1}
+@media(max-width:768px){ .endoz-feature{grid-template-columns:1fr;gap:12px;padding:12px} .endoz-feature .etxt h2{font-size:.95rem} .endoz-feature .etxt p{font-size:.75rem} }
 .tier-section h2{font-size:1.25rem;color:var(--primary-dark);text-align:center;margin-bottom:4px}
 .tier-hint{text-align:center;font-size:.82rem;color:var(--text-light);margin-bottom:12px}
 .tier-table-wrap{overflow-x:auto;border-radius:14px;box-shadow:0 4px 18px rgba(21,101,192,.10)}
@@ -742,6 +757,13 @@ footer a{color:var(--primary);text-decoration:none}
 </header>
 
 <main>
+    <!-- Luxury banner (قلمت را درست انتخاب کن) -->
+    <div class="lux-banner">
+      <picture>
+        <source media="(max-width:768px)" srcset="images/endozburbanner-770.webp">
+        <img src="images/endozburbanner.webp" srcset="images/endozburbanner-770.webp 770w, images/endozburbanner.webp 1540w" sizes="(max-width:768px) 100vw, 1256w" alt="بنر لاکچری فرز EndoZ — قلمت را درست انتخاب کن" width="1540" height="784" fetchpriority="high" decoding="async">
+      </picture>
+    </div>
     <!-- Hero Section (3-column expanded: Doctor + Cert badges | Trust slider | Testimonials) -->
    <section class="hero-section">
     <!-- Column 1: Doctor + Certification Logos -->
@@ -976,6 +998,24 @@ footer a{color:var(--primary);text-decoration:none}
     </div>
   </section>
 
+  <!-- EndoZ Blueprint — نقشه راه فرز اندودانتیکس -->
+  <section class="endoz-feature" aria-label="فرز اندو Z کارباید تیتانیومی">
+    <div class="eimg">
+      <picture>
+        <source media="(max-width:768px)" srcset="images/endo-z-blueprint-700.webp">
+        <img src="images/endo-z-blueprint.webp" srcset="images/endo-z-blueprint-700.webp 700w, images/endo-z-blueprint.webp 1280w" sizes="(max-width:768px) 100vw, 640w" alt="نقشه فنی فرز EndoZ Ti+ — شنک کارباید تنگستن، فلوت مارپیچ، نوک غیربرنده" width="1280" height="898" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <div class="etxt">
+      <span class="etag">Endodontic • Ti+</span>
+      <h2>فرز اندو Z — مخصوص دسترسی اندودانتیک و پریپاریشن کانال</h2>
+      <p>شنک کارباید تنگستن با استحکام و دوام بالا، فلوت‌های مارپیچ دوهلیکس برای برش سریع و تخلیه بهینه ضایعات، و نوک غیربرنده که راهنمای ورود امن به کانال است و transportation را کم می‌کند.</p>
+      <div class="eprice">قیمت: ۱٬۲۰۰٬۰۰۰ تومان / هر عدد (تک‌فروشی)</div>
+      <a class="ecta" href="/index.html#ENDO-Z%20TI">🛒 افزودن به سبد خرید</a>
+      <a class="ecta" href="/product/endo-zti/" style="background:transparent;border:1px solid #f0b429;color:#f0b429;box-shadow:none">مشاهده مشخصات فنی</a>
+    </div>
+  </section>
+
   <section>
     <h2 class="visually-hidden">فهرست محصولات</h2>
     <div class="results-info" id="resultsInfo"></div>
@@ -1093,7 +1133,7 @@ const PRODUCTS = [
   {shape:"pointed_cylinder",model:"CP-12C",iso:"806 314 167 534 014",usa:"859-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:100},
   {shape:"round_end_cylinder",model:"SR-21C",iso:"806 314 141 534 014",usa:"881-014C",diameter:"014",length:"6.0",grit:"G🟢",inventory:60},
   {shape:"round_end_cylinder",model:"SR-12C",iso:"806 314 141 534 014",usa:"881-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:40},
-  {shape:"carbide",model:"ENDO-Z TI",iso:"807 314 001 524 021",usa:"953-015M",diameter:"-",length:"-",grit:"-",inventory:36,multiplier:1,price:980000}
+  {shape:"carbide",model:"ENDO-Z TI",iso:"500 316 210 007 015",usa:"953-015M",diameter:"-",length:"-",grit:"-",inventory:36,multiplier:1,price:1200000,details_img:"endo-z-blueprint"}
 
 ];
 
