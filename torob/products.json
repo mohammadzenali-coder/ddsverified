@@ -168,15 +168,15 @@
     "page_url": "https://ddsverified.ir/product/endo-zti/",
     "product_group_id": "endoz-carbide-burs",
     "title": "فرز EndoZ کارباید تیتانیومی ساخت انگلیس مدل ENDO-Z TI",
-    "subtitle": "فروش تکی",
-    "current_price": 1200000,
+    "subtitle": "تک‌فروشی یا بسته ۶ عددی",
+    "current_price": 1500000,
     "availability": true,
     "category_name": "فرز EndoZ کارباید تیتانیومی ساخت انگلیس",
     "image_links": [
       "https://ddsverified.ir/images/endo-z%20ti.webp"
     ],
     "spec": {
-      "بسته‌بندی": "فروش تکی",
+      "بسته‌بندی": "تک‌فروشی یا بسته ۶ عددی",
       "گواهی کیفی": "CE , TÜV Rheinland , ISO",
       "کشور ساخت": "چین",
       "توضیحات": "این فرز و برند آن توسط دندانپزشک آزمایش و بررسی کلینیکی شده",
@@ -184,9 +184,9 @@
       "کد USA": "953-015M"
     },
     "guarantee": "تست و بررسی و آزمایش شده توسط دندانپزشک قبل از ارسال",
-    "short_desc": "فروش تکی، کد ISO 500 316 210 007 015",
+    "short_desc": "تک‌فروشی یا بسته ۶ عددی، کد ISO 500 316 210 007 015",
     "date_added": "2026-08-25T00:21:18+03:30",
-    "date_updated": "2026-09-15T15:59:06.354223+03:30"
+    "date_updated": "2026-09-15T16:34:13.579482+03:30"
   },
   {
     "page_unique": "ex-11s",
@@ -969,7 +969,7 @@
     "guarantee": "تست و بررسی و آزمایش شده توسط دندانپزشک قبل از ارسال",
     "short_desc": "بسته ۵ عددی، دور زرد، کد ISO 806 314 164 504 012",
     "date_added": "2026-08-25T00:49:18+03:30",
-    "date_updated": "2026-09-15T15:59:08.165360+03:30"
+    "date_updated": "2026-09-15T16:34:15.216704+03:30"
   },
   {
     "page_unique": "tc-27",

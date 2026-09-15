@@ -533,7 +533,8 @@
       "grit": "-",
       "inventory": 36,
       "multiplier": 1,
-      "price": 1200000,
+      "price": 1500000,
+      "pack_size": 6,
       "details_img": "endo-z-blueprint"
     }
   ]

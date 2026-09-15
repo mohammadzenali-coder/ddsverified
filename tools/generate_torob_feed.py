@@ -59,7 +59,9 @@ def _now_iso() -> str:
 
 
 def pack_note(p: dict, data: dict) -> str:
-    return "فروش تکی" if p.get("multiplier") == 1 else f"بسته {fa(data['burs_per_pack'])} عددی"
+    if p.get("multiplier") == 1:
+        return f"تک‌فروشی یا بسته {fa(p['pack_size'])} عددی" if p.get("pack_size") else "فروش تکی"
+    return f"بسته {fa(data['burs_per_pack'])} عددی"
 
 
 def product_title(p: dict, data: dict) -> str:

@@ -104,7 +104,7 @@ def test_price_matches_packaging():
         per_bur = int(src.get("price") or data["price_per_bur"])
         expected = per_bur if src.get("multiplier") == 1 else per_bur * data["burs_per_pack"]
         assert by_id[src["model"]]["price"] == expected, src["model"]
-    assert by_id["ENDO-Z TI"]["price"] == 1200000  # single-sale, never multiplied
+    assert by_id["ENDO-Z TI"]["price"] == 1500000  # single-sale, never multiplied
 
 
 def test_pagination_files_and_stale_cleanup(tmp_path):

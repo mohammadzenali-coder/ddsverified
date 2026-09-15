@@ -379,7 +379,7 @@ def _model_block(p, shape_name_short, data):
     model = p["model"]
     in_stock = p["inventory"] > 0
     grit_fa = data["grits"].get(p["grit"], "-")
-    pack_note = "فروش تکی" if p.get("multiplier") == 1 else f"بسته {fa(data['burs_per_pack'])} عددی"
+    pack_note = ("تک‌فروشی یا بسته ۶ عددی" if p.get("pack_size") else "فروش تکی") if p.get("multiplier") == 1 else f"بسته {fa(data['burs_per_pack'])} عددی"
     price = p.get("price") or data["price_per_bur"]
     length_td = f'<tr><td>طول</td><td>{fa(p["length"])} mm</td></tr>' if p["length"] != "-" else ""
     dia_td = f'<tr><td>قطر</td><td>{fa(p["diameter"])}</td></tr>' if p["diameter"] != "-" else ""
@@ -483,7 +483,7 @@ def build_product_page(p, data) -> str:
     if p.get("usa"):
         spec_bits.append(f"معادل کد آمریکا {p['usa']}")
     spec_sentence = "به‌همراه " + "، ".join(spec_bits) + " است." if spec_bits else ""
-    pack_note = "تک‌فروشی (هر عدد جداگانه)" if p.get("multiplier") == 1 else f"بسته {fa(data['burs_per_pack'])} عددی"
+    pack_note = ("تک‌فروشی (هر عدد جداگانه) یا بسته ۶ عددی" if p.get("pack_size") else "تک‌فروشی (هر عدد جداگانه)") if p.get("multiplier") == 1 else f"بسته {fa(data['burs_per_pack'])} عددی"
     clinical = INTROS.get(shape_key, f"{sname} یکی از خانواده‌های پرکاربرد فرزهای دندانپزشکی است.")
     # avoid "این فرز فرز ..." collision when the clinical intro starts with «فرز»
     clinical_lead = "" if clinical.startswith("فرز") else "این فرز "

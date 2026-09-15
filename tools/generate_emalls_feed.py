@@ -37,7 +37,7 @@ CLINICAL_NOTE = "این فرز و برند آن توسط دندانپزشک آز
 EMALLS_GUARANTEE = f"{CLINICAL_NOTE} · گواهی {CERTS} · ساخت {ORIGIN}"
 
 sys.path.insert(0, SITE_ROOT)
-from generate_pages import SLUGS, anchor_id, product_page_url  # noqa: E402  (single source of truth)
+from generate_pages import SLUGS, anchor_id, fa, product_page_url  # noqa: E402  (single source of truth)
 
 
 def load_data() -> dict:
@@ -94,6 +94,8 @@ def product_title(p: dict, data: dict) -> str:
         parts.append(f"دور {grit}")
     if p.get("diameter") and p["diameter"] != "-":
         parts.append(f"سایز {p['diameter']}")
+    if p.get("pack_size"):
+        parts.append(f"تک یا بسته {fa(p['pack_size'])} عددی")
     return " — ".join(parts)
 
 

@@ -64,10 +64,10 @@ def test_known_product_content():
     # ENDO-Z TI: premium price, single-sale, title matches product-page h1
     # (فرز {shape} مدل {model} — generate_pages.py:499)
     ez = d["endo-zti"]
-    assert ez["current_price"] == 1200000
+    assert ez["current_price"] == 1500000
     assert ez["title"] == "فرز EndoZ کارباید تیتانیومی ساخت انگلیس مدل ENDO-Z TI"
     assert "ENDO-Z TI" in ez["title"]
-    assert ez["spec"]["بسته‌بندی"] == "فروش تکی"
+    assert ez["spec"]["بسته‌بندی"] == "تک‌فروشی یا بسته ۶ عددی"  # pack_size:6
     assert ez["availability"] is True
     assert ez["image_links"] == ["https://ddsverified.ir/images/endo-z%20ti.webp"]
     # TC-21EF: pack sale (5×126,000 = 630,000 per pack), yellow grit, size + ISO in spec
@@ -100,7 +100,7 @@ def test_feed_price_matches_packaging():
         expected = per_bur if src.get("multiplier") == 1 else per_bur * data["burs_per_pack"]
         assert fp["current_price"] == expected, src["model"]
     # ENDO-Z TI (multiplier=1, price override) must never be multiplied
-    assert by_unique[t.anchor_id("ENDO-Z TI")]["current_price"] == 1200000
+    assert by_unique[t.anchor_id("ENDO-Z TI")]["current_price"] == 1500000
     # EX-11S (multiplier=1, tier price) stays at the per-bur sticker
     assert by_unique[t.anchor_id("EX-11S")]["current_price"] == data["price_per_bur"]
 
