@@ -86,7 +86,7 @@ tags: Drs' Choice
 
 ## Sources
 
-[1] https://journals.sagepub.com/doi/abs/10.1179/175158308X373054 — Comparative study of three different types of dental diamond burs - U. Ben-Hanan, H. Judes, M. Regev, 2008
-[2] https://pubmed.ncbi.nlm.nih.gov/11070132 — Comparison of cutting rates among single-patient-use and multiple-patient-use diamond burs - PubMed
-[3] https://www.scielo.sa.cr/scielo.php?pid=S2215-34112022000300048&script=sci_arttext — Evaluation of dentin microroughness and composite bond strength after multiple uses of diamond burs
-[4] https://pubmed.ncbi.nlm.nih.gov/15693496 — The effect of multiple uses of disposable diamond burs on restoration leakage - PubMed
+[1] [Comparative study of three different types of dental diamond burs](https://journals.sagepub.com/doi/abs/10.1179/175158308X373054) — U. Ben-Hanan, H. Judes, M. Regev, 2008, Tribology – Materials, Surfaces & Interfaces
+[2] [Comparison of cutting rates among single-patient-use and multiple-patient-use diamond burs](https://pubmed.ncbi.nlm.nih.gov/11070132) — Pilcher ES, Tietge JD, Draughn RA, 2000, J Prosthodont
+[3] [Evaluation of dentin microroughness and composite bond strength after multiple uses of diamond burs](https://www.scielo.sa.cr/scielo.php?pid=S2215-34112022000300048&script=sci_arttext) — Jiménez-Hernández M و همکاران، 2022, Odovtos
+[4] [The effect of multiple uses of disposable diamond burs on restoration leakage](https://pubmed.ncbi.nlm.nih.gov/15693496) — von Fraunhofer JA و همکاران، 2005, J Am Dent Assoc
