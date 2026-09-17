@@ -1491,15 +1491,15 @@ function updateCart() {
 
 function generateOrderMessage(items, totalBurs, finalTotal, freeShipUnlocked) {
   const tier = getTierInfo(totalBurs);
-  let msg = 'سلام همکار\nبابت سفارش فرزهای دندانپزشکی:\n\n';
+  let msg = 'سلام همکار\nسفارش فرز:\nمدل x تعداد عدد @ قیمت واحد (تومان)\n\n';
   items.forEach(item => {
     const { product, packCount } = item;
     const mult = product.multiplier || BURS_PER_PACK;
     const burCount = packCount * mult;
-    const shapeName = SHAPE_MAP[product.shape] || product.shape;
-    const gritName = GRIT_TEXT[product.grit] || '';
     const unitPrice = product.price !== undefined ? product.price : tier.cur.price;
-    msg += `${burCount} عدد ${shapeName} قطر ${product.diameter} دور ${gritName} مدل ${product.model} - ${burCount}*(${unitPrice} تومان)\n`;  });
+    // Model identifies shape/diameter/grit; avoid repeating them in encoded URLs.
+    msg += `${product.model} x ${burCount} @ ${unitPrice}\n`;
+  });
   msg += `\nتعداد کل فرزها: ${totalBurs} عدد\n`;
   msg += `قیمت پلکانی نقدی هر فرز: ${tier.cur.price} تومان\n`;
   if (tier.cur.installment) {
