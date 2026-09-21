@@ -457,8 +457,14 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 /* === جدول قیمت پلکانی عمده === */
 .tier-section{margin:34px auto 8px;max-width:960px;padding:0 12px}
 /* === EndoZ: luxury hero banner === */
-.lux-banner{display:block;margin:0 0 14px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--border);line-height:0}
+.lux-banner{display:block;margin:0 0 14px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--border);line-height:0;position:relative}
 .lux-banner img{width:100%;height:auto;display:block}
+.lux-banner .lslide{display:none}
+.lux-banner .lslide.on{display:block;animation:lxFade .45s ease}
+@keyframes lxFade{from{opacity:0}to{opacity:1}}
+.lux-banner .ldots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:7px;line-height:0;z-index:2}
+.lux-banner .ldots button{width:9px;height:9px;padding:0;border:none;border-radius:50%;background:rgba(255,255,255,.55);cursor:pointer}
+.lux-banner .ldots button.on{background:#fff}
 @media(max-width:768px){ .lux-banner{border-radius:10px;margin-bottom:10px} }
 .tier-section h2{font-size:1.25rem;color:var(--primary-dark);text-align:center;margin-bottom:4px}
 .tier-hint{text-align:center;font-size:.82rem;color:var(--text-light);margin-bottom:12px}
@@ -746,13 +752,38 @@ footer a{color:var(--primary);text-decoration:none}
 </header>
 
 <main>
-    <!-- Luxury banner (قلمت را درست انتخاب کن) -->
-    <div class="lux-banner">
-      <picture>
-        <source media="(max-width:768px)" srcset="images/endozburbanner-770.webp">
-        <img src="images/endozburbanner.webp" srcset="images/endozburbanner-770.webp 770w, images/endozburbanner.webp 1540w" sizes="(max-width:768px) 100vw, 1256w" alt="بنر لاکچری فرز EndoZ — قلمت را درست انتخاب کن" width="1540" height="784" fetchpriority="high" decoding="async">
-      </picture>
+    <!-- Luxury banner slideshow (CSS/JS-free core: first slide renders without JS) -->
+    <div class="lux-banner" id="luxBanner">
+      <div class="lslide on">
+        <picture>
+          <source media="(max-width:768px)" srcset="images/endozburbanner-770.webp">
+          <img src="images/endozburbanner.webp" srcset="images/endozburbanner-770.webp 770w, images/endozburbanner.webp 1540w" sizes="(max-width:768px) 100vw, 1256w" alt="بنر لاکچری فرز EndoZ — قلمت را درست انتخاب کن" width="1540" height="784" fetchpriority="high" decoding="async">
+        </picture>
+      </div>
+      <div class="lslide">
+        <picture>
+          <source media="(max-width:768px)" srcset="images/lux-770.webp">
+          <img src="images/lux.webp" srcset="images/lux-770.webp 770w, images/lux.webp 1540w" sizes="(max-width:768px) 100vw, 1256w" alt="بنر فروشگاه" width="1540" height="770" loading="lazy" decoding="async">
+        </picture>
+      </div>
     </div>
+    <script>
+      (function(){
+        var s=document.getElementById('luxBanner'); if(!s) return;
+        var slides=s.querySelectorAll('.lslide'), dotsWrap=document.createElement('div');
+        dotsWrap.className='ldots';
+        slides.forEach(function(_,i){ var b=document.createElement('button');
+          b.setAttribute('aria-label','اسلاید '+(i+1)); b.addEventListener('click',function(){go(i);reset();});
+          dotsWrap.appendChild(b); });
+        s.appendChild(dotsWrap);
+        var cur=0, timer=null;
+        function go(n){ slides.forEach(function(el,i){ el.classList.toggle('on',i===n); });
+          dotsWrap.querySelectorAll('button').forEach(function(b,i){ b.classList.toggle('on',i===n); }); cur=n; }
+        function reset(){ clearInterval(timer); timer=setInterval(tick,6000); }
+        function tick(){ go((cur+1)%slides.length); }
+        go(0); reset();
+      })();
+    </script>
     <!-- Hero Section (3-column expanded: Doctor + Cert badges | Trust slider | Testimonials) -->
    <section class="hero-section">
     <!-- Column 1: Doctor + Certification Logos -->
