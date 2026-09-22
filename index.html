@@ -1135,8 +1135,10 @@ const PRODUCTS = [
   {shape:"pointed_cylinder",model:"CP-12C",iso:"806 314 167 534 014",usa:"859-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:100},
   {shape:"round_end_cylinder",model:"SR-21C",iso:"806 314 141 534 014",usa:"881-014C",diameter:"014",length:"6.0",grit:"G🟢",inventory:60},
   {shape:"round_end_cylinder",model:"SR-12C",iso:"806 314 141 534 014",usa:"881-014C",diameter:"014",length:"8.0",grit:"G🟢",inventory:40},
-  {shape:"carbide",model:"ENDO-Z TI",iso:"500 316 210 007 015",usa:"953-015M",diameter:"-",length:"-",grit:"-",inventory:36,multiplier:1,price:1500000,pack_size:6,details_img:"endo-z-blueprint"}
+  {shape:"carbide",model:"ENDO-Z TI",iso:"500 316 210 007 015",usa:"953-015M",diameter:"-",length:"-",grit:"-",inventory:36,multiplier:1,price:1500000,pack_size:6,details_img:"endo-z-blueprint"},
 
+  // بسته ۴۰۰ عددی کمپین موقت — قیمت نصبِ صفحه، ارسال رایگان دائمی، خارج از پلکان
+  {shape:"bundle",bundle:true,model:"PACK-400",iso:"-",usa:"-",diameter:"-",length:"-",grit:"-",inventory:17,multiplier:400,price:38000000,pack_size:1,card_img:"pack400",card_title:"بسته ۴۰۰ عددی فرزهای پرمصرف",img_note:"ارسال رایگان",free_shipping:true,alt:"بسته ۴۰۰ عددی فرزهای الماسی پرمصرف — فروش ویژه",details_img:"pack400-contents",desc:"فروش ویژه و تکرارنشدنی بسته ۴۰۰ عددی پرمصرف ترین فرز الماسه هایی که یک دندانپزشک/کلینیک استفاده میکند."}
 ];
 
 // ==========================================
@@ -1159,7 +1161,8 @@ const SHAPE_MAP = {
   depth_veneer:"فرز دندانپزشکی دپس کات (برای ونیر)", 
   pointed_cylinder:"فرز دندانپزشکی فیشور نوک تیز", 
   round_end_cylinder:"فرز دندانپزشکی فیشور روند اند (استوانه ایی ته گرد)", 
-  carbide:"فرز EndoZ کارباید تیتانیومی ساخت انگلیس"
+  carbide:"فرز EndoZ کارباید تیتانیومی ساخت انگلیس",
+  bundle:"بسته ۴۰۰ عددی فرزهای پرمصرف"
 };
 const GRIT_DISPLAY = {"Y🟡":"زرد 🟡","R🔴":"قرمز 🔴","B🔵":"آبی 🔵","G🟢":"سبز 🟢","K⚫":"مشکی ⚫","-":"-"};
 const GRIT_TEXT = {"Y🟡":"زرد","R🔴":"قرمز","B🔵":"آبی","G🟢":"سبز","K⚫":"مشکی","-":"-"};
@@ -1233,17 +1236,17 @@ function renderProducts() {
     const shapeName = SHAPE_MAP[p.shape] || p.shape;
     const gritDisp = GRIT_DISPLAY[p.grit] || p.grit;
     const inStock = p.inventory > 0;
-    const altText = `فرز ${shapeName} ${p.model} قطر ${p.diameter} دور ${GRIT_TEXT[p.grit] || ''}`;
+    const altText = p.alt ? p.alt : `فرز ${shapeName} ${p.model} قطر ${p.diameter} دور ${GRIT_TEXT[p.grit] || ''}`;
     const lengthTag = p.length !== "-" ? `<span class="spec-tag">طول: ${toPersianDigits(p.length)}</span>` : '';
     const multTag = p.multiplier === 1 ? `<span class="spec-tag" style="background:#fff3e0;color:#ef6c00;border-color:#ffe0b2">تک‌فروشی</span>` : '';
     return `
       <article class="product-card ${inStock ? '' : 'out-of-stock'}">
         <div class="product-img-wrap">
           <a class="product-img-link" href="/product/${productSlug(p.model)}/" aria-label="صفحه محصول ${p.model}">
-          <img src="images/${p.model.toLowerCase()}.webp" alt="${altText}" width="267" height="400" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
+          <img src="images/${(p.card_img || p.model).toLowerCase()}.webp" alt="${altText}" width="267" height="400" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
           </a>
         </div>
-        <div class="product-shape">${shapeName}</div>
+        <div class="product-shape">${p.card_title || shapeName}</div>
         <div class="product-model"><a href="/product/${productSlug(p.model)}/">${p.model}</a></div>
         <div class="product-specs">
           ${p.diameter !== "-" ? `<span class="spec-tag">قطر: ${toPersianDigits(p.diameter)}</span>` : ''}
@@ -1255,10 +1258,16 @@ function renderProducts() {
           <span class="code-tag iso-tag" title="کد استاندارد ISO">ISO: <span class="code-val">${p.iso || '−'}</span></span>
           <span class="code-tag usa-tag" title="کد آمریکایی USA">USA: <span class="code-val">${p.usa || '−'}</span></span>
         </div>
-        <div class="product-price">${toPersian(tierUnitPrice(p, 1))} <span class="product-price-unit">تومان / ۱ عدد</span></div>
-        <div class="product-pack-price">${toPersian(tierUnitPrice(p, 1) * (p.pack_size || BURS_PER_PACK))} <span>تومان / بستهٔ ${toPersianDigits(String(p.pack_size || BURS_PER_PACK))} عددی</span></div>
-        <span class="pack-info-box">${p.multiplier === 1 ? (p.pack_size ? `تک‌فروشی یا بستهٔ ${toPersianDigits(String(p.pack_size))} عددی` : 'فروش به صورت تکی') : 'فروش به صورت بسته ۵ عددی'}</span>
+        ${p.bundle
+          ? `<div class="product-price">${toPersian(tierUnitPrice(p, 1))} <span class="product-price-unit">تومان / ${toPersianDigits(String(p.multiplier))} عدد</span></div>
+             <div class="product-pack-price">۹۵٬۰۰۰ تومان <span>به ازای هر عدد فرز</span></div>`
+          : `<div class="product-price">${toPersian(tierUnitPrice(p, 1))} <span class="product-price-unit">تومان / ۱ عدد</span></div>
+             <div class="product-pack-price">${toPersian(tierUnitPrice(p, 1) * (p.pack_size || BURS_PER_PACK))} <span>تومان / بستهٔ ${toPersianDigits(String(p.pack_size || BURS_PER_PACK))} عددی</span></div>`}
+        <span class="pack-info-box">${p.bundle
+          ? `ارسال رایگان · شامل تخفیف پلکانی نمی‌شود`
+          : (p.multiplier === 1 ? (p.pack_size ? `تک‌فروشی یا بستهٔ ${toPersianDigits(String(p.pack_size))} عددی` : 'فروش به صورت تکی') : 'فروش به صورت بسته ۵ عددی')}</span>
         <span class="inventory-badge ${inStock ? 'in-stock' : 'out-stock'}">${inStock ? 'موجود' : 'ناموجود'}</span>
+        ${p.img_note ? `<span class="spec-tag" style="background:#e8f5e9;color:#2e7d32;border-color:#a5d6a7">🚚 ${p.img_note}</span>` : ''}
         <button class="add-btn" ${inStock ? '' : 'disabled'} data-model="${p.model}">${inStock ? 'افزودن به سبد' : 'ناموجود'}</button>
       </article>`;
   }).join('');
@@ -1362,6 +1371,7 @@ function getCartItems() {
   }).filter(Boolean);
 }
 
+function isFreeShipItem(p) { return p.free_shipping === true; }
 function getTotalBurs() {
   return getCartItems().reduce((sum, item) => sum + item.packCount * (item.product.multiplier || BURS_PER_PACK), 0);
 }
@@ -1399,13 +1409,14 @@ function updateCart() {
     return sum + (burCount * tierUnit(item.product));
   }, 0);
   // === Free Shipping Logic ===
-  const freeShipUnlocked = totalBurs >= FREE_SHIPPING_THRESHOLD;
+  const freeShipUnlocked = totalBurs >= FREE_SHIPPING_THRESHOLD || items.some(i => isFreeShipItem(i.product));
   const effectiveShipping = freeShipUnlocked ? 0 : SHIPPING_COST;
   const finalTotal = subtotal + effectiveShipping;
   const tier = getTierInfo(totalBurs);
   const pricePerBur = tier.cur.price;
   const savingPerBur = 126000 - pricePerBur;
   const hasFixedPriceItem = items.some(i => i.product.price !== undefined);
+  const hasBundle = items.some(i => i.product.bundle);
 
   // Gamification Section at the Top
   const nextInfo = getNextDiscountInfo(totalBurs);
@@ -1414,8 +1425,8 @@ function updateCart() {
   let gamifyClass = "";
   if (nextInfo.maxed) gamifyClass = "maxed";
   else if (savingPerBur > 0) gamifyClass = "achieved";
-  
-  let gamifyHTML = `
+
+  let gamifyHTML = hasBundle ? "" : `
     <div class="discount-gamify ${gamifyClass}">
       <div class="gamify-row">
         <span>قیمت هر فرز (پرداخت نقدی)</span>
@@ -1426,7 +1437,7 @@ function updateCart() {
       <div class="progress-bar"><div class="progress-fill" style="width:${progressPct}%"></div></div>
       ${hasFixedPriceItem ? '<div style="font-size:.68rem;margin-top:6px;opacity:.8;">* فرز EndoZ با قیمت ثابت خودش محاسبه می‌شود.</div>' : ''}
     </div>
-  `;
+  ` : "";
 
   // === Free Shipping Gamification (high-dopamine) ===
   const freeShipProgressPct = Math.min(100, Math.round((totalBurs / FREE_SHIPPING_THRESHOLD) * 100));
@@ -1461,8 +1472,12 @@ function updateCart() {
     const gritDisp = GRIT_DISPLAY[product.grit] || product.grit;
     return `
       <div class="cart-item">
-        <div class="cart-item-line1">${toPersian(burCount)} عدد ${shapeName} قطر ${toPersianDigits(product.diameter)} دور ${gritDisp} <span class="cart-item-model">${product.model}</span></div>
-        <div class="cart-item-line2">${toPersian(burCount)} * (${toPersian(tierUnit(product))} تومان)</div>
+        <div class="cart-item-line1">${product.bundle
+          ? `${product.card_title || shapeName} <span class="cart-item-model">${product.model}</span>`
+          : `${toPersian(burCount)} عدد ${shapeName} قطر ${toPersianDigits(product.diameter)} دور ${gritDisp} <span class="cart-item-model">${product.model}</span>`}</div>
+        <div class="cart-item-line2">${product.bundle
+          ? `${toPersian(burCount)} عدد × ${toPersian(tierUnit(product))} تومان`
+          : `${toPersian(burCount)} * (${toPersian(tierUnit(product))} تومان)`}</div>
         <div class="cart-item-controls">
           <div class="stepper">
             <button class="step-btn" data-model="${product.model}" data-delta="-1" aria-label="کاهش تعداد">−</button>
@@ -1529,7 +1544,11 @@ function generateOrderMessage(items, totalBurs, finalTotal, freeShipUnlocked) {
     const burCount = packCount * mult;
     const unitPrice = product.price !== undefined ? product.price : tier.cur.price;
     // Model identifies shape/diameter/grit; avoid repeating them in encoded URLs.
-    msg += `${product.model} x ${burCount} @ ${unitPrice}\n`;
+    if (product.bundle) {
+      msg += `${product.model} x ${burCount} عدد = ${unitPrice * burCount} تومان (ارسال رایگان)\n`;
+    } else {
+      msg += `${product.model} x ${burCount} @ ${unitPrice}\n`;
+    }
   });
   msg += `\nتعداد کل فرزها: ${totalBurs} عدد\n`;
   msg += `قیمت پلکانی نقدی هر فرز: ${tier.cur.price} تومان\n`;
@@ -1642,14 +1661,15 @@ function injectProductSchema() {
     "@type": "ItemList",
     "itemListElement": PRODUCTS.map((p, index) => {
       const unitPrice = p.price || PRICE_PER_BUR;
+      const isBundle = !!p.bundle;
       return {
         "@type": "ListItem",
         "position": index + 1,
         "item": {
           "@type": "Product",
-          "name": `فرز دندانپزشکی ${SHAPE_MAP[p.shape]} مدل ${p.model}`,
-          "image": `https://ddsverified.ir/images/${p.model}.webp`,
-          "description": `فرز ${SHAPE_MAP[p.shape]} با قطر ${p.diameter} و طول ${p.length}، گرید ${GRIT_TEXT[p.grit]}. مخصوص استفاده دندانپزشکان. تایید شده توسط دکتر محمدرضا زینلی. دارای گواهی استاندارد TÜV Rheinland آلمان و ISO.`,
+          "name": isBundle ? (p.card_title || p.model) : `فرز دندانپزشکی ${SHAPE_MAP[p.shape]} مدل ${p.model}`,
+          "image": `https://ddsverified.ir/images/${(p.card_img || p.model).toLowerCase()}.webp`,
+          "description": isBundle && p.desc ? p.desc : `فرز ${SHAPE_MAP[p.shape]} با قطر ${p.diameter} و طول ${p.length}، گرید ${GRIT_TEXT[p.grit]}. مخصوص استفاده دندانپزشکان. تایید شده توسط دکتر محمدرضا زینلی. دارای گواهی استاندارد TÜV Rheinland آلمان و ISO.`,
           "brand": { "@type": "Brand", "name": "DDSVerified" },
           "sku": p.model,
           "mpn": p.model,

@@ -18,7 +18,8 @@
     "depth_veneer": "فرز دندانپزشکی دپس کات (برای ونیر)",
     "pointed_cylinder": "فرز دندانپزشکی فیشور نوک تیز",
     "round_end_cylinder": "فرز دندانپزشکی فیشور روند اند (استوانه ایی ته گرد)",
-    "carbide": "فرز EndoZ کارباید تیتانیومی ساخت انگلیس"
+    "carbide": "فرز EndoZ کارباید تیتانیومی ساخت انگلیس",
+    "bundle": "بسته ۴۰۰ عددی فرزهای پرمصرف"
   },
   "grits": {
     "Y🟡": "زرد",
@@ -536,6 +537,27 @@
       "price": 1500000,
       "pack_size": 6,
       "details_img": "endo-z-blueprint"
+    },
+    {
+      "shape": "bundle",
+      "bundle": true,
+      "model": "PACK-400",
+      "iso": "-",
+      "usa": "-",
+      "diameter": "-",
+      "length": "-",
+      "grit": "-",
+      "inventory": 17,
+      "multiplier": 400,
+      "price": 38000000,
+      "pack_size": 1,
+      "card_img": "pack400",
+      "card_title": "بسته ۴۰۰ عددی فرزهای پرمصرف",
+      "img_note": "ارسال رایگان",
+      "free_shipping": true,
+      "alt": "بسته ۴۰۰ عددی فرزهای الماسی پرمصرف — فروش ویژه",
+      "details_img": "pack400-contents",
+      "desc": "فروش ویژه و تکرارنشدنی بسته ۴۰۰ عددی پرمصرف ترین فرز الماسه هایی که یک دندانپزشک/کلینیک استفاده میکند."
     }
   ]
 }

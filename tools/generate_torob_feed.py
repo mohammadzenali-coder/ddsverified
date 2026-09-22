@@ -157,7 +157,8 @@ def load_prev_index() -> dict:
 
 def main() -> None:
     data = load_data()
-    products_src = sorted(data["products"], key=lambda x: x["model"])
+    # temporary campaign bundle: sold via its own landing page only, never in feeds
+    products_src = [p for p in sorted(data["products"], key=lambda x: x["model"]) if not p.get("bundle")]
 
     added = {}
     if os.path.exists(ADDED_PATH):

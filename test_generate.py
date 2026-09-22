@@ -88,4 +88,6 @@ def test_category_pages_link_to_product_pages_and_sitemap_lists_them():
     assert '/product/tc-21ef/' in cat_html            # H3 deep link
     sitemap = g.build_sitemap(data)
     assert "<loc>https://ddsverified.ir/product/tc-21ef/</loc>" in sitemap
-    assert sitemap.count("product/") == len(data["products"])
+    # campaign bundles have a noindex landing page, not a sitemap /product/ entry
+    indexed = [p for p in data["products"] if not p.get("bundle")]
+    assert sitemap.count("product/") == len(indexed)

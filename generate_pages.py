@@ -31,6 +31,7 @@ SLUGS = {
     "pointed_cylinder": "chamfer-burs",
     "round_end_cylinder": "round-end-fissure-burs",
     "carbide": "endoz-carbide-burs",
+    "bundle": "campaign-bundle",
 }
 
 # Persian display overrides (owner-confirmed naming; falls back to SHAPE_MAP value)
@@ -302,11 +303,136 @@ def build_blog_index(posts: list) -> str:
     return _layout(title, desc, "blog/", crumbs, body, f"<style>{BLOG_CSS}</style>")
 
 
+# ------------------------------------------------------------ campaign ----
+CAMPAIGN_SLUG = "pack-400"
+
+
+def campaign_page_url() -> str:
+    """Landing page for the temporary 400-bur campaign bundle."""
+    return f"campaign/{CAMPAIGN_SLUG}/"
+
+
+CAMPAIGN_CSS = """
+.cmp-price{font-size:1.5rem;font-weight:800;color:#ef6c00;margin:10px 0 4px}
+.cmp-price small{font-weight:400;font-size:.75rem;color:#78909c}
+.cmp-bullets{margin:12px 0 12px 20px;line-height:2}
+.cmp-urg{background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:10px 14px;font-size:.85rem;margin:12px 0;color:#e65100;font-weight:700}
+.cmp-contents{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:12px 14px;font-size:.88rem;margin:14px 0}
+.cmp-contents ul{margin:8px 0 8px 20px;line-height:2}
+.cmp-80{font-weight:800;color:#2e7d32;margin-top:10px}
+"""
+
+
+def build_campaign_page(p: dict, data: dict) -> bool:
+    """Landing page for the limited-time 400-bur bundle.
+
+    Rendered only while the PRODUCTS row carries a truthy `bundle` flag; remove
+    the flag and the page disappears from regeneration (cleanup in main()).
+    Deliberately NOT a /product/ page: the offer is temporary and bought
+    traffic only (short link /x1/), so it stays out of the sitemap, Torob and
+    the Emalls feed.
+    """
+    if not p.get("bundle"):
+        return False
+    model = p["model"]
+    price = int(p.get("price") or 0)
+    title = p.get("card_title") or "بسته کمپین"
+    slug = campaign_page_url()
+    d = os.path.join("campaign", CAMPAIGN_SLUG)
+    os.makedirs(d, exist_ok=True)
+    intro = p.get("desc") or ""
+
+    bullets = [
+        "✅ تخفیف خیلی ویژه ۴٬۴۰۰٬۰۰۰ تومانی",
+        "✅ ارسال رایگان",
+        "✅ خیال راحت از مدل و تعداد فرزها",
+        "✅ مناسب ۳ حیطه ترمیمی، اندو و روکش",
+        "✅ ۱ بسته برای ۳ ماه لود متوسط کافی است",
+        "✅ دارای گواهی کیفی ISO و TUV و تست شده توسط دندانپزشک",
+    ]
+    faqs = [
+        ("چه فرزهایی در این بسته هست؟",
+         "پرمصرف‌ترین فرزها در ترمیمی، اندو و پروتز ثابت با هر سلیقه‌ای در این بسته استفاده شده. "
+         "ترمیمی: نیدل و نیدل پرداخت، فلیم و فلیم پرداخت، فلیم شنک بلند نازک، فوتبالی و فوتبالی پرداخت، "
+         "فیشور کوتاه، تیپر کوتاه و بلند روند اند، روند و ...&nbsp; اندو: فیشور بلند، روند بلند، روند کوتاه، "
+         "تیپر روند اند، نیدل و ...&nbsp; پروتز ثابت: تیپر فلت اند، چمفر، تورپیدو سیلندری، روند اند تیپر، "
+         "فیشور بلند و ..."),
+        ("نسبت تعداد فرزها چطور تعیین شده؟",
+         "به صورت هوشمندانه وزن‌دهی داده شده! یعنی از هر فرز به تعداد مساوی تقسیم نکردیم؛ از هر مدل "
+         "بسته به تعداد نیاز و بیمار، طبق آمار زیاد و تجربه بالینی که داشتیم تعبیه کردیم. "
+         "هوشمند باشید، ۸۰ درصد پروسیجرهای شما با همین بسته فرز ما انجام می‌شود."),
+        ("ارسال و گارانتی چگونه است؟",
+         "ارسال این بسته رایگان است و شامل تخفیف‌های پلکانی سایت نمی‌شود. فرزها پیش از ارسال "
+         "شخصاً توسط دندانپزشک تست و بررسی و آزمایش شده و دارای گواهی کیفی ISO و TUV هستند."),
+    ]
+    faq_html = "".join(
+        f'<details open><summary>{q}</summary><div>{a}</div></details>' for q, a in faqs)
+    bullets_html = "\n".join(f"<li>{b}</li>" for b in bullets)
+
+    ld_product = json.dumps({"@context": "https://schema.org", "@type": "Product",
+                             "name": title,
+                             "image": [img_rel(p.get("card_img") or model)],
+                             "description": intro,
+                             "sku": model,
+                             "brand": {"@type": "Brand", "name": "DDSVerified"},
+                             "url": f"{BASE}/{slug}",
+                             "offers": {"@type": "Offer",
+                                        "url": f"{BASE}/{slug}",
+                                        "priceCurrency": "IRR",
+                                        "price": price,
+                                        "itemCondition": "https://schema.org/NewCondition",
+                                        "availability": "https://schema.org/InStock" if p.get("inventory", 0) > 0 else "https://schema.org/OutOfStock"}},
+                            ensure_ascii=False)
+    ld_faq = json.dumps({"@context": "https://schema.org", "@type": "FAQPage",
+                         "mainEntity": [{"@type": "Question", "name": q,
+                                         "acceptedAnswer": {"@type": "Answer", "text": a}}
+                                        for q, a in faqs]}, ensure_ascii=False)
+    extra = (f'<script type="application/ld+json">{ld_product}</script>\n'
+             f'<script type="application/ld+json">{ld_faq}</script>\n'
+             f'<style>{CAMPAIGN_CSS}</style>')
+
+    body = f"""
+<h1>{title}</h1>
+<div class="intro"><p>{intro}</p></div>
+<div class="cmp-price">{fmt_price(price)} تومان <small>(۹۵٬۰۰۰ به ازای هر عدد فرز)</small></div>
+<ul class="cmp-bullets">
+{bullets_html}
+</ul>
+<div class="cmp-urg">بعد از این جشنواره افزایش قیمت خواهیم داشت 🔴<br>تعداد بسته‌ها محدود است. ❗️</div>
+<figure class="bp-figure"><img src="{img_rel(p.get("details_img") or model)}" alt="عکس تعداد فرزهای بسته ۴۰۰ عددی" loading="lazy" decoding="async"></figure>
+<div class="cmp-contents">
+<h2>چه فرزهایی در این بسته هست؟</h2>
+<p>پرمصرف‌ترین فرزها در ترمیمی، اندو و پروتز ثابت با هر سلیقه‌ای در این بسته استفاده شده.</p>
+<ul>
+<li><b>ترمیمی:</b> نیدل و نیدل پرداخت، فلیم و فلیم پرداخت، فلیم شنک بلند نازک، فوتبالی و فوتبالی پرداخت، فیشور کوتاه، تیپر کوتاه و بلند روند اند، روند و ...</li>
+<li><b>اندو:</b> فیشور بلند، روند بلند، روند کوتاه، تیپر روند اند، نیدل و ...</li>
+<li><b>پروتز ثابت:</b> تیپر فلت اند، چمفر، تورپیدو سیلندری، روند اند تیپر، فیشور بلند و ...</li>
+</ul>
+<p>از بابت نسبت تعداد فرزها، به صورت هوشمندانه وزن‌دهی داده شده! یعنی از هر فرز به تعداد مساوی تقسیم نکردیم بلکه از هر مدل بسته به تعداد نیاز و بیمار طبق آمار زیاد و تجربه بالینی که داشتیم تعبیه کردیم.</p>
+<p class="cmp-80">✅ هوشمند باشید، ۸۰ درصد پروسیجرهای شما با همین بسته فرز ما انجام می‌شود! ✅</p>
+</div>
+<h2>پرسش‌های متدود</h2>
+<div class="faq">{faq_html}</div>
+<a class="cta" href="/index.html#{quote(model)}">🛒 خرید {title} — افزودن به سبد خرید</a>
+<div class="trust">✅ تست توسط دندانپزشک &nbsp;·&nbsp; 🇩🇪 گواهی TÜV Rheinland آلمان &nbsp;·&nbsp; 📦 ارسال رایگان سراسر ایران</div>"""
+
+    crumbs = f'<a href="/">خانه</a> › {title}'
+    html = _layout(title, intro, slug, crumbs, body, extra,
+                   og_image=img_rel(p.get("card_img") or model))
+    with open(os.path.join(d, "index.html"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(html)
+    return True
+
+
 def build_sitemap(data, posts=None) -> str:
     urls = [("", "1.0"), ("blog/", "0.6")]
     for key in group_by_page(data):
+        if key == "bundle":
+            continue  # temporary campaign bundle: not for search engines
         urls.append((cat_url(key), "0.9"))
     for p in sorted(data["products"], key=lambda x: x["model"]):
+        if p.get("bundle"):
+            continue  # campaign landing page is noindex (short-link traffic only)
         urls.append((product_page_url(p["model"]), "0.8"))
     for p in (posts or []):
         urls.append((f"blog/{p['slug']}/", "0.7"))
@@ -638,6 +764,8 @@ def main():
     posts = load_posts()
     n = 0
     for key in group_by_page(data):
+        if key == "bundle":
+            continue  # temporary bundle: no category page (not for search/marketplaces)
         d = f"category/{SLUGS[key]}"
         os.makedirs(d, exist_ok=True)
         with open(f"{d}/index.html", "w", encoding="utf-8", newline="\n") as f:
@@ -645,6 +773,10 @@ def main():
         n += 1
     os.makedirs("product", exist_ok=True)
     for p in sorted(data["products"], key=lambda x: x["model"]):
+        if p.get("bundle"):
+            if build_campaign_page(p, data):
+                n += 1
+            continue  # landing page instead of a spec product page (no Torob/Emalls)
         d = f"product/{anchor_id(p['model'])}"
         os.makedirs(d, exist_ok=True)
         with open(f"{d}/index.html", "w", encoding="utf-8", newline="\n") as f:
@@ -679,6 +811,12 @@ def main():
         with open(f"{d}/index.html", "w", encoding="utf-8", newline="\n") as f:
             f.write(build_post_page(p))
         n += 1
+    # drop the campaign landing page when no bundle row is flagged anymore
+    import shutil
+    cdir = os.path.join("campaign", CAMPAIGN_SLUG)
+    if not any(p.get("bundle") for p in data["products"]) and os.path.isdir(cdir):
+        shutil.rmtree(cdir)
+        print("removed stale campaign landing page")
     with open("sitemap.xml", "w", encoding="utf-8", newline="\n") as f:
         f.write(build_sitemap(data, posts))
     print(f"Generated {n} pages + sitemap ({len(group_by_page(data))} categories, {len(posts)} blog posts)")

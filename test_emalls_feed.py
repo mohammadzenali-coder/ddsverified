@@ -22,7 +22,8 @@ def test_top_level_schema():
     d = _load()
     assert d["success"] is True
     assert set(d) >= {"success", "products", "total_items", "pages_count", "item_per_page", "page_num"}
-    assert d["total_items"] == len(f.load_data()["products"]) == 50
+    # campaign bundles are excluded from the marketplace feed by design
+    assert d["total_items"] == len([p for p in f.load_data()["products"] if not p.get("bundle")]) == 50
     assert d["item_per_page"] == 50 and d["page_num"] == 1
     assert d["pages_count"] == 1
 
@@ -101,6 +102,8 @@ def test_price_matches_packaging():
     data = f.load_data()
     by_id = {p["id"]: p for p in _load()["products"]}
     for src in data["products"]:
+        if src.get("bundle"):
+            continue  # campaign bundle is not listed in the marketplace feed
         per_bur = int(src.get("price") or data["price_per_bur"])
         expected = per_bur if src.get("multiplier") == 1 else per_bur * data["burs_per_pack"]
         assert by_id[src["model"]]["price"] == expected, src["model"]

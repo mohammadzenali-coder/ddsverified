@@ -105,7 +105,10 @@ def product_category(shape_key: str, data: dict) -> str:
 
 def build_products(data: dict) -> list:
     products = []
+    # temporary campaign bundle: sold via its own landing page only
     for p in sorted(data["products"], key=lambda x: x["model"]):
+        if p.get("bundle"):
+            continue
         shape = p["shape"]
         grit = color_fa(p.get("grit", ""))
         # Pack line: per-bur sticker × 5 (matches بسته‌بندی note); single-sale keeps own price

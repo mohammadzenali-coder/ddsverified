@@ -22,7 +22,10 @@ def test_generator_run_produces_file():
 def test_count_matches_source_and_uniques_unique():
     d = _load()
     src = t.load_data()["products"]
-    assert len(d) == len(src) == 50
+    # campaign bundles are excluded from the marketplace feed by design
+    src = [p for p in src if not p.get("bundle")]
+    assert len(d) == len(src) >= 50
+    assert len(d) == 50  # indexed catalog size
     uniques = [p["page_unique"] for p in d]
     assert len(uniques) == len(set(uniques)), "duplicate page_unique in feed"
 
@@ -95,6 +98,8 @@ def test_feed_price_matches_packaging():
     data = t.load_data()
     by_unique = {p["page_unique"]: p for p in _load()}
     for src in data["products"]:
+        if src.get("bundle"):
+            continue  # campaign bundle is not listed in the marketplace feed
         fp = by_unique[t.anchor_id(src["model"])]
         per_bur = int(src.get("price") or data["price_per_bur"])
         expected = per_bur if src.get("multiplier") == 1 else per_bur * data["burs_per_pack"]
