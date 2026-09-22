@@ -17,7 +17,8 @@
 <meta property="og:site_name" content="DDSVerified">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+<link rel="preload" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" type="text/css"></noscript>
 
 <!-- Cloudflare Web Analytics: فعال شده با Automatic Setup (از طریق پروکسی CF) -->
 <!-- نیازی به beacon دستی نیست؛ خود Cloudflare آن را به صورت خودکار تزریق می‌کند. -->
@@ -97,6 +98,15 @@ html,body{overflow-x:hidden;max-width:100vw}
   --border:#dde4ec;--success:#2e7d32;--danger:#c62828;--warning:#ef6c00;
   --radius:12px;--shadow:0 2px 8px rgba(21,101,192,.08);--shadow-lg:0 8px 30px rgba(21,101,192,.15);
 }
+
+/* Critical Vazirmatn font weights (400/500/600/700/800) — inlined to eliminate
+   render-blocking jsdelivr CSS. Full font CSS still loads async via preload+onload. */
+@font-face { font-family: 'Vazirmatn'; src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Vazirmatn'; src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Vazirmatn'; src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Vazirmatn'; src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Vazirmatn'; src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-ExtraBold.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+
 body{font-family:'Vazirmatn',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;-webkit-font-smoothing:antialiased;width:100%;position:relative}
 img{max-width:100%;height:auto}
 .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
@@ -724,7 +734,7 @@ footer a{color:var(--primary);text-decoration:none}
 @media (prefers-reduced-motion: reduce){.push-item{animation:none!important}.push-item:not(:first-child){display:none}.push-item:first-child{opacity:1!important;transform:none!important}}
 </style>
 <!-- GA4 — loaded deferred, never blocks rendering -->
-<script>window.gaId='G-DW63K5FG8M';addEventListener('load',function(){var s=document.createElement('script');s.src='https://www.googletagmanager.com/gtag/js?id='+window.gaId;s.async=true;document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function g(){dataLayer.push(arguments)}window.gtag=g;g('js',new Date());g('config',window.gaId,{send_page_view:true})});</script>
+<script>window.gaId='G-DW63K5FG8M';addEventListener('DOMContentLoaded',function(){var s=document.createElement('script');s.src='https://www.googletagmanager.com/gtag/js?id='+window.gaId;s.async=true;document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function g(){dataLayer.push(arguments)}window.gtag=g;g('js',new Date());g('config',window.gaId,{send_page_view:true})});</script>
 </head>
 <body>
 
@@ -733,7 +743,7 @@ footer a{color:var(--primary);text-decoration:none}
     <div class="header-top">
       <div class="header-brand">
         <!-- DDS Verified Logo Badge -->
-        <img src="logo.webp" alt="لوگوی مرکز تخصصی فرزهای دندانپزشکی | DDSVerified" class="logo-badge" style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
+        <img src="logo.webp" alt="لوگوی مرکز تخصصی فرزهای دندانپزشکی | DDSVerified" class="logo-badge" fetchpriority="high" style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
         <div>
           <h1>تایید شده توسط دندانپزشک | DDSVerified</h1>
           <div class="header-subtitle">مرکز تخصصی فرزهای دندانپزشکی که یک دندانپزشک با ازمایش و وسواس تایید کرده</div>
