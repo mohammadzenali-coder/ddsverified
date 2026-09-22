@@ -31,6 +31,41 @@
   },
   "products": [
     {
+      "shape": "bundle",
+      "bundle": true,
+      "model": "PACK-400",
+      "iso": "-",
+      "usa": "-",
+      "diameter": "-",
+      "length": "-",
+      "grit": "-",
+      "inventory": 17,
+      "multiplier": 400,
+      "price": 38000000,
+      "pack_size": 1,
+      "card_img": "pack400",
+      "card_title": "بسته ۴۰۰ عددی فرزهای پرمصرف",
+      "img_note": "ارسال رایگان",
+      "free_shipping": true,
+      "alt": "بسته ۴۰۰ عددی فرزهای الماسی پرمصرف — فروش ویژه",
+      "details_img": "pack400-contents",
+      "desc": "فروش ویژه و تکرارنشدنی بسته ۴۰۰ عددی پرمصرف ترین فرز الماسه هایی که یک دندانپزشک/کلینیک استفاده میکند."
+    },
+    {
+      "shape": "carbide",
+      "model": "ENDO-Z TI",
+      "iso": "500 316 210 007 015",
+      "usa": "953-015M",
+      "diameter": "-",
+      "length": "-",
+      "grit": "-",
+      "inventory": 36,
+      "multiplier": 1,
+      "price": 1500000,
+      "pack_size": 6,
+      "details_img": "endo-z-blueprint"
+    },
+    {
       "shape": "needle",
       "model": "TC-26EF",
       "iso": "806 314 164 504 012",
@@ -523,41 +558,6 @@
       "length": "8.0",
       "grit": "G🟢",
       "inventory": 40
-    },
-    {
-      "shape": "carbide",
-      "model": "ENDO-Z TI",
-      "iso": "500 316 210 007 015",
-      "usa": "953-015M",
-      "diameter": "-",
-      "length": "-",
-      "grit": "-",
-      "inventory": 36,
-      "multiplier": 1,
-      "price": 1500000,
-      "pack_size": 6,
-      "details_img": "endo-z-blueprint"
-    },
-    {
-      "shape": "bundle",
-      "bundle": true,
-      "model": "PACK-400",
-      "iso": "-",
-      "usa": "-",
-      "diameter": "-",
-      "length": "-",
-      "grit": "-",
-      "inventory": 17,
-      "multiplier": 400,
-      "price": 38000000,
-      "pack_size": 1,
-      "card_img": "pack400",
-      "card_title": "بسته ۴۰۰ عددی فرزهای پرمصرف",
-      "img_note": "ارسال رایگان",
-      "free_shipping": true,
-      "alt": "بسته ۴۰۰ عددی فرزهای الماسی پرمصرف — فروش ویژه",
-      "details_img": "pack400-contents",
-      "desc": "فروش ویژه و تکرارنشدنی بسته ۴۰۰ عددی پرمصرف ترین فرز الماسه هایی که یک دندانپزشک/کلینیک استفاده میکند."
     }
   ]
 }
