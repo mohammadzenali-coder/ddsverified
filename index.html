@@ -1257,12 +1257,12 @@ function renderProducts() {
     return `
       <article class="product-card ${inStock ? '' : 'out-of-stock'}">
         <div class="product-img-wrap">
-          <a class="product-img-link" href="/product/${productSlug(p.model)}/" aria-label="صفحه محصول ${p.model}">
+          <a class="product-img-link" href="${p.bundle ? "/campaign/pack-400/" : "/product/" + productSlug(p.model) + "/"}" aria-label="صفحه محصول ${p.model}">
           <img src="images/${(p.card_img || p.model).toLowerCase()}.webp" alt="${altText}" width="267" height="400" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
           </a>
         </div>
         <div class="product-shape">${p.card_title || shapeName}</div>
-        <div class="product-model"><a href="/product/${productSlug(p.model)}/">${p.model}</a></div>
+        <div class="product-model"><a href="${p.bundle ? "/campaign/pack-400/" : "/product/" + productSlug(p.model) + "/"}">${p.model}</a></div>
         <div class="product-specs">
           ${p.diameter !== "-" ? `<span class="spec-tag">قطر: ${toPersianDigits(p.diameter)}</span>` : ''}
           ${lengthTag}
