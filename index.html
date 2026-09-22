@@ -1215,6 +1215,13 @@ function calculateDiscount() { return 0; } // سازگاری با کدهای ق�
 function tierUnitPrice(product, totalBurs) {
   return product.price !== undefined ? product.price : getTierInfo(totalBurs || 1).cur.price;
 }
+/* Bundle (PACK-400) `price` is the TOTAL pack price, not per-bur. One pack
+   contains `multiplier` burs. Per-bur price inside the pack = price/multiplier,
+   so burCount * (price/multiplier) == packCount * price. Exposed for the
+   campaign page (generate_pages.py) parity: "95,000 به ازای هر عدد فرز". */
+function bundlePerBur(product) {
+  return product.multiplier > 0 ? product.price / product.multiplier : product.price;
+}
 function getNextDiscountInfo(totalBurs) {
   const { cur, next, maxed } = getTierInfo(totalBurs);
   if (maxed || !next) return { bursNeeded: 0, nextDiscount: 0, maxed: true };
@@ -1406,7 +1413,9 @@ function updateCart() {
   const tierUnit = product => tierUnitPrice(product, totalBurs);
   const subtotal = items.reduce((sum, item) => {
     const burCount = item.packCount * (item.product.multiplier || BURS_PER_PACK);
-    return sum + (burCount * tierUnit(item.product));
+    // Bundle `price` is the pack total; regular/EndoZ `price` is per-bur.
+    const unit = item.product.bundle ? bundlePerBur(item.product) : tierUnit(item.product);
+    return sum + (burCount * unit);
   }, 0);
   // === Free Shipping Logic ===
   const freeShipUnlocked = totalBurs >= FREE_SHIPPING_THRESHOLD || items.some(i => isFreeShipItem(i.product));
@@ -1476,7 +1485,7 @@ function updateCart() {
           ? `${product.card_title || shapeName} <span class="cart-item-model">${product.model}</span>`
           : `${toPersian(burCount)} عدد ${shapeName} قطر ${toPersianDigits(product.diameter)} دور ${gritDisp} <span class="cart-item-model">${product.model}</span>`}</div>
         <div class="cart-item-line2">${product.bundle
-          ? `${toPersian(burCount)} عدد × ${toPersian(tierUnit(product))} تومان`
+          ? `${toPersian(packCount)} بسته × ${toPersian(product.price)} تومان (هر بسته ${toPersian(mult)} عدد)`
           : `${toPersian(burCount)} * (${toPersian(tierUnit(product))} تومان)`}</div>
         <div class="cart-item-controls">
           <div class="stepper">
@@ -1545,7 +1554,7 @@ function generateOrderMessage(items, totalBurs, finalTotal, freeShipUnlocked) {
     const unitPrice = product.price !== undefined ? product.price : tier.cur.price;
     // Model identifies shape/diameter/grit; avoid repeating them in encoded URLs.
     if (product.bundle) {
-      msg += `${product.model} x ${burCount} عدد = ${unitPrice * burCount} تومان (ارسال رایگان)\n`;
+      msg += `${product.model} x ${packCount} بسته = ${packCount * product.price} تومان (ارسال رایگان)\n`;
     } else {
       msg += `${product.model} x ${burCount} @ ${unitPrice}\n`;
     }
