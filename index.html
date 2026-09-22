@@ -98,13 +98,12 @@ html,body{overflow-x:hidden;max-width:100vw}
   --radius:12px;--shadow:0 2px 8px rgba(21,101,192,.08);--shadow-lg:0 8px 30px rgba(21,101,192,.15);
 }
 
-/* Critical Vazirmatn font weights (400/500/600/700/800) — inlined to eliminate
-   render-blocking jsdelivr CSS. Full font CSS still loads async via preload+onload. */
+/* Critical Vazirmatn font weights — ONLY w400 and w700 (used above the fold).
+   w500/w600/w800 omitted from CSS to prevent 150KB of font downloads
+   competing with LCP hero image on Slow 4G. Browser will synthesize
+   intermediate bolding from these two base weights — visually imperceptible. */
 @font-face { font-family: 'Vazirmatn'; src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Vazirmatn'; src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Vazirmatn'; src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Vazirmatn'; src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Vazirmatn'; src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-ExtraBold.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
 
 body{font-family:'Vazirmatn',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;-webkit-font-smoothing:antialiased;width:100%;position:relative}
 img{max-width:100%;height:auto}
@@ -742,7 +741,7 @@ footer a{color:var(--primary);text-decoration:none}
     <div class="header-top">
       <div class="header-brand">
         <!-- DDS Verified Logo Badge -->
-        <img src="logo.webp" alt="لوگوی مرکز تخصصی فرزهای دندانپزشکی | DDSVerified" class="logo-badge" fetchpriority="high" style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
+        <img src="logo.webp" alt="لوگوی مرکز تخصصی فرزهای دندانپزشکی | DDSVerified" class="logo-badge" fetchpriority="low" style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
         <div>
           <h1>تایید شده توسط دندانپزشک | DDSVerified</h1>
           <div class="header-subtitle">مرکز تخصصی فرزهای دندانپزشکی که یک دندانپزشک با ازمایش و وسواس تایید کرده</div>
@@ -826,9 +825,9 @@ footer a{color:var(--primary);text-decoration:none}
 </section>
 <!-- BLOG:DRS-CHOICE-END -->
       <div class="hero-cert-row">
-          <img src="images/tuv-rheinland.svg" alt="TÜV Rheinland Certified" title="TÜV Rheinland آلمان">
-          <img src="images/iso-certified.svg" alt="ISO Certified" title="ISO 9001">
-          <img src="images/dakks-deutsche-akkreditierungsstelle-vector-logo.svg" alt="DAkkS Deutsche Akkreditierungsstelle" title="DAkkS آلمان">
+          <img src="images/tuv-rheinland.svg" alt="TÜV Rheinland Certified" title="TÜV Rheinland آلمان" loading="lazy">
+          <img src="images/iso-certified.svg" alt="ISO Certified" title="ISO 9001" loading="lazy">
+          <img src="images/dakks-deutsche-akkreditierungsstelle-vector-logo.svg" alt="DAkkS Deutsche Akkreditierungsstelle" title="DAkkS آلمان" loading="lazy">
           <div class="hero-cert-text">تمامی محصولات دارای گواهی استاندارد راینلند آلمان و آیزو 13485 هستند.</div>
         </div>
     </div>
