@@ -1437,7 +1437,7 @@ function updateCart() {
       <div class="progress-bar"><div class="progress-fill" style="width:${progressPct}%"></div></div>
       ${hasFixedPriceItem ? '<div style="font-size:.68rem;margin-top:6px;opacity:.8;">* فرز EndoZ با قیمت ثابت خودش محاسبه می‌شود.</div>' : ''}
     </div>
-  ` : "";
+  `;
 
   // === Free Shipping Gamification (high-dopamine) ===
   const freeShipProgressPct = Math.min(100, Math.round((totalBurs / FREE_SHIPPING_THRESHOLD) * 100));
