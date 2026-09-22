@@ -312,15 +312,17 @@ def campaign_page_url() -> str:
     return f"campaign/{CAMPAIGN_SLUG}/"
 
 
-CAMPAIGN_CSS = """
-.cmp-price{font-size:1.5rem;font-weight:800;color:#ef6c00;margin:10px 0 4px}
-.cmp-price small{font-weight:400;font-size:.75rem;color:#78909c}
-.cmp-bullets{margin:12px 0 12px 20px;line-height:2}
-.cmp-urg{background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:10px 14px;font-size:.85rem;margin:12px 0;color:#e65100;font-weight:700}
-.cmp-contents{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:12px 14px;font-size:.88rem;margin:14px 0}
-.cmp-contents ul{margin:8px 0 8px 20px;line-height:2}
-.cmp-80{font-weight:800;color:#2e7d32;margin-top:10px}
-"""
+CAMPAIGN_CSS = (
+    '.cmp-price{font-size:1.5rem;font-weight:800;color:#ef6c00;margin:10px 0 4px}'
+    '.cmp-price small{font-weight:400;font-size:.75rem;color:#78909c}'
+    '.cmp-bullets{margin:12px 0 12px 20px;line-height:2}'
+    '.cmp-urg{background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:10px 14px;font-size:.85rem;margin:12px 0;color:#e65100;font-weight:700}'
+    '.cmp-contents{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:12px 14px;font-size:.88rem;margin:14px 0}'
+    '.cmp-contents ul{margin:8px 0 8px 20px;line-height:2}'
+    '.cmp-80{font-weight:800;color:#2e7d32;margin-top:10px}'
+    '.hero-img-wrap{width:100%;margin:0 0 14px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--border);line-height:0}'
+    '.hero-img-wrap img{width:100%;height:auto;display:block}'
+)
 
 
 def build_campaign_page(p: dict, data: dict) -> bool:
@@ -358,11 +360,11 @@ def build_campaign_page(p: dict, data: dict) -> bool:
          "تیپر روند اند، نیدل و ...&nbsp; پروتز ثابت: تیپر فلت اند، چمفر، تورپیدو سیلندری، روند اند تیپر، "
          "فیشور بلند و ..."),
         ("نسبت تعداد فرزها چطور تعیین شده؟",
-         "به صورت هوشمندانه وزن‌دهی داده شده! یعنی از هر فرز به تعداد مساوی تقسیم نکردیم؛ از هر مدل "
+         "به صورت هوشمندانه وزندهی داده شده! یعنی از هر فرز به تعداد مساوی تقسیم نکردیم؛ از هر مدل "
          "بسته به تعداد نیاز و بیمار، طبق آمار زیاد و تجربه بالینی که داشتیم تعبیه کردیم. "
-         "هوشمند باشید، ۸۰ درصد پروسیجرهای شما با همین بسته فرز ما انجام می‌شود."),
+         "هوشمند باشید، ۸۰ درصد پروسیجرهای شما با همین بسته فرز ما انجام میشود."),
         ("ارسال و گارانتی چگونه است؟",
-         "ارسال این بسته رایگان است و شامل تخفیف‌های پلکانی سایت نمی‌شود. فرزها پیش از ارسال "
+         "ارسال این بسته رایگان است و شامل تخفیفهای پلکانی سایت نمیشود. فرزها پیش از ارسال "
          "شخصاً توسط دندانپزشک تست و بررسی و آزمایش شده و دارای گواهی کیفی ISO و TUV هستند."),
     ]
     faq_html = "".join(
@@ -371,7 +373,7 @@ def build_campaign_page(p: dict, data: dict) -> bool:
 
     ld_product = json.dumps({"@context": "https://schema.org", "@type": "Product",
                              "name": title,
-                             "image": [img_rel(p.get("card_img") or model)],
+                             "image": [img_rel("pack400-hero")],
                              "description": intro,
                              "sku": model,
                              "brand": {"@type": "Brand", "name": "DDSVerified"},
@@ -387,11 +389,15 @@ def build_campaign_page(p: dict, data: dict) -> bool:
                          "mainEntity": [{"@type": "Question", "name": q,
                                          "acceptedAnswer": {"@type": "Answer", "text": a}}
                                         for q, a in faqs]}, ensure_ascii=False)
+
     extra = (f'<script type="application/ld+json">{ld_product}</script>\n'
              f'<script type="application/ld+json">{ld_faq}</script>\n'
              f'<style>{CAMPAIGN_CSS}</style>')
 
+    hero_img = img_rel("pack400-hero")
+
     body = f"""
+<figure class="hero-img-wrap"><img src="{hero_img}" srcset="{hero_img.replace('pack400-hero.webp', 'pack400-hero-770.webp')} 770w, {hero_img} 1540w" sizes="(max-width:768px) 100vw, 1256w" alt="{title} — جشنواره ویژه" width="1540" height="866" fetchpriority="high" decoding="async"></figure>
 <h1>{title}</h1>
 <div class="intro"><p>{intro}</p></div>
 <div class="cmp-price">{fmt_price(price)} تومان <small>(۹۵٬۰۰۰ به ازای هر عدد فرز)</small></div>
@@ -399,7 +405,7 @@ def build_campaign_page(p: dict, data: dict) -> bool:
 {bullets_html}
 </ul>
 <div class="cmp-urg">بعد از این جشنواره افزایش قیمت خواهیم داشت 🔴<br>تعداد بسته‌ها محدود است. ❗️</div>
-<figure class="bp-figure"><img src="{img_rel(p.get("details_img") or model)}" alt="عکس تعداد فرزهای بسته ۴۰۰ عددی" loading="lazy" decoding="async"></figure>
+<figure class="bp-figure"><img src="{img_rel(p.get('details_img') or model)}" alt="عکس تعداد فرزهای بسته ۴۰۰ عددی" loading="lazy" decoding="async"></figure>
 <div class="cmp-contents">
 <h2>چه فرزهایی در این بسته هست؟</h2>
 <p>پرمصرف‌ترین فرزها در ترمیمی، اندو و پروتز ثابت با هر سلیقه‌ای در این بسته استفاده شده.</p>
@@ -408,22 +414,20 @@ def build_campaign_page(p: dict, data: dict) -> bool:
 <li><b>اندو:</b> فیشور بلند، روند بلند، روند کوتاه، تیپر روند اند، نیدل و ...</li>
 <li><b>پروتز ثابت:</b> تیپر فلت اند، چمفر، تورپیدو سیلندری، روند اند تیپر، فیشور بلند و ...</li>
 </ul>
-<p>از بابت نسبت تعداد فرزها، به صورت هوشمندانه وزن‌دهی داده شده! یعنی از هر فرز به تعداد مساوی تقسیم نکردیم بلکه از هر مدل بسته به تعداد نیاز و بیمار طبق آمار زیاد و تجربه بالینی که داشتیم تعبیه کردیم.</p>
-<p class="cmp-80">✅ هوشمند باشید، ۸۰ درصد پروسیجرهای شما با همین بسته فرز ما انجام می‌شود! ✅</p>
+<p>از بابت نسبت تعداد فرزها، به صورت هوشمندانه وزندهی داده شده! یعنی از هر فرز به تعداد مساوی تقسیم نکردیم بلکه از هر مدل بسته به تعداد نیاز و بیمار طبق آمار زیاد و تجربه بالینی که داشتیم تعبیه کردیم.</p>
+<p class="cmp-80">✅ هوشمند باشید، ۸۰ درصد پروسیجرهای شما با همین بسته فرز ما انجام میشود! ✅</p>
 </div>
-<h2>پرسش‌های متدود</h2>
+<h2>پرسشهای متداول</h2>
 <div class="faq">{faq_html}</div>
 <a class="cta" href="/index.html#{quote(model)}">🛒 خرید {title} — افزودن به سبد خرید</a>
 <div class="trust">✅ تست توسط دندانپزشک &nbsp;·&nbsp; 🇩🇪 گواهی TÜV Rheinland آلمان &nbsp;·&nbsp; 📦 ارسال رایگان سراسر ایران</div>"""
 
     crumbs = f'<a href="/">خانه</a> › {title}'
     html = _layout(title, intro, slug, crumbs, body, extra,
-                   og_image=img_rel(p.get("card_img") or model))
+                   og_image=img_rel("pack400-hero"))
     with open(os.path.join(d, "index.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(html)
     return True
-
-
 def build_sitemap(data, posts=None) -> str:
     urls = [("", "1.0"), ("blog/", "0.6")]
     for key in group_by_page(data):
