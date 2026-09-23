@@ -34,6 +34,7 @@
       "shape": "bundle",
       "bundle": true,
       "model": "PACK-400",
+      "featured": 1,
       "iso": "-",
       "usa": "-",
       "diameter": "-",
@@ -54,6 +55,7 @@
     {
       "shape": "carbide",
       "model": "ENDO-Z TI",
+      "featured": 1,
       "iso": "500 316 210 007 015",
       "usa": "953-015M",
       "diameter": "-",

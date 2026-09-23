@@ -428,7 +428,7 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 @media(min-width:960px){.product-grid{grid-template-columns:repeat(4,1fr);gap:16px}}
 
 /* Product Card */
-.product-card{background:var(--surface);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);border:1px solid var(--border);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.product-card{position:relative;background:var(--surface);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);border:1px solid var(--border);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
 .product-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
 .product-card.out-of-stock{opacity:.6}
 .product-img-wrap{background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-radius:8px;aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;margin-bottom:10px;overflow:hidden}
@@ -462,6 +462,10 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .product-price-unit{font-size:.68rem;color:var(--text-light);font-weight:400}
 .product-pack-price{font-size:.76rem;font-weight:700;color:var(--success);margin-top:2px}
 .product-pack-price span{font-weight:400;font-size:.66rem;color:var(--text-light)}
+/* Featured cards (پیشنهاد ویژه) — first row highlight */
+.product-card.is-featured{border:2px solid #f59e0b;background:linear-gradient(180deg,#fffbeb 0%,var(--surface) 42%)}
+.product-card.is-featured:hover{box-shadow:0 10px 26px rgba(245,158,11,.28)}
+.featured-badge{position:absolute;top:10px;right:10px;z-index:5;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:.64rem;font-weight:800;padding:4px 9px;border-radius:50px;box-shadow:0 3px 10px rgba(217,119,6,.45);letter-spacing:.2px}
 /* === جدول قیمت پلکانی عمده === */
 .tier-section{margin:34px auto 8px;max-width:960px;padding:0 12px}
 /* === EndoZ: luxury hero banner === */
@@ -1095,8 +1099,8 @@ footer a{color:var(--primary);text-decoration:none}
 const PRODUCTS = [
 
   // بسته ۴۰۰ عددی کمپین موقت — قیمت نصبِ صفحه، ارسال رایگان دائمی، خارج از پلکان
-  {shape:"bundle",bundle:true,model:"PACK-400",iso:"-",usa:"-",diameter:"-",length:"-",grit:"-",inventory:17,multiplier:400,price:38000000,pack_size:1,card_img:"pack400",card_title:"بسته ۴۰۰ عددی فرزهای پرمصرف",img_note:"ارسال رایگان",free_shipping:true,alt:"بسته ۴۰۰ عددی فرزهای الماسی پرمصرف — فروش ویژه",details_img:"pack400-contents",desc:"فروش ویژه و تکرارنشدنی بسته ۴۰۰ عددی پرمصرف ترین فرز الماسه هایی که یک دندانپزشک/کلینیک استفاده میکند."},
-  {shape:"carbide",model:"ENDO-Z TI",iso:"500 316 210 007 015",usa:"953-015M",diameter:"-",length:"-",grit:"-",inventory:36,multiplier:1,price:1500000,pack_size:6,details_img:"endo-z-blueprint"},
+  {shape:"bundle",bundle:true,model:"PACK-400",featured:1,iso:"-",usa:"-",diameter:"-",length:"-",grit:"-",inventory:17,multiplier:400,price:38000000,pack_size:1,card_img:"pack400",card_title:"بسته ۴۰۰ عددی فرزهای پرمصرف",img_note:"ارسال رایگان",free_shipping:true,alt:"بسته ۴۰۰ عددی فرزهای الماسی پرمصرف — فروش ویژه",details_img:"pack400-contents",desc:"فروش ویژه و تکرارنشدنی بسته ۴۰۰ عددی پرمصرف ترین فرز الماسه هایی که یک دندانپزشک/کلینیک استفاده میکند."},
+  {shape:"carbide",model:"ENDO-Z TI",featured:1,iso:"500 316 210 007 015",usa:"953-015M",diameter:"-",length:"-",grit:"-",inventory:36,multiplier:1,price:1500000,pack_size:6,details_img:"endo-z-blueprint"},
 
   {shape:"needle",model:"TC-26EF",iso:"806 314 164 504 012",usa:"852-012EF",diameter:"012",length:"6.0",grit:"Y🟡",inventory:101},
   {shape:"needle",model:"TC-21EF",iso:"806 314 165 504 014",usa:"858-014EF",diameter:"014",length:"8.0",grit:"Y🟡",inventory:150},
@@ -1247,7 +1251,10 @@ function renderProducts() {
     resultsInfo.textContent = '۰ محصول یافت شد';
     return;
   }
-  productGrid.innerHTML = filteredProducts.map(p => {
+  const ordered = filteredProducts.some(p => p.featured)
+    ? [...filteredProducts].sort((a, b) => (b.featured || 0) - (a.featured || 0))
+    : filteredProducts;
+  productGrid.innerHTML = ordered.map(p => {
     const shapeName = SHAPE_MAP[p.shape] || p.shape;
     const gritDisp = GRIT_DISPLAY[p.grit] || p.grit;
     const inStock = p.inventory > 0;
@@ -1255,7 +1262,8 @@ function renderProducts() {
     const lengthTag = p.length !== "-" ? `<span class="spec-tag">طول: ${toPersianDigits(p.length)}</span>` : '';
     const multTag = p.multiplier === 1 ? `<span class="spec-tag" style="background:#fff3e0;color:#ef6c00;border-color:#ffe0b2">تک‌فروشی</span>` : '';
     return `
-      <article class="product-card ${inStock ? '' : 'out-of-stock'}">
+      <article class="product-card ${inStock ? '' : 'out-of-stock'} ${p.featured ? 'is-featured' : ''}">
+        ${p.featured ? '<span class="featured-badge">⭐ پیشنهاد ویژه</span>' : ''}
         <div class="product-img-wrap">
           <a class="product-img-link" href="${p.bundle ? "/campaign/pack-400/" : "/product/" + productSlug(p.model) + "/"}" aria-label="صفحه محصول ${p.model}">
           <img src="images/${(p.card_img || p.model).toLowerCase()}.webp" alt="${altText}" width="267" height="400" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
