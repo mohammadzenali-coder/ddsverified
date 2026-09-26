@@ -316,7 +316,6 @@ CAMPAIGN_CSS = (
     '.cmp-price{font-size:1.5rem;font-weight:800;color:#ef6c00;margin:10px 0 4px}'
     '.cmp-price small{font-weight:400;font-size:.75rem;color:#78909c}'
     '.cmp-bullets{margin:12px 0 12px 20px;line-height:2}'
-    '.cmp-urg{background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:10px 14px;font-size:.85rem;margin:12px 0;color:#e65100;font-weight:700}'
     '.cmp-contents{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:12px 14px;font-size:.88rem;margin:14px 0}'
     '.cmp-contents ul{margin:8px 0 8px 20px;line-height:2}'
     '.cmp-80{font-weight:800;color:#2e7d32;margin-top:10px}'
@@ -345,7 +344,6 @@ def build_campaign_page(p: dict, data: dict) -> bool:
     intro = p.get("desc") or ""
 
     bullets = [
-        "✅ تخفیف خیلی ویژه ۴٬۴۰۰٬۰۰۰ تومانی",
         "✅ ارسال رایگان",
         "✅ خیال راحت از مدل و تعداد فرزها",
         "✅ مناسب ۳ حیطه ترمیمی، اندو و روکش",
@@ -373,7 +371,7 @@ def build_campaign_page(p: dict, data: dict) -> bool:
 
     ld_product = json.dumps({"@context": "https://schema.org", "@type": "Product",
                              "name": title,
-                             "image": [img_rel("pack400-hero")],
+                             "image": [img_rel("400 ferez (1)")],
                              "description": intro,
                              "sku": model,
                              "brand": {"@type": "Brand", "name": "DDSVerified"},
@@ -394,17 +392,16 @@ def build_campaign_page(p: dict, data: dict) -> bool:
              f'<script type="application/ld+json">{ld_faq}</script>\n'
              f'<style>{CAMPAIGN_CSS}</style>')
 
-    hero_img = img_rel("pack400-hero")
+    hero_img = img_rel("400 ferez (1)")
 
     body = f"""
-<figure class="hero-img-wrap"><img src="{hero_img}" srcset="{hero_img.replace('pack400-hero.webp', 'pack400-hero-770.webp')} 770w, {hero_img} 1540w" sizes="(max-width:768px) 100vw, 1256w" alt="{title} — جشنواره ویژه" width="1540" height="866" fetchpriority="high" decoding="async"></figure>
+<figure class="hero-img-wrap"><img src="{hero_img}" srcset="{hero_img} 770w, {hero_img} 1540w" sizes="(max-width:768px) 100vw, 1256w" alt="{title} — جشنواره ویژه" width="1540" height="866" fetchpriority="high" decoding="async"></figure>
 <h1>{title}</h1>
 <div class="intro"><p>{intro}</p></div>
-<div class="cmp-price">{fmt_price(price)} تومان <small>(۹۵٬۰۰۰ به ازای هر عدد فرز)</small></div>
+<div class="cmp-price">{fmt_price(price)} تومان <small>(۱۰۶٬۰۰۰ به ازای هر عدد فرز)</small></div>
 <ul class="cmp-bullets">
 {bullets_html}
 </ul>
-<div class="cmp-urg">بعد از این جشنواره افزایش قیمت خواهیم داشت 🔴<br>تعداد بسته‌ها محدود است. ❗️</div>
 <figure class="bp-figure"><img src="{img_rel(p.get('details_img') or model)}" alt="عکس تعداد فرزهای بسته ۴۰۰ عددی" loading="lazy" decoding="async"></figure>
 <div class="cmp-contents">
 <h2>چه فرزهایی در این بسته هست؟</h2>
@@ -424,7 +421,7 @@ def build_campaign_page(p: dict, data: dict) -> bool:
 
     crumbs = f'<a href="/">خانه</a> › {title}'
     html = _layout(title, intro, slug, crumbs, body, extra,
-                   og_image=img_rel("pack400-hero"))
+                   og_image=img_rel("400 ferez (1)"))
     with open(os.path.join(d, "index.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(html)
     return True

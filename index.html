@@ -1099,7 +1099,7 @@ footer a{color:var(--primary);text-decoration:none}
 const PRODUCTS = [
 
   // بسته ۴۰۰ عددی کمپین موقت — قیمت نصبِ صفحه، ارسال رایگان دائمی، خارج از پلکان
-  {shape:"bundle",bundle:true,model:"PACK-400",featured:1,iso:"-",usa:"-",diameter:"-",length:"-",grit:"-",inventory:17,multiplier:400,price:38000000,pack_size:1,card_img:"pack400",card_title:"بسته ۴۰۰ عددی فرزهای پرمصرف",img_note:"ارسال رایگان",free_shipping:true,alt:"بسته ۴۰۰ عددی فرزهای الماسی پرمصرف — فروش ویژه",details_img:"pack400-contents",desc:"فروش ویژه و تکرارنشدنی بسته ۴۰۰ عددی پرمصرف ترین فرز الماسه هایی که یک دندانپزشک/کلینیک استفاده میکند."},
+  {shape:"bundle",bundle:true,model:"PACK-400",featured:1,iso:"-",usa:"-",diameter:"-",length:"-",grit:"-",inventory:17,multiplier:400,price:42400000,pack_size:1,card_img:"pack400",card_title:"بسته ۴۰۰ عددی فرزهای پرمصرف",img_note:"ارسال رایگان",free_shipping:true,alt:"بسته ۴۰۰ عددی فرزهای الماسی پرمصرف — فروش ویژه",details_img:"pack400-contents",desc:"فروش ویژه و تکرارنشدنی بسته ۴۰۰ عددی پرمصرف ترین فرز الماسه هایی که یک دندانپزشک/کلینیک استفاده میکند."},
   {shape:"carbide",model:"ENDO-Z TI",featured:1,iso:"500 316 210 007 015",usa:"953-015M",diameter:"-",length:"-",grit:"-",inventory:36,multiplier:1,price:1500000,pack_size:6,details_img:"endo-z-blueprint"},
 
   {shape:"needle",model:"TC-26EF",iso:"806 314 164 504 012",usa:"852-012EF",diameter:"012",length:"6.0",grit:"Y🟡",inventory:101},
@@ -1230,7 +1230,7 @@ function tierUnitPrice(product, totalBurs) {
 /* Bundle (PACK-400) `price` is the TOTAL pack price, not per-bur. One pack
    contains `multiplier` burs. Per-bur price inside the pack = price/multiplier,
    so burCount * (price/multiplier) == packCount * price. Exposed for the
-   campaign page (generate_pages.py) parity: "95,000 به ازای هر عدد فرز". */
+   campaign page (generate_pages.py) parity: "106,000 به ازای هر عدد فرز". */
 function bundlePerBur(product) {
   return product.multiplier > 0 ? product.price / product.multiplier : product.price;
 }
