@@ -1283,7 +1283,7 @@ function renderProducts() {
         </div>
         ${p.bundle
           ? `<div class="product-price">${toPersian(tierUnitPrice(p, 1))} <span class="product-price-unit">تومان / ${toPersianDigits(String(p.multiplier))} عدد</span></div>
-             <div class="product-pack-price">۹۵٬۰۰۰ تومان <span>به ازای هر عدد فرز</span></div>`
+             <div class="product-pack-price">۱۰۶٬۰۰۰ تومان <span>به ازای هر عدد فرز</span></div>`
           : `<div class="product-price">${toPersian(tierUnitPrice(p, 1))} <span class="product-price-unit">تومان / ۱ عدد</span></div>
              <div class="product-pack-price">${toPersian(tierUnitPrice(p, 1) * (p.pack_size || BURS_PER_PACK))} <span>تومان / بستهٔ ${toPersianDigits(String(p.pack_size || BURS_PER_PACK))} عددی</span></div>`}
         <span class="pack-info-box">${p.bundle

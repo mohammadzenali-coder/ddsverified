@@ -371,7 +371,7 @@ def build_campaign_page(p: dict, data: dict) -> bool:
 
     ld_product = json.dumps({"@context": "https://schema.org", "@type": "Product",
                              "name": title,
-                             "image": [img_rel("400 ferez (1)")],
+                             "image": [img_rel("400-ferez-1")],
                              "description": intro,
                              "sku": model,
                              "brand": {"@type": "Brand", "name": "DDSVerified"},
@@ -392,7 +392,7 @@ def build_campaign_page(p: dict, data: dict) -> bool:
              f'<script type="application/ld+json">{ld_faq}</script>\n'
              f'<style>{CAMPAIGN_CSS}</style>')
 
-    hero_img = img_rel("400 ferez (1)")
+    hero_img = img_rel("400-ferez-1")
 
     body = f"""
 <figure class="hero-img-wrap"><img src="{hero_img}" srcset="{hero_img} 770w, {hero_img} 1540w" sizes="(max-width:768px) 100vw, 1256w" alt="{title} — جشنواره ویژه" width="1540" height="866" fetchpriority="high" decoding="async"></figure>
@@ -421,7 +421,7 @@ def build_campaign_page(p: dict, data: dict) -> bool:
 
     crumbs = f'<a href="/">خانه</a> › {title}'
     html = _layout(title, intro, slug, crumbs, body, extra,
-                   og_image=img_rel("400 ferez (1)"))
+                   og_image=img_rel("400-ferez-1"))
     with open(os.path.join(d, "index.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(html)
     return True
