@@ -490,6 +490,8 @@ def _layout(title, description, canonical_path, crumbs_html, body_html, extra_he
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
 <style>{CSS}</style>
+<!-- GA4 — deferred to preserve page performance -->
+<script>window.gaId='G-DW63K5FG8M';addEventListener('load',function(){{var s=document.createElement('script');s.src='https://www.googletagmanager.com/gtag/js?id='+window.gaId;s.async=true;document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function g(){{dataLayer.push(arguments)}}window.gtag=g;g('js',new Date());g('config',window.gaId)}});</script>
 {extra_head}
 </head>
 <body>
@@ -655,6 +657,7 @@ def build_product_page(p, data) -> str:
 <h1>فرز {short} مدل {model}</h1>
 <div class="intro"><p>{sname} مدل <strong>{model}</strong> {spec_sentence} {clinical_lead}{clinical.strip()}</p>
 <p>همه فرزهای DDSVerified پیش از ارسال شخصاً توسط دندانپزشک تست و بررسی و آزمایش می‌شوند و دارای گواهی TÜV Rheinland آلمان و استاندارد ISO هستند.</p></div>
+{endo_z_reasons}
 <section class="model-block">
   <div class="model-head"><h3>مشخصات فنی فرز {model}</h3>{stock_badge}</div>
   <div class="mbody">
@@ -675,7 +678,6 @@ def build_product_page(p, data) -> str:
   <p class="price">{fmt_price(price)} تومان <small>/ هر عدد</small></p>
   <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model} — افزودن به سبد خرید</a>
 </section>
-{endo_z_reasons}
 <div class="trust">✅ تست توسط دندانپزشک &nbsp;·&nbsp; 🇩🇪 گواهی TÜV Rheinland آلمان &nbsp;·&nbsp; 📦 ارسال سراسر ایران &nbsp;·&nbsp; 💰 قیمت پلکانی عمده از ۱۲۶٬۰۰۰ تومان</div>
 <h2>سایر مدل‌های {short}</h2>
 <div class="related">{sib_html}</div>
