@@ -64,15 +64,20 @@ def test_urls_point_to_existing_product_pages_and_no_orphans():
 
 def test_known_product_content():
     d = {p["page_unique"]: p for p in _load()}
-    # ENDO-Z TI: premium price, single-sale, title matches product-page h1
-    # (فرز {shape} مدل {model} — generate_pages.py:499)
+    # ENDO-Z TI is represented as Torob's destination identity only in the
+    # Torob feed; the source/site product remains unchanged.
     ez = d["endo-zti"]
     assert ez["current_price"] == 1500000
-    assert ez["title"] == "فرز EndoZ کارباید تیتانیومی ساخت انگلیس مدل ENDO-Z TI"
-    assert "ENDO-Z TI" in ez["title"]
-    assert ez["spec"]["بسته‌بندی"] == "تک‌فروشی یا بسته ۶ عددی"  # pack_size:6
+    assert ez["title"] == "فرز اندو اکسس- زد- Safe End - 151Z"
+    assert ez["spec"]["مدل"] == "151Z"
+    assert ez["spec"]["نوع"] == "Safe End"
+    assert ez["spec"]["کاربرد"] == "Endo Access"
+    assert ez["spec"]["قطر (میلی‌متر)"] == "1.6"
+    assert ez["spec"]["طول (میلی‌متر)"] == "11"
+    assert ez["spec"]["بسته‌بندی"] == "تک‌فروشی یا بسته ۶ عددی"  # source packaging is preserved
     assert ez["availability"] is True
     assert ez["image_links"] == ["https://ddsverified.ir/images/endo-z%20ti.webp"]
+    assert ez["short_desc"] == "مدل 151Z، Safe End، قطر 1.6 میلی‌متر، طول 11 میلی‌متر"
     # TC-21EF: pack sale (5×126,000 = 630,000 per pack), yellow grit, size + ISO in spec
     y = d["tc-21ef"]
     assert y["current_price"] == 630000

@@ -64,7 +64,32 @@ def pack_note(p: dict, data: dict) -> str:
     return f"بسته {fa(data['burs_per_pack'])} عددی"
 
 
+# Torob-only identity override for the requested product merge.
+# The website/product_data source remains ENDO-Z TI; only the marketplace
+# representation is aligned with Torob's destination product.
+TOROB_OVERRIDES = {
+    "ENDO-Z TI": {
+        "title": "فرز اندو اکسس- زد- Safe End - 151Z",
+        "spec": {
+            "مدل": "151Z",
+            "نوع": "Safe End",
+            "کاربرد": "Endo Access",
+            "قطر (میلی‌متر)": "1.6",
+            "طول (میلی‌متر)": "11",
+        },
+        "short_desc": "مدل 151Z، Safe End، قطر 1.6 میلی‌متر، طول 11 میلی‌متر",
+    },
+}
+
+
+def torob_override(model: str) -> dict:
+    return TOROB_OVERRIDES.get(model, {})
+
+
 def product_title(p: dict, data: dict) -> str:
+    override = torob_override(p["model"])
+    if "title" in override:
+        return override["title"]
     sname = shape_fa(p["shape"], data)
     head = sname if p["model"].lower() in sname.lower() else f"{sname} مدل {p['model']}"
     extras = []
@@ -80,6 +105,7 @@ def product_title(p: dict, data: dict) -> str:
 
 def build_product(p: dict, data: dict) -> dict:
     model = p["model"]
+    override = torob_override(model)
     grit = color_fa(p.get("grit", ""))
     note = pack_note(p, data)
     spec = {
@@ -98,6 +124,14 @@ def build_product(p: dict, data: dict) -> dict:
         spec["کد ISO"] = p["iso"]
     if p.get("usa"):
         spec["کد USA"] = p["usa"]
+    # Replace source-model fields only in the Torob payload. Site pages,
+    # images, descriptions, and the source product remain unchanged.
+    if "spec" in override:
+        spec = {
+            key: value for key, value in spec.items()
+            if key not in {"طول (میلی‌متر)", "کد ISO", "کد USA", "قطر", "دور (گریت)"}
+        }
+        spec.update(override["spec"])
     short_bits = [note]
     if grit and grit != "-":
         short_bits.append(f"دور {grit}")
@@ -116,9 +150,8 @@ def build_product(p: dict, data: dict) -> dict:
         "image_links": [img_rel(model)],
         "spec": spec,
         "guarantee": DEFAULT_GUARANTEE,
-        "short_desc": "، ".join(short_bits),
+        "short_desc": override.get("short_desc", "، ".join(short_bits)),
     }
-
 
 def assign_dates(models: list, added: dict) -> bool:
     """Assign a stable date_added to every model; prune removed ones."""
