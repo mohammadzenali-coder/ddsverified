@@ -89,7 +89,16 @@ COLLECTIONS = {
     "fixed_prostho": {
         "slug": "fixed-prostho",
         "title": "فرز های مناسب پروتز ثابت",
-        "description": "مجموعه فرزهای مناسب پروتز ثابت شامل مدل‌های TR-24C، TF-12C، SO-21C و TC-10C با سایز و مشخصات موجود هر مدل.",
+        "short_title": "مناسب پروتز ثابت",
+        "description": "مجموعه فرزهای مناسب پروتز ثابت شامل مدل‌های انتخاب‌شده با سایز و مشخصات موجود هر مدل.",
+        "intro_note": "این مجموعه مدل‌های مناسب پروتز ثابت را همراه با سایز، دور، کد ISO و معادل USA نشان می‌دهد.",
+    },
+    "restorative": {
+        "slug": "restorative-specialists",
+        "title": "برای متخصصان ترمیمی",
+        "short_title": "مناسب متخصصان ترمیمی",
+        "description": "مجموعه فرزهای مناسب متخصصان ترمیمی شامل فرزهای نیدل، فلیم و تخم‌مرغی، به‌همراه SF-41 و BR-49.",
+        "intro_note": "این مجموعه مدل‌های مناسب کانتورینگ اکلوزال، فرم‌دهی و پرداخت ترمیمی را همراه با سایز، دور، کد ISO و معادل USA نشان می‌دهد.",
     },
 }
 
@@ -99,10 +108,15 @@ def collection_url(collection_key: str) -> str:
 
 
 def collection_products(data: dict, collection_key: str) -> list:
-    return sorted(
-        [p for p in data["products"] if p.get("collection") == collection_key],
-        key=lambda x: x["model"],
-    )
+    if collection_key == "restorative":
+        products = [
+            p for p in data["products"]
+            if p.get("shape") in {"needle", "flame", "flame_long", "football"}
+            or p.get("model") in {"SF-41", "BR-49"}
+        ]
+    else:
+        products = [p for p in data["products"] if p.get("collection") == collection_key]
+    return sorted(products, key=lambda x: x["model"])
 
 
 # ---------------------------------------------------------------- intros ----
@@ -141,12 +155,12 @@ def build_collection_page(collection_key: str, data: dict) -> str:
     slug_url = collection_url(collection_key)
     n_models = fa(len(products))
     intro = collection["description"]
-    blocks = "".join(_model_block(p, "مناسب پروتز ثابت", data) for p in products)
+    blocks = "".join(_model_block(p, collection["short_title"], data) for p in products)
     ld_items = [{
         "@type": "ListItem", "position": i + 1,
         "item": {
             "@type": "Product",
-            "name": f"فرز مناسب پروتز ثابت {p['model']}",
+            "name": f"فرز {collection['short_title']} {p['model']}",
             "image": img_rel(p["model"]),
             "sku": p["model"],
             "brand": {"@type": "Brand", "name": "DDSVerified"},
@@ -168,7 +182,7 @@ def build_collection_page(collection_key: str, data: dict) -> str:
 <p class="collection-note">اگر مدل مدنظر شما اینجا نیست، در <a href="{BASE}/">صفحه اصلی ddsverified.ir</a> مشاهده کنید.</p>
 <h1>{title}</h1>
 <div class="intro"><p>{intro}</p>
-<p>این مجموعه هر چهار مدل انتخاب‌شده را همراه با سایز، دور، کد ISO و معادل USA نشان می‌دهد.</p></div>
+<p>{collection["intro_note"]}</p></div>
 <h2>مدل‌های موجود ({n_models} مدل)</h2>
 {blocks}
 <p><a class="cta" href="{BASE}/">← بازگشت به فروشگاه و مشاهده همه فرزها</a></p>
