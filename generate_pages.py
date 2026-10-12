@@ -461,6 +461,8 @@ h2{font-size:1.05rem;color:#0d47a1;margin:18px 0 10px}
 .faq details{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:.88rem}
 .faq summary{cursor:pointer;font-weight:700;color:#37474f}.related a{display:inline-block;background:#fff;border:1px solid #dce3ec;border-radius:20px;padding:4px 12px;margin:3px;text-decoration:none;color:#1565c0;font-size:.82rem}
 .trust{display:flex;gap:10px;font-size:.75rem;color:#455a64;margin:16px 0;flex-wrap:wrap}
+.endo-z-reasons{background:linear-gradient(135deg,#e3f2fd,#fff);border:1px solid #90caf9;border-right:5px solid #1565c0;border-radius:14px;padding:18px 20px;margin:18px 0;box-shadow:0 6px 18px rgba(21,101,192,.12)}
+.endo-z-reasons h2{margin:0 0 8px;color:#0d47a1}.endo-z-reasons p{margin-bottom:6px}.endo-z-reasons ol{padding-right:22px}.endo-z-reasons li{padding:4px 0}.endo-z-reasons a{color:#1565c0;font-weight:700;text-decoration:none}.endo-z-reasons a:hover{text-decoration:underline}
 header{background:#1565c0;color:#fff}header .wrap{padding:12px 14px}header a{color:#fff;text-decoration:none;font-weight:800;font-size:.95rem}
 .model-head h3 a{color:#1565c0;text-decoration:none}
 footer{text-align:center;font-size:.72rem;color:#78909c;padding:18px}"""
@@ -609,11 +611,27 @@ def build_product_page(p, data) -> str:
         spec_bits.append(f"دور الماسی {grit_fa}")
     if p.get("usa"):
         spec_bits.append(f"معادل کد آمریکا {p['usa']}")
+    if p.get("flutes"):
+        spec_bits.insert(0, f"پیکربندی {fa(p['flutes'])} فلوت")
     spec_sentence = "به‌همراه " + "، ".join(spec_bits) + " است." if spec_bits else ""
+    if p.get("flutes"):
+        remaining_specs = "، ".join(spec_bits[1:])
+        spec_sentence = f"دارای پیکربندی {fa(p['flutes'])} فلوت است" + (f" و به‌همراه {remaining_specs} است." if remaining_specs else ".")
     pack_note = ("تک‌فروشی (هر عدد جداگانه) یا بسته ۶ عددی" if p.get("pack_size") else "تک‌فروشی (هر عدد جداگانه)") if p.get("multiplier") == 1 else f"بسته {fa(data['burs_per_pack'])} عددی"
-    clinical = INTROS.get(shape_key, f"{sname} یکی از خانواده‌های پرکاربرد فرزهای دندانپزشکی است.")
-    # avoid "این فرز فرز ..." collision when the clinical intro starts with «فرز»
+    clinical = p.get("desc") or INTROS.get(shape_key, f"{sname} یکی از خانواده‌های پرکاربرد فرزهای دندانپزشکی است.")
     clinical_lead = "" if clinical.startswith("فرز") else "این فرز "
+    endo_z_reasons = """
+<div class="endo-z-reasons">
+  <h2>چرا باید فرز اندو زد بگیرید؟</h2>
+  <p>چون:</p>
+  <ol>
+    <li>سرعت کار شما را سریع‌تر می‌کند. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8378494/" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
+    <li>دیواره صاف‌تر و smooth‌تر به شما می‌دهد. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8378494/" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
+    <li>ریسک پرفوریشن به حداقل می‌رسد. <a href="https://www.nature.com/articles/s41415-025-8442-8" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
+    <li>فرز استاندارد در تهیه حفره دسترسی است. <a href="https://www.nature.com/articles/s41415-025-8442-8" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
+  </ol>
+</div>
+""" if model == "ENDO-Z TI" else ""
 
     siblings = [q for q in group_by_page(data)[shape_key] if q["model"] != model]
     sib_html = "".join(
@@ -649,6 +667,7 @@ def build_product_page(p, data) -> str:
       <tr><td>دور (گریت)</td><td>{grit_fa}</td></tr>
       <tr><td>کد ISO</td><td dir="ltr">{p.get('iso', '−')}</td></tr>
       <tr><td>کد USA</td><td dir="ltr">{p.get('usa', '−')}</td></tr>
+      {'<tr><td>تعداد فلوت</td><td>' + fa(p['flutes']) + ' فلوت</td></tr>' if p.get('flutes') else ''}
       <tr><td>بسته‌بندی</td><td>{pack_note}</td></tr>
     </table>
   </div>
@@ -656,6 +675,7 @@ def build_product_page(p, data) -> str:
   <p class="price">{fmt_price(price)} تومان <small>/ هر عدد</small></p>
   <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model} — افزودن به سبد خرید</a>
 </section>
+{endo_z_reasons}
 <div class="trust">✅ تست توسط دندانپزشک &nbsp;·&nbsp; 🇩🇪 گواهی TÜV Rheinland آلمان &nbsp;·&nbsp; 📦 ارسال سراسر ایران &nbsp;·&nbsp; 💰 قیمت پلکانی عمده از ۱۲۶٬۰۰۰ تومان</div>
 <h2>سایر مدل‌های {short}</h2>
 <div class="related">{sib_html}</div>
