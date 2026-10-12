@@ -84,6 +84,27 @@ def fmt_price(price: int) -> str:
     return f"{price:,}".replace(",", "،")
 
 
+# Curated clinical collections are landing pages, not marketplace categories.
+COLLECTIONS = {
+    "fixed_prostho": {
+        "slug": "fixed-prostho",
+        "title": "فرز های مناسب پروتز ثابت",
+        "description": "مجموعه فرزهای مناسب پروتز ثابت شامل مدل‌های TR-24C، TF-12C، SO-21C و TC-10C با سایز و مشخصات موجود هر مدل.",
+    },
+}
+
+
+def collection_url(collection_key: str) -> str:
+    return f"collection/{COLLECTIONS[collection_key]['slug']}/"
+
+
+def collection_products(data: dict, collection_key: str) -> list:
+    return sorted(
+        [p for p in data["products"] if p.get("collection") == collection_key],
+        key=lambda x: x["model"],
+    )
+
+
 # ---------------------------------------------------------------- intros ----
 INTROS = {
     "needle": "فرز دندانپزشکی نیدل (سوزنی) به دلیل نوک بسیار ظریف و بلند خود، ابزار اصلی دسترسی به حفرات عمقی دندانی، آماده‌سازی کانال‌های ریشه و ترمیم‌های دقیق بین دندانی است. فرزهای الماسی نیدل DDSVerified پیش از ارسال توسط دندانپزشک تست و بررسی و آزمایش شده تا از کیفیت الماسی و عدم لرزش روی هد توربین مطمئن شوید.",
@@ -112,6 +133,49 @@ FAQS = {
         ("قیمت پلکانی چگونه محاسبه می‌شود؟", "قیمت هر فرز با پرداخت نقدی از ۱۲۶,۰۰۰ تومان شروع می‌شود و با افزایش تعداد سفارش پلکانی ارزان‌تر می‌شود: ۵۰ عدد ۱۱۴,۰۰۰، ۲۰۰ عدد ۱۰۶,۰۰۰، ۵۰۰ عدد ۹۹,۰۰۰، ۱٬۰۰۰ عدد ۹۶,۰۰۰، ۲٬۰۰۰ عدد ۹۲,۰۰۰ و ۳٬۰۰۰ عدد به بالا ۸۵,۰۰۰ تومان. برای سفارش‌های عمدهٔ ۱٬۰۰۰ عدد به بالا، امکان پرداخت قسطی با پیش‌پرداخت نقدی و چک نیز فراهم است."),
     ],
 }
+
+def build_collection_page(collection_key: str, data: dict) -> str:
+    collection = COLLECTIONS[collection_key]
+    products = collection_products(data, collection_key)
+    title = collection["title"]
+    slug_url = collection_url(collection_key)
+    n_models = fa(len(products))
+    intro = collection["description"]
+    blocks = "".join(_model_block(p, "مناسب پروتز ثابت", data) for p in products)
+    ld_items = [{
+        "@type": "ListItem", "position": i + 1,
+        "item": {
+            "@type": "Product",
+            "name": f"فرز مناسب پروتز ثابت {p['model']}",
+            "image": img_rel(p["model"]),
+            "sku": p["model"],
+            "brand": {"@type": "Brand", "name": "DDSVerified"},
+            "offers": {
+                "@type": "Offer", "priceCurrency": "IRR",
+                "price": p.get("price") or data["price_per_bur"],
+                "availability": "https://schema.org/InStock" if p["inventory"] > 0 else "https://schema.org/OutOfStock",
+            },
+        },
+    } for i, p in enumerate(products)]
+    ld_itemlist = json.dumps({"@context": "https://schema.org", "@type": "ItemList", "itemListElement": ld_items}, ensure_ascii=False)
+    ld_bc = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "خانه", "item": f"{BASE}/"},
+        {"@type": "ListItem", "position": 2, "name": title, "item": f"{BASE}/{slug_url}"},
+    ]}, ensure_ascii=False)
+    extra = (f'<script type="application/ld+json">{ld_itemlist}</script>\n'
+             f'<script type="application/ld+json">{ld_bc}</script>')
+    body = f"""
+<p class="collection-note">اگر مدل مدنظر شما اینجا نیست، در <a href="{BASE}/">صفحه اصلی ddsverified.ir</a> مشاهده کنید.</p>
+<h1>{title}</h1>
+<div class="intro"><p>{intro}</p>
+<p>این مجموعه هر چهار مدل انتخاب‌شده را همراه با سایز، دور، کد ISO و معادل USA نشان می‌دهد.</p></div>
+<h2>مدل‌های موجود ({n_models} مدل)</h2>
+{blocks}
+<p><a class="cta" href="{BASE}/">← بازگشت به فروشگاه و مشاهده همه فرزها</a></p>
+<div class="trust">✅ تست توسط دندانپزشک &nbsp;·&nbsp; 🇩🇪 گواهی TÜV Rheinland آلمان &nbsp;·&nbsp; 📦 ارسال سراسر ایران</div>"""
+    crumbs = f'<a href="/">خانه</a> › {title}'
+    return _layout(f"{title} | DDSVerified", intro, slug_url, crumbs, body, extra)
+
 
 # ---------------------------------------------------------------- blog md ----
 def _inline_md(text: str) -> str:
@@ -427,6 +491,9 @@ def build_campaign_page(p: dict, data: dict) -> bool:
     return True
 def build_sitemap(data, posts=None) -> str:
     urls = [("", "1.0"), ("blog/", "0.6")]
+    for collection_key in COLLECTIONS:
+        if collection_products(data, collection_key):
+            urls.append((collection_url(collection_key), "0.9"))
     for key in group_by_page(data):
         if key == "bundle":
             continue  # temporary campaign bundle: not for search engines
@@ -786,6 +853,13 @@ def main():
     data = load_data()
     posts = load_posts()
     n = 0
+    for collection_key in COLLECTIONS:
+        if collection_products(data, collection_key):
+            d = os.path.join("collection", COLLECTIONS[collection_key]["slug"])
+            os.makedirs(d, exist_ok=True)
+            with open(os.path.join(d, "index.html"), "w", encoding="utf-8", newline="\n") as f:
+                f.write(build_collection_page(collection_key, data))
+            n += 1
     for key in group_by_page(data):
         if key == "bundle":
             continue  # temporary bundle: no category page (not for search/marketplaces)

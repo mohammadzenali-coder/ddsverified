@@ -137,7 +137,8 @@
       "diameter": "014",
       "length": "10",
       "grit": "G🟢",
-      "inventory": 400
+      "inventory": 400,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "flat_cylinder",
@@ -257,7 +258,8 @@
       "diameter": "016",
       "length": "10",
       "grit": "G🟢",
-      "inventory": 250
+      "inventory": 250,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "taper_flat",
@@ -337,7 +339,8 @@
       "diameter": "016",
       "length": "8.0",
       "grit": "G🟢",
-      "inventory": 200
+      "inventory": 200,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "round_taper",
@@ -437,7 +440,8 @@
       "diameter": "014",
       "length": "8.0",
       "grit": "G🟢",
-      "inventory": 500
+      "inventory": 500,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "football",
