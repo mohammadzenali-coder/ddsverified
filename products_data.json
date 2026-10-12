@@ -77,7 +77,8 @@
       "diameter": "012",
       "length": "6.0",
       "grit": "Y🟡",
-      "inventory": 101
+      "inventory": 101,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "needle",
@@ -87,7 +88,8 @@
       "diameter": "014",
       "length": "8.0",
       "grit": "Y🟡",
-      "inventory": 150
+      "inventory": 150,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "needle",
@@ -97,7 +99,8 @@
       "diameter": "012",
       "length": "10",
       "grit": "Y🟡",
-      "inventory": 150
+      "inventory": 150,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "needle",
@@ -107,7 +110,8 @@
       "diameter": "012",
       "length": "6.0",
       "grit": "B🔵",
-      "inventory": 300
+      "inventory": 300,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "needle",
@@ -117,7 +121,8 @@
       "diameter": "014",
       "length": "8.0",
       "grit": "G🟢",
-      "inventory": 400
+      "inventory": 400,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "needle",
@@ -127,7 +132,8 @@
       "diameter": "010",
       "length": "10",
       "grit": "B🔵",
-      "inventory": 300
+      "inventory": 300,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "needle",
@@ -228,7 +234,8 @@
       "diameter": "014",
       "length": "6.5",
       "grit": "G🟢",
-      "inventory": 200
+      "inventory": 200,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "taper_flat",
@@ -238,7 +245,8 @@
       "diameter": "014",
       "length": "8.0",
       "grit": "G🟢",
-      "inventory": 250
+      "inventory": 250,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "taper_flat",
@@ -248,7 +256,8 @@
       "diameter": "018",
       "length": "8.0",
       "grit": "G🟢",
-      "inventory": 250
+      "inventory": 250,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "taper_flat",
@@ -269,7 +278,8 @@
       "diameter": "018",
       "length": "10",
       "grit": "G🟢",
-      "inventory": 250
+      "inventory": 250,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "flame",
@@ -350,7 +360,8 @@
       "diameter": "014",
       "length": "8.0",
       "grit": "G🟢",
-      "inventory": 200
+      "inventory": 200,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "round_taper",
@@ -360,7 +371,8 @@
       "diameter": "018",
       "length": "9.0",
       "grit": "G🟢",
-      "inventory": 300
+      "inventory": 300,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "round_taper",
@@ -370,7 +382,8 @@
       "diameter": "014",
       "length": "6.5",
       "grit": "Y🟡",
-      "inventory": 100
+      "inventory": 100,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "round_taper",
@@ -380,7 +393,8 @@
       "diameter": "014",
       "length": "8.0",
       "grit": "Y🟡",
-      "inventory": 100
+      "inventory": 100,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "round_taper",
@@ -502,7 +516,8 @@
       "length": "5.0",
       "grit": "K⚫",
       "inventory": 50,
-      "multiplier": 1
+      "multiplier": 1,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "depth_veneer",
@@ -513,7 +528,8 @@
       "length": "-",
       "grit": "B🔵",
       "inventory": 100,
-      "multiplier": 5
+      "multiplier": 5,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "depth_veneer",
@@ -524,7 +540,8 @@
       "length": "-",
       "grit": "B🔵",
       "inventory": 100,
-      "multiplier": 5
+      "multiplier": 5,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "depth_veneer",
@@ -535,7 +552,8 @@
       "length": "-",
       "grit": "B🔵",
       "inventory": 100,
-      "multiplier": 5
+      "multiplier": 5,
+      "collection": "fixed_prostho"
     },
     {
       "shape": "pointed_cylinder",
