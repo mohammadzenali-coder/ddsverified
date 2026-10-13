@@ -81,6 +81,14 @@ TOROB_OVERRIDES = {
         "subtitle": "",
         "omit_packaging": True,
     },
+    "SF-20C": {"title": "فرز فیشور الماسه | Fissure Burs"},
+    "SF-21C": {"title": "فرز فیشور الماسه | Fissure Burs"},
+    "SO-21C": {"title": "فرز تیپر تورپدو Torpedo متوسط الماسی دور سبز"},
+    "TC-21EF": {"title": "فرز الماسه دندانپزشکی مدل توربین needle دور زرد"},
+    "TC-26EF": {"title": "فرز الماسه پرداخت (5 عددی) - Needle FG 858"},
+    "TF-56C": {"title": "فرز تیپر فلت اند الماسه | Taper Flat End Burs"},
+    "FO-21EF": {"title": "فرز الماسه دندانپزشکی مدل توربین فلیم flame دور زرد"},
+    "TR-13C": {"title": "فرز تیپر روند اند الماسه | Taper Round End Burs"},
 }
 
 

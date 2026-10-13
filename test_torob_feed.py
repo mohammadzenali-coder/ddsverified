@@ -79,6 +79,17 @@ def test_known_product_content():
     assert ez["availability"] is True
     assert ez["image_links"] == ["https://ddsverified.ir/images/endo-z%20ti.webp"]
     assert ez["short_desc"] == "مدل 151Z، Safe End، قطر 1.6 میلی‌متر، طول 11 میلی‌متر"
+    expected_titles = {
+        "sf-20c": "فرز فیشور الماسه | Fissure Burs",
+        "sf-21c": "فرز فیشور الماسه | Fissure Burs",
+        "so-21c": "فرز تیپر تورپدو Torpedo متوسط الماسی دور سبز",
+        "tc-21ef": "فرز الماسه دندانپزشکی مدل توربین needle دور زرد",
+        "tc-26ef": "فرز الماسه پرداخت (5 عددی) - Needle FG 858",
+        "tf-56c": "فرز تیپر فلت اند الماسه | Taper Flat End Burs",
+        "fo-21ef": "فرز الماسه دندانپزشکی مدل توربین فلیم flame دور زرد",
+        "tr-13c": "فرز تیپر روند اند الماسه | Taper Round End Burs",
+    }
+    assert {slug: d[slug]["title"] for slug in expected_titles} == expected_titles
     # TC-21EF: pack sale (5×126,000 = 630,000 per pack), yellow grit, size + ISO in spec
     y = d["tc-21ef"]
     assert y["current_price"] == 630000
