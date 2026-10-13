@@ -78,6 +78,7 @@ TOROB_OVERRIDES = {
             "طول (میلی‌متر)": "11",
         },
         "short_desc": "مدل 151Z، Safe End، قطر 1.6 میلی‌متر، طول 11 میلی‌متر",
+        "subtitle": "",
         "omit_packaging": True,
     },
 }
@@ -145,7 +146,7 @@ def build_product(p: dict, data: dict) -> dict:
         "page_url": f"{BASE}/{product_page_url(model)}",
         "product_group_id": SLUGS[p["shape"]],
         "title": product_title(p, data),
-        "subtitle": note,
+        "subtitle": override.get("subtitle", note),
         # Marketplace price = item as sold: pack line ×5, single-sale untouched (see feed_price)
         "current_price": feed_price(p, data),
         "availability": bool(p.get("inventory", 0) > 0),

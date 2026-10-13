@@ -74,6 +74,7 @@ def test_known_product_content():
     assert ez["spec"]["کاربرد"] == "Endo Access"
     assert ez["spec"]["قطر (میلی‌متر)"] == "1.6"
     assert ez["spec"]["طول (میلی‌متر)"] == "11"
+    assert ez["subtitle"] == ""
     assert "بسته‌بندی" not in ez["spec"]
     assert ez["availability"] is True
     assert ez["image_links"] == ["https://ddsverified.ir/images/endo-z%20ti.webp"]
