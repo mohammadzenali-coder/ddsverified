@@ -77,7 +77,7 @@ def test_known_product_content():
     assert ez["subtitle"] == ""
     assert "بسته‌بندی" not in ez["spec"]
     assert ez["availability"] is True
-    assert ez["image_links"] == ["https://ddsverified.ir/images/endo-z%20ti.webp"]
+    assert ez["image_links"] == ["https://ddsverified.ir/images/endo-z-ti.webp"]
     assert ez["short_desc"] == "مدل 151Z، Safe End، قطر 1.6 میلی‌متر، طول 11 میلی‌متر"
     expected_titles = {
         "sf-20c": "فرز فیشور الماسه | Fissure Burs",

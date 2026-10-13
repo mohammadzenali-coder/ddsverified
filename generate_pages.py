@@ -77,7 +77,8 @@ def product_page_url(model: str) -> str:
 
 def img_rel(model: str) -> str:
     """Absolute image path — safe from any page depth (/category/<slug>/ included)."""
-    return quote(f"{BASE}/images/{model.lower()}.webp", safe="/:")
+    filename = "endo-z-ti" if model == "ENDO-Z TI" else model.lower()
+    return quote(f"{BASE}/images/{filename}.webp", safe="/:")
 
 
 def fmt_price(price: int) -> str:
