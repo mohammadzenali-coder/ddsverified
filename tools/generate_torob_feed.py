@@ -78,6 +78,7 @@ TOROB_OVERRIDES = {
             "طول (میلی‌متر)": "11",
         },
         "short_desc": "مدل 151Z، Safe End، قطر 1.6 میلی‌متر، طول 11 میلی‌متر",
+        "omit_packaging": True,
     },
 }
 
@@ -132,6 +133,8 @@ def build_product(p: dict, data: dict) -> dict:
             if key not in {"طول (میلی‌متر)", "کد ISO", "کد USA", "قطر", "دور (گریت)"}
         }
         spec.update(override["spec"])
+    if override.get("omit_packaging"):
+        spec.pop("بسته‌بندی", None)
     short_bits = [note]
     if grit and grit != "-":
         short_bits.append(f"دور {grit}")

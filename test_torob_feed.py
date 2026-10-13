@@ -74,7 +74,7 @@ def test_known_product_content():
     assert ez["spec"]["کاربرد"] == "Endo Access"
     assert ez["spec"]["قطر (میلی‌متر)"] == "1.6"
     assert ez["spec"]["طول (میلی‌متر)"] == "11"
-    assert ez["spec"]["بسته‌بندی"] == "تک‌فروشی یا بسته ۶ عددی"  # source packaging is preserved
+    assert "بسته‌بندی" not in ez["spec"]
     assert ez["availability"] is True
     assert ez["image_links"] == ["https://ddsverified.ir/images/endo-z%20ti.webp"]
     assert ez["short_desc"] == "مدل 151Z، Safe End، قطر 1.6 میلی‌متر، طول 11 میلی‌متر"
