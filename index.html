@@ -22,7 +22,11 @@
 <!-- Cloudflare Web Analytics: فعال شده با Automatic Setup (از طریق پروکسی CF) -->
 <!-- نیازی به beacon دستی نیست؛ خود Cloudflare آن را به صورت خودکار تزریق می‌کند. -->
 <style>
-  /* === Hero (3-column expanded) === */
+  /* Responsive campaign banners */
+  .campaign-banner { display:block; width:100%; height:auto; margin:12px 0 16px; border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); box-shadow:var(--shadow-lg); line-height:0; }
+  .campaign-banner img { display:block; width:100%; height:auto; }
+  @media(max-width:768px){ .campaign-banner { margin:10px 0 14px; border-radius:10px; } }
+
   .hero-section { display: grid; grid-template-columns: 1.25fr 0.9fr 1fr; gap: 14px; align-items: stretch; background: linear-gradient(135deg, #ffffff 0%, #f5f9ff 100%); padding: 14px; border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); width: 100%; max-width: 100%; overflow: hidden; }
   .hero-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; overflow: hidden; }
   .hero-main { display: flex; gap: 12px; align-items: center; flex: 1; min-width: 0; }
@@ -818,6 +822,9 @@ footer a{color:var(--primary);text-decoration:none}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
         </span>
       </a>
+      <a class="campaign-banner" href="https://t.me/ddsverified" target="_blank" rel="noopener noreferrer" aria-label="DDSVerified — تایید شده توسط دندانپزشک">
+        <img src="images/banner-2-high.webp" alt="DDSVerified.ir — تایید شده توسط دندانپزشک" width="1540" height="784" loading="lazy">
+      </a>
 <!-- BLOG:DRS-CHOICE-START -->
 <section class="blogs-strip" aria-label="مطالب منتخب دندانپزشکان">
 <style>.push-item{animation:pushCycle 38.5s linear infinite;animation-delay:calc(var(--i)*5.5s)}@keyframes pushCycle{0%{opacity:0;transform:translateX(-115%)}0.86%{opacity:1;transform:translateX(0)}11.43%{opacity:1;transform:translateX(0)}13.71%{opacity:0;transform:translateX(115%)}100%{opacity:0;transform:translateX(115%)}}</style>
@@ -902,6 +909,10 @@ footer a{color:var(--primary);text-decoration:none}
         <a href="/blog/" style="background:#fff;border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:.78rem;color:var(--primary);text-decoration:none">وبلاگ راهنما</a>
       </nav>
     </section>
+
+  <a class="campaign-banner" href="#tierTable" aria-label="قیمت پلکانی فرزها — هرچی بیشتر، بصرفه تر">
+    <img src="images/banner-2-low.webp" alt="بنر فرزهای دندانپزشکی با پیام قلمت را درست انتخاب کن و آدرس DDSVerified.ir" width="1540" height="784" loading="lazy">
+  </a>
 
   <!-- جدول قیمت پلکانی عمده — New Price Policy -->
   <section class="tier-section" aria-label="جدول قیمت عمده فرز دندانپزشکی">
