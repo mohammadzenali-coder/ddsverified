@@ -81,8 +81,8 @@ def test_known_product_content():
     assert ez["short_desc"] == "مدل 151Z، Safe End، قطر 1.6 میلی‌متر، طول 11 میلی‌متر"
     expected_titles = {
         "sf-20c": "فرز فیشور الماسه | Fissure Burs",
-        "sf-21c": "فرز فیشور الماسه | Fissure Burs",
-        "so-21c": "فرز تیپر تورپدو Torpedo متوسط الماسی دور سبز",
+        "sf-21c": "فرز الماسی فیشور متوسط تیزکاوان دور سبز",
+        "so-21c": "فرز تیپر تورپدو Torpedo متوسط الماسی دور سبز کد 298",
         "tc-21ef": "فرز الماسه دندانپزشکی مدل توربین needle دور زرد",
         "tc-26ef": "فرز الماسه پرداخت (5 عددی) - Needle FG 858",
         "tf-56c": "فرز تیپر فلت اند الماسه | Taper Flat End Burs",
