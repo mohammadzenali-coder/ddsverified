@@ -19,7 +19,6 @@ are ignored by Pages) and walks the page files until one yields no products.
 import json
 import os
 import sys
-from urllib.parse import quote
 
 BASE = "https://ddsverified.ir"
 SITE_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -37,7 +36,7 @@ CLINICAL_NOTE = "این فرز و برند آن توسط دندانپزشک آز
 EMALLS_GUARANTEE = f"{CLINICAL_NOTE} · گواهی {CERTS} · ساخت {ORIGIN}"
 
 sys.path.insert(0, SITE_ROOT)
-from generate_pages import SLUGS, anchor_id, fa, product_page_url  # noqa: E402  (single source of truth)
+from generate_pages import SLUGS, anchor_id, fa, img_rel, product_page_url  # noqa: E402  (single source of truth)
 
 
 def load_data() -> dict:
@@ -70,8 +69,8 @@ def product_url(shape_key: str, model: str, data: dict) -> str:
 
 
 def image_url(model: str) -> str:
-    # Absolute URL (Emalls requires protocol + domain). Space kept via %20.
-    return quote(f"{BASE}/images/{model.lower()}.webp", safe="/:")
+    # Match the image paths used on the generated product pages.
+    return img_rel(model)
 
 
 def color_fa(grit: str) -> str:

@@ -139,8 +139,8 @@ def test_date_updated_bumps_only_for_changed_products(monkeypatch):
     t.main()
     before = {p["page_unique"]: p for p in _load()}
     data = json.loads(json.dumps(t.load_data()))
-    # give products[0] a per-product price override -> only its current_price changes
-    data["products"][0]["price"] = 123456
+    # Give a listed product a price override (bundles are excluded from the feed).
+    next(p for p in data["products"] if not p.get("bundle"))["price"] = 123456
     monkeypatch.setattr(t, "load_data", lambda: data)
     t.main()
     after = {p["page_unique"]: p for p in _load()}
@@ -169,7 +169,7 @@ def test_registry_prunes_removed_models(tmp_path, monkeypatch):
     monkeypatch.setattr(t, "ADDED_PATH", str(tmp_path / "added.json"))
     monkeypatch.setattr(t, "OUT_PATH", str(tmp_path / "products.json"))
     data = json.loads(json.dumps(t.load_data()))
-    data["products"] = data["products"][:3]
+    data["products"] = [p for p in data["products"] if not p.get("bundle")][:3]
     monkeypatch.setattr(t, "load_data", lambda: data)
     t.main()
     added = json.load(open(t.ADDED_PATH, encoding="utf-8"))

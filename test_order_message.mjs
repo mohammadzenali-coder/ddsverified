@@ -25,7 +25,9 @@ function makeOrder(products, packCount = 1) {
   const total = items.reduce((sum, { product }) => sum + packCount * (product.multiplier || d.BURS_PER_PACK), 0);
   const tier = d.getTierInfo(total).cur;
   const free = total >= d.FREE_SHIPPING_THRESHOLD;
-  const final = items.reduce((sum, { product }) => sum + packCount * (product.multiplier || d.BURS_PER_PACK) * (product.price ?? tier.price), 0) + (free ? 0 : d.SHIPPING_COST);
+  const final = items.reduce((sum, { product }) => sum + (product.bundle
+    ? packCount * product.price
+    : packCount * (product.multiplier || d.BURS_PER_PACK) * (product.price ?? tier.price)), 0) + (free ? 0 : d.SHIPPING_COST);
   return { items, total, tier, free, final, text: d.generateOrderMessage(items, total, final, free) };
 }
 
@@ -55,7 +57,9 @@ test('full catalog retains every model, actual quantity and unit price in compac
   const lines = o.text.split('\n');
   for (const { product: p, packCount } of o.items) {
     const count = packCount * (p.multiplier || d.BURS_PER_PACK);
-    const expected = `${p.model} x ${count} @ ${p.price ?? o.tier.price}`;
+    const expected = p.bundle
+      ? `${p.model} x ${packCount} بسته = ${packCount * p.price} تومان (ارسال رایگان)`
+      : `${p.model} x ${count} @ ${p.price ?? o.tier.price}`;
     assert.equal(lines.filter(line => line === expected).length, 1, expected);
   }
   const before = urlBytes(legacyMessage(o));
@@ -65,7 +69,7 @@ test('full catalog retains every model, actual quantity and unit price in compac
 });
 
 test('small order keeps paid shipping and final total', () => {
-  const o = makeOrder(d.PRODUCTS.slice(0, 1));
+  const o = makeOrder([d.PRODUCTS.find(p => p.model === 'TC-21EF')]);
   assert.equal(o.total, 5);
   assert.equal(o.final, 820000);
   assert.ok(o.text.includes('تعداد کل فرزها: 5 عدد'));
@@ -76,7 +80,7 @@ test('small order keeps paid shipping and final total', () => {
 });
 
 test('large installment order preserves fixed prices, quantities, free shipping and terms', () => {
-  const o = makeOrder(d.PRODUCTS, 5);
+  const o = makeOrder(d.PRODUCTS.filter(p => !p.bundle), 5);
   assert.equal(o.total, 1210);
   assert.equal(o.tier.price, 96000);
   assert.equal(o.final, 123180000);
@@ -88,6 +92,17 @@ test('large installment order preserves fixed prices, quantities, free shipping 
   assert.ok(o.text.includes(`🧾 امکان پرداخت قسطی: ${o.tier.installment.price} تومان هر فرز (${o.tier.installment.terms})`));
   assert.equal(new URL(`https://t.me/${d.TELEGRAM_USER}?text=${encodeURIComponent(o.text)}`).searchParams.get('text'), o.text);
   console.log(`Installment order: ${o.total} burs, encoded URL ${urlBytes(o.text)} bytes`);
+});
+
+test('campaign bundle is priced per pack, with free shipping and correct quantity', () => {
+  const bundle = d.PRODUCTS.find(p => p.model === 'PACK-400');
+  assert.ok(bundle, 'bundle is in the catalog');
+  const o = makeOrder([bundle]);
+  assert.equal(o.total, 400);
+  assert.equal(o.final, 42400000);
+  assert.ok(o.free);
+  assert.ok(o.text.includes('PACK-400 x 1 بسته = 42400000 تومان (ارسال رایگان)'));
+  assert.ok(o.text.includes('مبلغ نهایی قابل پرداخت: 42400000 تومان'));
 });
 
 test('all executable inline scripts parse', () => {

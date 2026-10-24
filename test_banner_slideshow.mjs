@@ -89,8 +89,8 @@ test('two slides and two dot buttons generated from real markup', () => {
 test('only first slide is on at load (no layout shift, slide-2 image stays lazy)', () => {
   assert.ok(slides[0].classList.has('on'));
   assert.ok(!slides[1].classList.has('on'));
-  assert.equal(slides[0].querySelector('img').getAttribute('src'), 'images/endozburbanner.webp');
-  assert.equal(slides[1].querySelector('img').getAttribute('src'), 'images/lux.webp');
+  assert.equal(slides[0].querySelector('img').getAttribute('src'), 'images/lux.webp');
+  assert.equal(slides[1].querySelector('img').getAttribute('src'), 'images/endozburbanner.webp');
   assert.equal(slides[1].querySelector('img').getAttribute('loading'), 'lazy');
   assert.equal(slides[0].querySelector('img').getAttribute('fetchpriority'), 'high');
 });

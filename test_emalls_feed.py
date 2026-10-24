@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+from urllib.parse import unquote, urlsplit
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools"))
 
@@ -38,6 +39,15 @@ def test_every_product_has_required_fields():
         assert p["is_available"] is True
         assert p["image"].startswith("https://ddsverified.ir/images/")
         assert p["url"].startswith("https://ddsverified.ir/product/")
+
+
+def test_images_point_to_existing_files():
+    for product in _load()["products"]:
+        image = urlsplit(product["image"])
+        assert image.scheme == "https" and image.netloc == "ddsverified.ir"
+        assert image.path.startswith("/images/")
+        path = os.path.join(f.SITE_ROOT, unquote(image.path).lstrip("/"))
+        assert os.path.isfile(path), f"missing image for {product['id']}: {path}"
 
 
 def test_urls_point_to_existing_product_pages():
