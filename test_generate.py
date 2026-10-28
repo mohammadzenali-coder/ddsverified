@@ -78,7 +78,7 @@ def test_product_page_json_ld_parses_and_matches_data():
     assert len(prod) == 1
     assert prod[0]["sku"] == "TC-21EF"
     price = p.get("price") or data["price_per_bur"]
-    assert prod[0]["offers"]["price"] == price
+    assert prod[0]["offers"]["price"] == price * 10  # structured data is IRR; displayed prices are toman
     assert prod[0]["url"] == "https://ddsverified.ir/product/tc-21ef/"
 
 
@@ -91,3 +91,55 @@ def test_category_pages_link_to_product_pages_and_sitemap_lists_them():
     # campaign bundles have a noindex landing page, not a sitemap /product/ entry
     indexed = [p for p in data["products"] if not p.get("bundle")]
     assert sitemap.count("product/") == len(indexed)
+
+
+def test_generated_pages_have_site_brand_search_and_contacts():
+    data = g.load_data()
+    pages = [g.build_category_page("needle", data),
+             g.build_product_page(next(p for p in data["products"] if p["model"] == "TC-21EF"), data),
+             g.build_collection_page("fixed_prostho", data),
+             g.build_blog_index(g.load_posts())]
+    for html in pages:
+        assert 'src="https://ddsverified.ir/logo-wordmark.webp"' in html
+        assert 'rel="icon" type="image/webp" href="https://ddsverified.ir/logo-wordmark-square.webp"' in html
+        assert 'property="og:image" content="https://ddsverified.ir/logo-wordmark-square.webp"' in html
+        assert '<form class="site-search" action="/" method="get" role="search">' in html
+        assert 'name="q"' in html
+        for url in ("tel:+989999587786", "sms:+989999587786",
+                    "https://t.me/ddsverified_admin", "https://ble.ir/ddsverified_admin",
+                    "https://rubika.ir/ddsverified_admin"):
+            assert f'href="{url}"' in html
+
+
+def test_category_grit_order_and_copy():
+    data = g.load_data()
+    html = g.build_category_page("needle", data)
+    grit_html = html.split('class="grits">', 1)[1].split('</p>', 1)[0]
+    labels = re.findall(r'<span>(.*?)</span>', grit_html)
+    assert labels == ["مشکی", "سبز", "آبی", "قرمز", "زرد", "سفید"]
+    for group in (g.group_by_page(data).values(), [g.collection_products(data, "fixed_prostho")]):
+        for products in group:
+            assert products == sorted(products, key=g.grit_sort_key)
+    assert "قیمت پلکانی چگونه محاسبه می‌شود؟" not in html
+    assert "تست‌شده توسط دندانپزشک" not in html
+
+
+def test_blog_article_removes_personal_author_and_retired_claims():
+    posts = g.load_posts()
+    for post in posts:
+        html = g.build_post_page(post)
+        assert "دکتر محمدرضا زینلی" not in html
+        assert '"author": {"@type": "Organization", "name": "DDSVerified"}' in html
+        assert "قیمت پلکانی" not in html
+        assert "تست و بررسی و آزمایش" not in html
+
+
+def test_campaign_shows_real_savings_without_endorsements(tmp_path, monkeypatch):
+    data = g.load_data()
+    bundle = next(p for p in data["products"] if p.get("bundle"))
+    monkeypatch.chdir(tmp_path)  # never overwrite the checked-in generated landing page
+    assert g.build_campaign_page(bundle, data)
+    html = (tmp_path / "campaign" / "pack-400" / "index.html").read_text(encoding="utf-8")
+    assert 'property="og:image" content="https://ddsverified.ir/logo-wordmark-square.webp"' in html
+    assert "حدود ۲۱٪ کمتر" in html and "۱۲٪" not in html
+    assert "۸۰ درصد" not in html and "تست شده توسط دندانپزشک" not in html

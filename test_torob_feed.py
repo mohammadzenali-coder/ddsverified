@@ -67,7 +67,7 @@ def test_known_product_content():
     # ENDO-Z TI is represented as Torob's destination identity only in the
     # Torob feed; the source/site product remains unchanged.
     ez = d["endo-zti"]
-    assert ez["current_price"] == 1500000
+    assert ez["current_price"] == 2700000
     assert ez["title"] == "فرز اندو اکسس- زد- Safe End - 151Z"
     assert ez["spec"]["مدل"] == "151Z"
     assert ez["spec"]["نوع"] == "Safe End"
@@ -92,7 +92,7 @@ def test_known_product_content():
     assert {slug: d[slug]["title"] for slug in expected_titles} == expected_titles
     # TC-21EF: pack sale (5×126,000 = 630,000 per pack), yellow grit, size + ISO in spec
     y = d["tc-21ef"]
-    assert y["current_price"] == 630000
+    assert y["current_price"] == 1165000
     assert y["spec"]["بسته‌بندی"] == "بسته ۵ عددی"
     assert y["spec"]["دور (گریت)"] == "زرد"
     assert y["spec"]["قطر"] == "014"  # matches site spec-table label (قطر)
@@ -122,9 +122,9 @@ def test_feed_price_matches_packaging():
         expected = per_bur if src.get("multiplier") == 1 else per_bur * data["burs_per_pack"]
         assert fp["current_price"] == expected, src["model"]
     # ENDO-Z TI (multiplier=1, price override) must never be multiplied
-    assert by_unique[t.anchor_id("ENDO-Z TI")]["current_price"] == 1500000
-    # EX-11S (multiplier=1, tier price) stays at the per-bur sticker
-    assert by_unique[t.anchor_id("EX-11S")]["current_price"] == data["price_per_bur"]
+    assert by_unique[t.anchor_id("ENDO-Z TI")]["current_price"] == 2700000
+    # EX-11S (multiplier=1, black grit override) stays at its per-bur sticker
+    assert by_unique[t.anchor_id("EX-11S")]["current_price"] == 234000
 
 
 def test_dates_stable_across_runs():

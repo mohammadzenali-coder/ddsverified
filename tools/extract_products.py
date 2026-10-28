@@ -23,7 +23,7 @@ def grab(name: str):
 
 
 data = {
-    "price_per_bur": 126000,
+    "price_per_bur": int(re.search(r'const PRICE_PER_BUR = (\d+);', html).group(1)),
     "burs_per_pack": 5,
     "shapes": grab("SHAPE_MAP"),
     "grits": grab("GRIT_TEXT"),
