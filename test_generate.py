@@ -143,7 +143,7 @@ def test_campaign_shows_real_savings_without_endorsements(tmp_path, monkeypatch)
     assert g.build_campaign_page(bundle, data)
     html = (tmp_path / "campaign" / "pack-400" / "index.html").read_text(encoding="utf-8")
     assert 'property="og:image" content="https://ddsverified.ir/logo-wordmark-square.webp"' in html
-    assert "حدود ۲۱٪ کمتر" in html and "۱۲٪" not in html
+    assert "حدود ۲۵٪ کمتر" in html and "۱۲٪" not in html
     assert "۸۰ درصد" not in html and "تست شده توسط دندانپزشک" not in html
 
 
@@ -200,14 +200,52 @@ def test_campaign_displays_bundle_reference_and_saves_against_discounted_default
     data = g.load_data().copy()
     data.update(price_per_bur=215650, old_price_per_bur=227000)
     bundle = next(p for p in data["products"] if p.get("bundle")).copy()
-    bundle.update(price=68476000, old_price=72080000)
+    bundle.update(price=64872000, old_price=72080000)
     monkeypatch.chdir(tmp_path)
     assert g.build_campaign_page(bundle, data)
     html = (tmp_path / "campaign" / "pack-400" / "index.html").read_text(encoding="utf-8")
     assert f'<del class="old-price">{g.fmt_price(72080000)} تومان</del>' in html
-    assert '<span class="discount-badge">۵٪ تخفیف</span>' in html
-    assert 'حدود ۲۱٪ کمتر' in html
+    assert '<span class="discount-badge">۱۰٪ تخفیف</span>' in html
+    assert 'حدود ۲۵٪ کمتر' in html
+    assert '.cmp-price .discount-badge{font-size:.85rem;color:#fff;background:#cc3333' in html
     product = next(json.loads(x) for x in re.findall(
         r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
         if json.loads(x).get("@type") == "Product")
-    assert product["offers"]["price"] == 68476000 * 10
+    assert product["offers"]["price"] == 64872000 * 10
+
+
+def test_discount_labels_use_persian_red():
+    data = g.load_data()
+    page = g.build_product_page(next(p for p in data["products"] if p["model"] == "TC-21EF"), data)
+    assert ".discount-badge{font-size:.75rem;color:#fff;background:#cc3333" in page
+    assert "color:#2e7d32;background:#e8f5e9;border-radius:12px;padding:2px 8px" not in page
+
+
+def test_home_slider_heading_links_to_blog():
+    html = g.build_home_slider(g.load_posts())
+    assert '<a class="blogs-head-link" href="/blog/"' in html
+    assert "مقالات تخصصی و یافته‌ها" in html and "Drs' Choice" in html
+
+
+def test_blog_markdown_citations_and_refs():
+    html = g.md_to_html("متن[1] و [لینک](https://example.org).\n\n[1] Author A. Title. *Journal*. 2020.")
+    assert '<sup class="cite"><a href="#ref-1"' in html
+    assert '<p class="ref" id="ref-1" dir="ltr">[1] Author A.' in html
+    assert 'href="https://example.org" target="_blank" rel="noopener"' in html
+
+
+def test_every_blog_post_starts_with_faq_and_cites_only_listed_sources():
+    posts = g.load_posts()
+    assert len(posts) == 7
+    for post in posts:
+        items, rest = g.extract_faq(post["body"])
+        assert len(items) >= 4, post["slug"]
+        assert g.FAQ_HEADING not in rest
+        html = g.build_post_page(post)
+        article = html.split('<article class="post">', 1)[1]
+        assert article.startswith('\n<section class="faq" id="faq">'), post["slug"]
+        assert '"@type": "FAQPage"' in html
+        cited = set(re.findall(r'href="#ref-(\d+)"', html))
+        listed = set(re.findall(r'id="ref-(\d+)"', html))
+        assert cited and cited == listed, (post["slug"], cited ^ listed)
+        assert 'dateModified' in html

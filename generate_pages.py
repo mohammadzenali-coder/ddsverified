@@ -689,11 +689,51 @@ def _inline_md(text: str) -> str:
     text = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)",
                   lambda m: f'<img src="{m.group(2)}" alt="{m.group(1)}" loading="lazy">',
                   text)
-    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', text)
+    def _link(m):
+        url = m.group(2)
+        ext = ' target="_blank" rel="noopener"' if url.startswith("http") else ""
+        return f'<a href="{url}"{ext}>{m.group(1)}</a>'
+    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", _link, text)
+    # citation markers [1] -> superscript link to the numbered source list
+    text = re.sub(r"\[(\d{1,2})\](?!\()",
+                  r'<sup class="cite"><a href="#ref-\1" aria-label="منبع \1">[\1]</a></sup>', text)
     text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
     text = re.sub(r"(?<!\*)\*([^*]+)\*(?!\*)", r"<em>\1</em>", text)
     text = re.sub(r"`([^`]+)`", r"<code>\1</code>", text)
     return text
+
+
+FAQ_HEADING = "پرسش‌های متداول"
+
+
+def extract_faq(md: str):
+    """Split the '## پرسش‌های متداول' section (### question + answer lines) out of a post body.
+
+    Returns (items, remaining_md); items is a list of (question, answer_md)."""
+    lines = md.replace("\r\n", "\n").split("\n")
+    start = next((i for i, l in enumerate(lines)
+                  if re.match(r"^##\s+" + re.escape(FAQ_HEADING) + r"\s*$", l)), None)
+    if start is None:
+        return [], md
+    end = next((j for j in range(start + 1, len(lines)) if re.match(r"^#{1,2}\s", lines[j])), len(lines))
+    items, q, a = [], None, []
+    for l in lines[start + 1:end]:
+        m = re.match(r"^###\s+(.*)", l)
+        if m:
+            if q:
+                items.append((q, "\n".join(a).strip()))
+            q, a = m.group(1).strip(), []
+        elif q is not None:
+            a.append(l)
+    if q:
+        items.append((q, "\n".join(a).strip()))
+    return items, "\n".join(lines[:start] + lines[end:])
+
+
+def _plain(html: str) -> str:
+    html = re.sub(r"<sup[^>]*>.*?</sup>", "", html)
+    text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html)).strip()
+    return re.sub(r"\s+([.،؛:؟!)])", r"\1", text)
 
 
 def md_to_html(md: str) -> str:
@@ -754,6 +794,22 @@ def md_to_html(md: str) -> str:
             continue
         if in_list:
             out.append(f"</{list_tag}>"); in_list, list_tag = False, None
+        if re.match(r"^-{3,}\s*$", line):
+            out.append("<hr>")
+            i += 1
+            continue
+        if line.lstrip().startswith(">"):
+            quote = []
+            while i < len(lines) and lines[i].lstrip().startswith(">"):
+                quote.append(lines[i].lstrip()[1:].strip())
+                i += 1
+            out.append("<blockquote>" + "".join(f"<p>{_inline_md(q)}</p>" for q in quote if q) + "</blockquote>")
+            continue
+        m = re.match(r"^\[(\d{1,2})\]\s+(.*)", line.strip())
+        if m:  # numbered source entry in the Sources section
+            out.append(f'<p class="ref" id="ref-{m.group(1)}" dir="ltr">[{m.group(1)}] {_inline_md(m.group(2))}</p>')
+            i += 1
+            continue
         out.append(f"<p>{_inline_md(line.strip())}</p>")
         i += 1
     if in_list:
@@ -786,6 +842,7 @@ def parse_post(path: str) -> dict:
         "title": meta.get("title", slug),
         "slug": re.sub(r"[^a-z0-9-]", "", slug.lower()),
         "date": meta.get("date", ""),
+        "updated": meta.get("updated", ""),
         "description": meta.get("description", ""),
         "image": meta.get("image", ""),
         "tags": [t.strip() for t in meta.get("tags", "").split(",") if t.strip()],
@@ -812,6 +869,14 @@ BLOG_CSS = """
 .md-t th,.md-t td{border:1px solid #dce3ec;padding:6px 10px;text-align:right}
 .md-t th{background:#e3f2fd;color:#0d47a1}
 .pdate{font-size:.75rem;color:#78909c}
+.post .faq{margin:0 0 18px;padding-bottom:6px;border-bottom:1px solid #eceff1}.post .faq h2{margin-top:0}
+.post .faq details{background:#f8fafc}.post .faq details>div p{margin:6px 0}
+.post sup.cite a{color:#1565c0;text-decoration:none;font-weight:700;font-size:.8em;padding:0 1px}
+.post .ref{direction:ltr;text-align:left;font-size:.78rem;color:#455a64;word-break:break-word;margin:6px 0}
+.post .ref a{color:#1565c0}
+.post blockquote{background:#fff8e1;border:1px solid #ffe082;border-right:4px solid #f9a825;border-radius:8px;padding:6px 12px;margin:12px 0}
+.post hr{border:0;border-top:1px solid #dce3ec;margin:16px 0}
+.post em.cap{display:block;font-size:.78rem;color:#78909c;font-style:normal}
 .cards{display:flex;flex-direction:column;gap:10px}
 .card{background:#fff;border:1px solid #dce3ec;border-radius:12px;padding:14px}
 .card h3{font-size:1rem;margin-bottom:6px}.card h3 a{color:#1565c0;text-decoration:none}
@@ -826,18 +891,33 @@ def build_post_page(p) -> str:
     title = f"{p['title']} | DDSVerified"
     article_img = f"{BASE}/{p['image']}" if p["image"] else SQUARE_LOGO
     date_fa = p["date"]
+    updated = p.get("updated", "")
+    date_line = f"📅 {date_fa}" + (f" · به‌روزرسانی: {updated}" if updated and updated != date_fa else "")
     crumbs = f'<a href="/">خانه</a> › <a href="/blog/">وبلاگ</a> › {p["title"]}'
+    faq_items, article_body = extract_faq(article_body)
+    faq_html, ld_faq = "", ""
+    if faq_items:
+        details = "".join(
+            f'<details open><summary>{_inline_md(q)}</summary><div>{md_to_html(a)}</div></details>'
+            for q, a in faq_items)
+        faq_html = f'<section class="faq" id="faq"><h2>{FAQ_HEADING}</h2>{details}</section>\n'
+        ld_faq = json.dumps({"@context": "https://schema.org", "@type": "FAQPage",
+                             "mainEntity": [{"@type": "Question", "name": _plain(_inline_md(q)),
+                                             "acceptedAnswer": {"@type": "Answer",
+                                                                "text": _plain(md_to_html(a))}}
+                                            for q, a in faq_items]}, ensure_ascii=False)
     body = f"""
 <h1>{p['title']}</h1>
-<span class="pdate">📅 {date_fa} · DDSVerified</span>
+<span class="pdate">{date_line} · DDSVerified</span>
 <article class="post">
-{md_to_html(article_body)}
+{faq_html}{md_to_html(article_body)}
 </article>
 {TRUST_HTML}
 <p><a class="cta" href="/">🛒 مشاهده و خرید فرزهای دندانپزشکی</a></p>"""
     ld_article = json.dumps({"@context": "https://schema.org", "@type": "Article",
                              "headline": p["title"], "description": p["description"],
                              "image": article_img, "datePublished": p["date"],
+                             "dateModified": updated or p["date"], "inLanguage": "fa-IR",
                              "author": {"@type": "Organization", "name": "DDSVerified"},
                              "publisher": {"@type": "Organization", "name": "DDSVerified"},
                              "mainEntityOfPage": f"{BASE}/{url}"}, ensure_ascii=False)
@@ -848,12 +928,14 @@ def build_post_page(p) -> str:
     extra = (f'<style>{BLOG_CSS}</style>\n'
              f'<script type="application/ld+json">{ld_article}</script>\n'
              f'<script type="application/ld+json">{ld_bc}</script>')
+    if ld_faq:
+        extra += f'\n<script type="application/ld+json">{ld_faq}</script>'
     return _layout(title, p["description"], url, crumbs, body, extra)
 
 
 def build_blog_index(posts: list) -> str:
     title = "وبلاگ DDSVerified — راهنمای خرید فرز دندانپزشکی"
-    desc = "راهنماهای خرید فرز دندانپزشکی، آموزش انتخاب فرز بر اساس رنگ دور، کد ISO و شکل فرز."
+    desc = "مقالات تخصصی و یافته‌های Drs' Choice: راهنمای گریت و کد ISO فرز، شواهد سایش فرز الماسه و زیرکونیا، مصرف فرز و درخت تصمیم بلیچینگ؛ همراه با پرسش‌های متداول و منابع."
     if posts:
         cards = "".join(
             f"""<div class="card">
@@ -867,7 +949,7 @@ def build_blog_index(posts: list) -> str:
         posts_html = ""
     body = f"""
 <h1>راهنمای فرزهای دندانپزشکی</h1>
-<div class="intro"><p>در این بخش راهنماهای جامع انتخاب و خرید فرز دندانپزشکی منتشر می‌شود: معنی رنگ دور فرزها، مفهوم کد ISO، انتخاب فرز مناسب هر کار کلینیکی و مقایسه خانواده‌های مختلف فرز الماسی.</p>
+<div class="intro"><p>مقالات تخصصی و یافته‌های Drs' Choice: راهنمای گریت و کد ISO فرزها، شواهد سایش فرز الماسه و برش زیرکونیا، برآورد مصرف فرز در مطب و درخت تصمیم بلیچینگ. هر مقاله با پرسش‌های متداول شروع می‌شود و ادعاهای آن با شماره به فهرست منابع (PubMed، استاندارد ISO یا کتاب مرجع) در انتهای همان مقاله ارجاع داده شده است.</p>
 <p>برای مشاهده و خرید محصولات، به <a href="/">صفحه اصلی فروشگاه</a> مراجعه کنید.</p></div>
 {posts_html}"""
     crumbs = '<a href="/">خانه</a> › وبلاگ'
@@ -887,7 +969,7 @@ CAMPAIGN_CSS = (
     '.cmp-price{font-size:1.5rem;font-weight:800;color:#ef6c00;margin:10px 0 4px}'
     '.cmp-price small{font-weight:400;font-size:.75rem;color:#78909c}'
     '.cmp-price .old-price{font-size:1rem;font-weight:400;color:#78909c}'
-    '.cmp-price .discount-badge{font-size:.85rem;color:#2e7d32;background:#e8f5e9;border-radius:12px;padding:2px 8px}'
+    '.cmp-price .discount-badge{font-size:.85rem;color:#fff;background:#cc3333;border-radius:12px;padding:2px 8px}'
     '.cmp-bullets{margin:12px 0 12px 20px;line-height:2}'
     '.cmp-contents{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:12px 14px;font-size:.88rem;margin:14px 0}'
     '.cmp-contents ul{margin:8px 0 8px 20px;line-height:2}'
@@ -1029,7 +1111,7 @@ h2{font-size:1.05rem;color:#0d47a1;margin:18px 0 10px}
 .specs-t{flex:1;min-width:230px;font-size:.84rem}.specs-t td{padding:3px 8px;border-bottom:1px dashed #eceff1}
 .specs-t td:first-child{color:#78909c;width:90px}
 .price{font-size:1.15rem;font-weight:800;color:#ef6c00;margin-top:10px}.price small{font-weight:400;font-size:.72rem;color:#78909c}
-.price .old-price{font-size:.85rem;font-weight:400;color:#78909c}.price .discount-badge{font-size:.75rem;color:#2e7d32;background:#e8f5e9;border-radius:12px;padding:2px 8px}
+.price .old-price{font-size:.85rem;font-weight:400;color:#78909c}.price .discount-badge{font-size:.75rem;color:#fff;background:#cc3333;border-radius:12px;padding:2px 8px}
 .cta{display:block;background:#1565c0;color:#fff;text-align:center;padding:11px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.9rem;margin-top:10px}
 .faq details{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:.88rem}
 .faq summary{cursor:pointer;font-weight:700;color:#37474f}.related a{display:inline-block;background:#fff;border:1px solid #dce3ec;border-radius:20px;padding:4px 12px;margin:3px;text-decoration:none;color:#1565c0;font-size:.82rem}
@@ -1374,6 +1456,9 @@ HOME_SLIDER_CSS = SLIDER_CSS_MARK + """
 .blogs-strip{margin:14px 0}
 .blogs-strip-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .blogs-strip-head h2{font-size:.95rem;color:var(--primary-dark);margin:0}
+.blogs-head-link{display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit}
+.blogs-head-link:hover h2,.blogs-head-link:focus-visible h2{text-decoration:underline}
+.blogs-head-link .bc-all{font-size:.7rem;color:#1565c0;font-weight:700}
 .blogs-strip-head .blogs-tag{font-size:.6rem;font-weight:700;color:#b45309;background:#fef3c7;border:1px solid #fcd34d;border-radius:20px;padding:2px 10px}
 .pushbox{position:relative;height:58px;overflow:hidden}
 .push-item{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card,#fff);border:1px solid var(--border,#dce3ec);border-radius:12px;padding:6px 16px;text-decoration:none;font-size:.8rem;font-weight:700;color:var(--primary-dark,#0d47a1);box-shadow:var(--shadow-sm,0 1px 4px rgba(0,0,0,.06));opacity:0;transform:translateX(-115%);line-height:1.5;text-align:center;overflow:hidden}
@@ -1406,8 +1491,11 @@ def build_home_slider(posts: list) -> str:
 <section class="blogs-strip" aria-label="مطالب منتخب دندانپزشکان">
 <style>.push-item{{animation:pushCycle {total}s linear infinite;animation-delay:calc(var(--i)*{seg}s)}}{kf}</style>
 <div class="blogs-strip-head">
-<h2>بخونین:</h2>
+<a class="blogs-head-link" href="/blog/" aria-label="مشاهده همه مقالات تخصصی و یافته‌ها (Drs' Choice)">
+<h2>مقالات تخصصی و یافته‌ها</h2>
 <span class="blogs-tag">Drs' Choice</span>
+<span class="bc-all">همه مقالات ←</span>
+</a>
 </div>
 <div class="pushbox">{items}</div>
 </section>

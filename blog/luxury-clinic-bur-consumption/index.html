@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مطب لاکچری چند فرز در ماه مصرف می‌کند؟ (مدل کم‌بیمار) | DDSVerified</title>
-<meta name="description" content="مطب لاکچری کم بیمار دارد ولی سرانه تراش و تنوع فرز بالاتر است. مدل واقع‌بینانه مصرف ماهانه فرز دندانپزشکی در مطب‌های کم‌بیمار با جدول و جواب برای سفارش‌های کوچک.">
+<title>مصرف ماهانه فرز در مطب کم‌بیمار با پرونده‌های سنگین: سناریوی محاسباتی | DDSVerified</title>
+<meta name="description" content="اگر مطب شما روزی چند بیمار با پرونده‌های وسیع (مثل ونیر و بازسازی کامل) می‌پذیرد، مصرف فرز را چطور برآورد کنید؟ همان فرمول مصرف ماهانه با ورودی‌های کم‌بیمار، جدول حساسیت و محدودیت‌ها.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ddsverified.ir/blog/luxury-clinic-bur-consumption/">
 <link rel="icon" type="image/webp" href="https://ddsverified.ir/logo-wordmark-square.webp">
-<meta property="og:title" content="مطب لاکچری چند فرز در ماه مصرف می‌کند؟ (مدل کم‌بیمار) | DDSVerified">
-<meta property="og:description" content="مطب لاکچری کم بیمار دارد ولی سرانه تراش و تنوع فرز بالاتر است. مدل واقع‌بینانه مصرف ماهانه فرز دندانپزشکی در مطب‌های کم‌بیمار با جدول و جواب برای سفارش‌های کوچک.">
+<meta property="og:title" content="مصرف ماهانه فرز در مطب کم‌بیمار با پرونده‌های سنگین: سناریوی محاسباتی | DDSVerified">
+<meta property="og:description" content="اگر مطب شما روزی چند بیمار با پرونده‌های وسیع (مثل ونیر و بازسازی کامل) می‌پذیرد، مصرف فرز را چطور برآورد کنید؟ همان فرمول مصرف ماهانه با ورودی‌های کم‌بیمار، جدول حساسیت و محدودیت‌ها.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ddsverified.ir/blog/luxury-clinic-bur-consumption/">
 <meta property="og:image" content="https://ddsverified.ir/logo-wordmark-square.webp">
@@ -32,7 +32,7 @@ h2{font-size:1.05rem;color:#0d47a1;margin:18px 0 10px}
 .specs-t{flex:1;min-width:230px;font-size:.84rem}.specs-t td{padding:3px 8px;border-bottom:1px dashed #eceff1}
 .specs-t td:first-child{color:#78909c;width:90px}
 .price{font-size:1.15rem;font-weight:800;color:#ef6c00;margin-top:10px}.price small{font-weight:400;font-size:.72rem;color:#78909c}
-.price .old-price{font-size:.85rem;font-weight:400;color:#78909c}.price .discount-badge{font-size:.75rem;color:#2e7d32;background:#e8f5e9;border-radius:12px;padding:2px 8px}
+.price .old-price{font-size:.85rem;font-weight:400;color:#78909c}.price .discount-badge{font-size:.75rem;color:#fff;background:#cc3333;border-radius:12px;padding:2px 8px}
 .cta{display:block;background:#1565c0;color:#fff;text-align:center;padding:11px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.9rem;margin-top:10px}
 .faq details{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:.88rem}
 .faq summary{cursor:pointer;font-weight:700;color:#37474f}.related a{display:inline-block;background:#fff;border:1px solid #dce3ec;border-radius:20px;padding:4px 12px;margin:3px;text-decoration:none;color:#1565c0;font-size:.82rem}
@@ -60,74 +60,64 @@ footer .contact-links svg{width:20px;height:20px;flex:none}footer p{margin:4px 0
 .md-t th,.md-t td{border:1px solid #dce3ec;padding:6px 10px;text-align:right}
 .md-t th{background:#e3f2fd;color:#0d47a1}
 .pdate{font-size:.75rem;color:#78909c}
+.post .faq{margin:0 0 18px;padding-bottom:6px;border-bottom:1px solid #eceff1}.post .faq h2{margin-top:0}
+.post .faq details{background:#f8fafc}.post .faq details>div p{margin:6px 0}
+.post sup.cite a{color:#1565c0;text-decoration:none;font-weight:700;font-size:.8em;padding:0 1px}
+.post .ref{direction:ltr;text-align:left;font-size:.78rem;color:#455a64;word-break:break-word;margin:6px 0}
+.post .ref a{color:#1565c0}
+.post blockquote{background:#fff8e1;border:1px solid #ffe082;border-right:4px solid #f9a825;border-radius:8px;padding:6px 12px;margin:12px 0}
+.post hr{border:0;border-top:1px solid #dce3ec;margin:16px 0}
+.post em.cap{display:block;font-size:.78rem;color:#78909c;font-style:normal}
 .cards{display:flex;flex-direction:column;gap:10px}
 .card{background:#fff;border:1px solid #dce3ec;border-radius:12px;padding:14px}
 .card h3{font-size:1rem;margin-bottom:6px}.card h3 a{color:#1565c0;text-decoration:none}
 .card p{font-size:.84rem;color:#455a64;margin:0 0 8px}.card .pdate{display:block;margin-bottom:6px}
 .readmore{font-size:.82rem;color:#fff;background:#1565c0;border-radius:8px;padding:6px 14px;text-decoration:none;display:inline-block}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "مطب لاکچری چند فرز در ماه مصرف می‌کند؟ (مدل کم‌بیمار)", "description": "مطب لاکچری کم بیمار دارد ولی سرانه تراش و تنوع فرز بالاتر است. مدل واقع‌بینانه مصرف ماهانه فرز دندانپزشکی در مطب‌های کم‌بیمار با جدول و جواب برای سفارش‌های کوچک.", "image": "https://ddsverified.ir/logo-wordmark-square.webp", "datePublished": "2026-09-11", "author": {"@type": "Organization", "name": "DDSVerified"}, "publisher": {"@type": "Organization", "name": "DDSVerified"}, "mainEntityOfPage": "https://ddsverified.ir/blog/luxury-clinic-bur-consumption/"}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "خانه", "item": "https://ddsverified.ir/"}, {"@type": "ListItem", "position": 2, "name": "وبلاگ", "item": "https://ddsverified.ir/blog/"}, {"@type": "ListItem", "position": 3, "name": "مطب لاکچری چند فرز در ماه مصرف می‌کند؟ (مدل کم‌بیمار)", "item": "https://ddsverified.ir/blog/luxury-clinic-bur-consumption/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "مصرف ماهانه فرز در مطب کم‌بیمار با پرونده‌های سنگین: سناریوی محاسباتی", "description": "اگر مطب شما روزی چند بیمار با پرونده‌های وسیع (مثل ونیر و بازسازی کامل) می‌پذیرد، مصرف فرز را چطور برآورد کنید؟ همان فرمول مصرف ماهانه با ورودی‌های کم‌بیمار، جدول حساسیت و محدودیت‌ها.", "image": "https://ddsverified.ir/logo-wordmark-square.webp", "datePublished": "2026-09-11", "dateModified": "2026-10-29", "inLanguage": "fa-IR", "author": {"@type": "Organization", "name": "DDSVerified"}, "publisher": {"@type": "Organization", "name": "DDSVerified"}, "mainEntityOfPage": "https://ddsverified.ir/blog/luxury-clinic-bur-consumption/"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "خانه", "item": "https://ddsverified.ir/"}, {"@type": "ListItem", "position": 2, "name": "وبلاگ", "item": "https://ddsverified.ir/blog/"}, {"@type": "ListItem", "position": 3, "name": "مصرف ماهانه فرز در مطب کم‌بیمار با پرونده‌های سنگین: سناریوی محاسباتی", "item": "https://ddsverified.ir/blog/luxury-clinic-bur-consumption/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "آیا مطب کم‌بیمار فرز کمتری مصرف می‌کند؟", "acceptedAnswer": {"@type": "Answer", "text": "نه الزاماً؛ به تعداد دندان‌های تراش‌خورده بستگی دارد، نه تعداد بیمار. در این سناریو (فرضی) ۴ بیمار در روز با میانگین ۴ دندان برای هر بیمار، حدود ۳۲۰ دندان در ماه تراش می‌خورد؛ نیمی از ۶۵۰ دندان مطب «شلوغ» نمونه مقاله مصرف ماهانه است."}}, {"@type": "Question", "name": "آیا مطب‌های لوکس واقعاً فرز بیشتری به‌ازای هر بیمار مصرف می‌کنند؟", "acceptedAnswer": {"@type": "Answer", "text": "این را نمی‌توانیم با منبع تأیید کنیم. ما مطالعه‌ای که مصرف فرز را بین مطب‌های کم‌بیمار و پربیمار مقایسه کند، پیدا نکردیم. فرض «۴ دندان برای هر بیمار و ۳٫۵ کد متفاوت برای هر دندان» ورودی سناریوست، نه آمار مشاهده‌شده؛ آن را با ثبت مطب خودتان جایگزین کنید."}}, {"@type": "Question", "name": "هر فرز را روی چند دندان استفاده کنیم؟", "acceptedAnswer": {"@type": "Answer", "text": "بستگی به دستورالعمل سازنده و نوع فرز دارد. در مطالعه‌ای آزمایشگاهی، فرز الماسه یک‌بارمصرف تا حدود سه دندان از نظر نشت ترمیم قابل قبول گزارش شد و در مطالعه دیگر سرعت برش پس از ۲۰ برش حدود ۲۰٪ کاهش یافت. بنابراین جدول‌ها برای یک، سه و پنج دندان به‌ازای هر فرز محاسبه شده‌اند."}}, {"@type": "Question", "name": "سفارش کوچک برای کدهای تخصصی منطقی است؟", "acceptedAnswer": {"@type": "Answer", "text": "از نظر مدیریت موجودی بله: وقتی مصرف ماهانه یک کد کم است، سفارش بر اساس مصرف واقعی خودتان و زمان تأمین، سرمایه راکد را کم می‌کند. این یک توصیه مدیریتی است و مطالعه‌ای اثر آن را نسنجیده است."}}]}</script>
 </head>
 <body>
 <header><div class="wrap"><a class="brand" href="/" aria-label="DDSVerified — صفحه اصلی"><img src="https://ddsverified.ir/logo-wordmark.webp" alt="DDSVerified" width="185" height="60"></a><form class="site-search" action="/" method="get" role="search"><input type="search" name="q" aria-label="جستجوی فرزها" placeholder="جستجوی مدل یا نوع فرز" required><button type="submit">جستجو</button></form></div></header>
 <div class="wrap">
-<nav class="crumbs"><a href="/">خانه</a> › <a href="/blog/">وبلاگ</a> › مطب لاکچری چند فرز در ماه مصرف می‌کند؟ (مدل کم‌بیمار)</nav>
+<nav class="crumbs"><a href="/">خانه</a> › <a href="/blog/">وبلاگ</a> › مصرف ماهانه فرز در مطب کم‌بیمار با پرونده‌های سنگین: سناریوی محاسباتی</nav>
 
-<h1>مطب لاکچری چند فرز در ماه مصرف می‌کند؟ (مدل کم‌بیمار)</h1>
-<span class="pdate">📅 2026-09-11 · DDSVerified</span>
+<h1>مصرف ماهانه فرز در مطب کم‌بیمار با پرونده‌های سنگین: سناریوی محاسباتی</h1>
+<span class="pdate">📅 2026-09-11 · به‌روزرسانی: 2026-10-29 · DDSVerified</span>
 <article class="post">
-<p>اگر مطب شما لوکس ساخته شده، وقت زیاد برای هر بیمار می‌گذارد و روزی چند بیمار تراش‌دار می‌گیرد، احتمالاً هر وقت فرمول‌های «کلینیک شلوغ» را خوانده‌اید گفته‌اید «این مال من نیست». حق با شماست: مدل‌های مصرف فرز معمولاً برای کلینیک‌های پرحجم تنظیم شده‌اند. این مقاله همان مدل را برای <strong>مصرف فرز در مطب‌های لاکچری و کم‌بیمار</strong> بازسازی می‌کند — با یک واقعیت که بیشتر همکاران از آن غافل‌گیر می‌شوند.</p>
-<h2>چرا مطب کم‌بیمار = مطب کم‌مصرف نیست؟</h2>
-<p>سه دلیل که سرانهٔ مصرف فرز در مطب لاکچری معمولاً بالاتر از کلینیک شلوغ است:</p>
+<section class="faq" id="faq"><h2>پرسش‌های متداول</h2><details open><summary>آیا مطب کم‌بیمار فرز کمتری مصرف می‌کند؟</summary><div><p>نه الزاماً؛ به تعداد دندان‌های تراش‌خورده بستگی دارد، نه تعداد بیمار. در این سناریو (فرضی) ۴ بیمار در روز با میانگین ۴ دندان برای هر بیمار، حدود ۳۲۰ دندان در ماه تراش می‌خورد؛ نیمی از ۶۵۰ دندان مطب «شلوغ» نمونه <a href="/blog/bur-consumption-per-month/">مقاله مصرف ماهانه</a> است.</p></div></details><details open><summary>آیا مطب‌های لوکس واقعاً فرز بیشتری به‌ازای هر بیمار مصرف می‌کنند؟</summary><div><p>این را نمی‌توانیم با منبع تأیید کنیم. ما مطالعه‌ای که مصرف فرز را بین مطب‌های کم‌بیمار و پربیمار مقایسه کند، پیدا نکردیم. فرض «۴ دندان برای هر بیمار و ۳٫۵ کد متفاوت برای هر دندان» ورودی سناریوست، نه آمار مشاهده‌شده؛ آن را با ثبت مطب خودتان جایگزین کنید.</p></div></details><details open><summary>هر فرز را روی چند دندان استفاده کنیم؟</summary><div><p>بستگی به دستورالعمل سازنده و نوع فرز دارد. در مطالعه‌ای آزمایشگاهی، فرز الماسه یک‌بارمصرف تا حدود سه دندان از نظر نشت ترمیم قابل قبول گزارش شد<sup class="cite"><a href="#ref-1" aria-label="منبع 1">[1]</a></sup> و در مطالعه دیگر سرعت برش پس از ۲۰ برش حدود ۲۰٪ کاهش یافت.<sup class="cite"><a href="#ref-2" aria-label="منبع 2">[2]</a></sup> بنابراین جدول‌ها برای یک، سه و پنج دندان به‌ازای هر فرز محاسبه شده‌اند.</p></div></details><details open><summary>سفارش کوچک برای کدهای تخصصی منطقی است؟</summary><div><p>از نظر مدیریت موجودی بله: وقتی مصرف ماهانه یک کد کم است، سفارش بر اساس مصرف واقعی خودتان و زمان تأمین، سرمایه راکد را کم می‌کند. این یک توصیه مدیریتی است و مطالعه‌ای اثر آن را نسنجیده است.</p></div></details></section>
+<h2>فرمول و فرض‌ها</h2>
+<p>از همان فرمول <a href="/blog/bur-consumption-per-month/">مقاله مصرف ماهانه</a> استفاده می‌کنیم:</p>
+<pre dir="ltr">مصرف ماهانه یک کد = (T × s ÷ u) × (1 + w)&#10;مصرف کل مطب       = (T × k ÷ u) × (1 + w)</pre>
+<p>T تعداد دندان تراش‌خورده در ماه، s سهم موارد استفاده از آن کد، u تعداد دندان به‌ازای هر فرز، k تعداد کد متفاوت به‌ازای هر دندان و w اتلاف (۱۰٪) است.</p>
+<p>ورودی‌های سناریوی کم‌بیمار (<strong>همه فرضی</strong>):</p>
 <ul>
-<li><strong>پرونده‌های سنگین‌تر:</strong> ونیر، لیفت و ری‌کانستراکشن یعنی دندان‌های بیشتری برای هر بیمار و فرزهای بیشتر برای هر دندان.</li>
-<li><strong>جلسه‌های طولانی‌تر:</strong> کارهای ترکیبی و ظریف، تعویض فرز بیشتری روی صندلی نیاز دارد.</li>
-<li><strong>تنوع کد بیشتر:</strong> به‌جای چند کد پرمصرف ثابت، فرزهای تخصصی‌تر و متنوع‌تر با گردش کمتر.</li>
+<li>۲ تا ۴ بیمار تراش‌دار در روز</li>
+<li>۲۰ روز کاری در ماه (بخشی از زمان به مشاوره و پذیرش می‌رود)</li>
+<li>میانگین ۴ دندان تراش‌خورده برای هر بیمار (پرونده‌های وسیع)</li>
+<li><strong>k = ۳٫۵</strong> کد متفاوت به‌ازای هر دندان</li>
+<li>اتلاف ۱۰٪</li>
 </ul>
-<p>پس فرمول همان است؛ فقط اعداد ورودی عوض می‌شوند.</p>
-<h2>مدل کم‌بیمار: ورودی‌های واقع‌بینانه</h2>
-<ul>
-<li><strong>۳ تا ۴ بیمار تراش‌دار در روز</strong> (به‌جای ۱۰)</li>
-<li><strong>۲۰ روز کاری در ماه</strong> (به‌جای ۲۶ — وقت مشاوره و پذیرش هم هست)</li>
-<li>میانگین <strong>۴ دندان تراش‌خورده برای هر بیمار</strong> (به‌جای ۲.۵)</li>
-<li><strong>۳ تا ۳.۵ فرز برای هر دندان</strong> (تنوع کد بیشتر، تعویض بیشتر)</li>
-</ul>
-<p>با سقف مدل (۴ بیمار × ۲۰ روز × ۴ دندان):</p>
-<ul>
-<li>4 × 20 × 4 = <strong>۳۲۰ دندان تراش‌خورده در ماه</strong></li>
-<li>320 × 3.5 = ۱٬۱۲۰ فرز پایه</li>
-<li>با ۱۰٪ اتلاف: 1120 × 1.1 ≈ <strong>۱٬۲۰۰ فرز در ماه از همه کدها</strong></li>
-</ul>
-<p>با بیمار کمتر، کل مصرف پایین می‌آید ولی به صفر نزدیک نمی‌شود:</p>
-<div style="overflow-x:auto"><table class="md-t"><tr><th>بیمار تراش‌دار در روز</th><th>دندان/ماه</th><th>فرز/دندان</th><th>کل فرز/ماه</th></tr><tr><td>4</td><td>320</td><td>3.5</td><td><strong>~1,200</strong></td></tr><tr><td>3</td><td>240</td><td>3.5</td><td><strong>~900</strong></td></tr><tr><td>2</td><td>160</td><td>3.5</td><td><strong>~620</strong></td></tr></table></div>
-<p>یعنی حتی مطب بسیار کم‌بیمار هم ماهی <strong>حدود ۶۰۰ تا ۱٬۲۰۰ فرز</strong> مصرف می‌کند — عددی که بیشتر همکاران از آن غافل‌گیر می‌شوند.</p>
-<h2>مصرف یک کد فرز در مطب کم‌بیمار</h2>
-<p>همان منطق مقالهٔ اصلی، این بار با اعداد مطب لاکچری. مثال با ۳۲۰ دندان در ماه:</p>
-<div style="overflow-x:auto"><table class="md-t"><tr><th>ضریب</th><th>فرض واقع‌بینانه</th></tr><tr><td>دندان تراش‌خورده در ماه</td><td>320</td></tr><tr><td>درصد کیس‌هایی که این کد در آن‌ها استفاده می‌شود</td><td>30%</td></tr><tr><td>استفاده مؤثر از هر فرز</td><td>5 دندان</td></tr><tr><td>اتلاف / شکستگی / افت کیفیت</td><td>10%</td></tr><tr><td>ذخیره عملیاتی انبار</td><td>10%</td></tr></table></div>
-<ul>
-<li>320 × 0.30 = <strong>۹۶ دندان</strong> که این کد برایشان استفاده می‌شود</li>
-<li>96 ÷ 5 = <strong>۱۹.۲ فرز پایه</strong></li>
-<li>19.2 × 1.1 × 1.1 ≈ <strong>۲۳ عدد در ماه از این کد</strong></li>
-</ul>
-<p>در مطب کم‌بیمار، سهم یک کد مشخص معمولاً کمتر است (کار متنوع‌تر است، تنوع فرز بیشتر)؛ جدول حساسیت:</p>
-<div style="overflow-x:auto"><table class="md-t"><tr><th>سهم استفاده از یک کد</th><th>مصرف پایه</th><th>با ضریب عملیاتی</th><th>مصرف پیشنهادی</th></tr><tr><td>20%</td><td>13</td><td>15</td><td><strong>14–16</strong></td></tr><tr><td>30%</td><td>19</td><td>23</td><td><strong>22–25</strong></td></tr><tr><td>40%</td><td>26</td><td>31</td><td><strong>30–34</strong></td></tr><tr><td>50%</td><td>32</td><td>38</td><td><strong>36–42</strong></td></tr></table></div>
-<p>نتیجه: در مطب لاکچری، یک کد مشخص معمولاً ماهی <strong>۱۵ تا ۴۰ عدد</strong> مصرف دارد. این عدد برای برنامه‌ریزی سفارش کافی است.</p>
-<h2>راهنمای سفارش برای مطب کم‌بیمار</h2>
-<ul>
-<li><strong>از کدهای پرمصرف (تیپر روند اند رایج، فیشر):</strong> تعداد موردنیاز را بر اساس مصرف واقعی مطب تعیین کنید.</li>
-<li><strong>از کدهای تخصصی (شمفر، عمق‌سنج ونیر، بارل):</strong> سفارش‌های ۲۰ تا ۳۵ عددی که ۱–۲ ماه دوام می‌آورند؛ انبار خواباندن یعنی سرمایهٔ راکد.</li>
-<li><strong>قانون کلی:</strong> سفارش = مصرف ماهانهٔ همان کد × ۱.۵ تا ۲ ماه گردش. نه بیشتر.</li>
-</ul>
-<p>نکتهٔ اقتصادی: چون گردش کدهای تخصصی کندتر است، پک‌های کوچک ۵ عددی برای «تست کد» عالی‌اند و بعدش بر اساس گردش واقعی خودتان حجم بدهید. راهنمای کامل محاسبه برای کلینیک شلوغ را در <a href="/blog/bur-consumption-per-month/">مقاله مصرف فرز در ماه</a> بخوانید.</p>
-<h2>جمع‌بندی</h2>
-<ul>
-<li>مطب لاکچری کم‌بیمار: <strong>۶۰۰ تا ۱٬۲۰۰ فرز در ماه از همه کدها</strong></li>
-<li>هر کد مشخص: <strong>۱۵ تا ۴۰ عدد در ماه</strong></li>
-<li>سفارش را روی ۱.۵–۲ ماه گردش ببندید؛ بیشتر از این یعنی سرمایهٔ راکد</li>
-</ul>
-<p>برای مطبی که مصرف بالاتری دارد، انتخاب شکل و دور مناسب فرز و بررسی عمر مفید واقعی هر مدل اهمیت دارد.</p>
-<p><a href="/">مشاهده و خرید فرزهای دندانپزشکی</a></p>
+<p>مثال: ۴ بیمار × ۲۰ روز × ۴ دندان = <strong>T = ۳۲۰</strong> دندان در ماه.</p>
+<h2>مصرف کل مطب</h2>
+<div style="overflow-x:auto"><table class="md-t"><tr><th>بیمار در روز</th><th>T (دندان/ماه)</th><th>u = ۱</th><th>u = ۳</th><th>u = ۵</th></tr><tr><td>۴</td><td>۳۲۰</td><td>۱٬۲۳۲</td><td>۴۱۱</td><td>۲۴۶</td></tr><tr><td>۳</td><td>۲۴۰</td><td>۹۲۴</td><td>۳۰۸</td><td>۱۸۵</td></tr><tr><td>۲</td><td>۱۶۰</td><td>۶۱۶</td><td>۲۰۵</td><td>۱۲۳</td></tr></table></div>
+<p>فرمول: T × ۳٫۵ ÷ u × ۱٫۱. اگر هر فرز فقط روی یک دندان استفاده شود (u = ۱)، مصرف در همین مطب کم‌بیمار هم بالا می‌رود (۶۰۰ تا ۱٬۲۰۰ فرز)؛ با استفاده مجدد مجاز، چند برابر کمتر است.</p>
+<h2>مصرف یک کد (T = ۳۲۰)</h2>
+<div style="overflow-x:auto"><table class="md-t"><tr><th>سهم s</th><th>u = ۱</th><th>u = ۳</th><th>u = ۵</th></tr><tr><td>۲۰٪</td><td>۷۰</td><td>۲۳</td><td>۱۴</td></tr><tr><td>۳۰٪</td><td>۱۰۶</td><td>۳۵</td><td>۲۱</td></tr><tr><td>۴۰٪</td><td>۱۴۱</td><td>۴۷</td><td>۲۸</td></tr><tr><td>۵۰٪</td><td>۱۷۶</td><td>۵۹</td><td>۳۵</td></tr></table></div>
+<p>نمونه (s = ۳۰٪ و u = ۳): ۳۲۰ × ۰٫۳ = ۹۶ دندان؛ ۹۶ ÷ ۳ = ۳۲ فرز؛ با اتلاف ۱۰٪: <strong>حدود ۳۵ عدد در ماه</strong>. در مطب‌هایی که کار متنوع‌تر است، سهم هر کد معمولاً کمتر خواهد بود، اما این یک انتظار است، نه یافته مشاهده‌شده.</p>
+<h2>برای سفارش چه کنیم؟</h2>
+<ol>
+<li>مصرف واقعی هر کد را دو تا چهار هفته ثبت کنید و s و u خودتان را به‌دست آورید.</li>
+<li>برای کدهای پرمصرف، سفارش را بر اساس مصرف ماهانه واقعی و زمان تأمین تنظیم کنید.</li>
+<li>برای کدهای کم‌مصرف یا تخصصی (مثل شمفر، دپس‌کات ونیر، دابل برل)، ابتدا بسته کوچک بگیرید و با مصرف واقعی خودتان حجم سفارش بعدی را تعیین کنید.</li>
+<li>استفاده مجدد را همیشه طبق دستورالعمل سازنده انجام دهید.<sup class="cite"><a href="#ref-3" aria-label="منبع 3">[3]</a></sup></li>
+</ol>
+<p>برای جزئیات استفاده مجدد، <a href="/blog/dull-diamond-bur/">فرسایش فرز الماسه و تعداد دفعات استفاده</a> را ببینید. <a href="/">مشاهده فرزهای موجود</a></p>
+<h2>منابع</h2>
+<p class="ref" id="ref-1" dir="ltr">[1] von Fraunhofer JA, Smith TA, Marshall KR. The effect of multiple uses of disposable diamond burs on restoration leakage. <em>J Am Dent Assoc</em>. 2005;136(1):53-57. <a href="https://pubmed.ncbi.nlm.nih.gov/15693496/" target="_blank" rel="noopener">PubMed PMID: 15693496</a></p>
+<p class="ref" id="ref-2" dir="ltr">[2] Pilcher ES, Tietge JD, Draughn RA. Comparison of cutting rates among single-patient-use and multiple-patient-use diamond burs. <em>J Prosthodont</em>. 2000;9(2):66-70. <a href="https://pubmed.ncbi.nlm.nih.gov/11070132/" target="_blank" rel="noopener">PubMed PMID: 11070132</a></p>
+<p class="ref" id="ref-3" dir="ltr">[3] Kohn WG, Collins AS, Cleveland JL, Harte JA, Eklund KJ, Malvitz DM. Guidelines for infection control in dental health-care settings—2003. <em>MMWR Recomm Rep</em>. 2003;52(RR-17):1-61. <a href="https://pubmed.ncbi.nlm.nih.gov/14685139/" target="_blank" rel="noopener">PubMed PMID: 14685139</a></p>
 </article>
 <div class="trust">🔍 انتخاب بر اساس کیفیت ساخت و مشخصات فنی &nbsp;·&nbsp; 🎨 تنوع شکل و دور فرز &nbsp;·&nbsp; 📦 ارسال سراسر ایران</div>
 <p><a class="cta" href="/">🛒 مشاهده و خرید فرزهای دندانپزشکی</a></p>

@@ -472,7 +472,7 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .product-card.is-featured{border:2px solid #f59e0b;background:linear-gradient(180deg,#fffbeb 0%,var(--surface) 42%)}
 .product-card.is-featured:hover{box-shadow:0 10px 26px rgba(245,158,11,.28)}
 .featured-badge{position:absolute;top:10px;right:10px;z-index:5;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:.64rem;font-weight:800;padding:4px 9px;border-radius:50px;box-shadow:0 3px 10px rgba(217,119,6,.45);letter-spacing:.2px}
-.sale-badge{position:absolute;top:10px;left:10px;z-index:5;background:#216d59;color:#fff;font-size:.68rem;font-weight:700;padding:4px 9px;border-radius:50px}.product-list-price{color:var(--text-light);font-size:.72rem;margin:3px 0}.product-list-price del{opacity:.8}
+.sale-badge{position:absolute;top:10px;left:10px;z-index:5;background:#cc3333;color:#fff;font-size:.68rem;font-weight:700;padding:4px 9px;border-radius:50px}.product-list-price{color:var(--text-light);font-size:.72rem;margin:3px 0}.product-list-price del{opacity:.8}
 .pack-info-box {
   font-size: 0.65rem;
   padding: 3px 8px;
@@ -702,6 +702,9 @@ footer a{color:var(--primary);text-decoration:none}
 .blogs-strip{margin:14px 0}
 .blogs-strip-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .blogs-strip-head h2{font-size:.95rem;color:var(--primary-dark);margin:0}
+.blogs-head-link{display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit}
+.blogs-head-link:hover h2,.blogs-head-link:focus-visible h2{text-decoration:underline}
+.blogs-head-link .bc-all{font-size:.7rem;color:#1565c0;font-weight:700}
 .blogs-strip-head .blogs-tag{font-size:.6rem;font-weight:700;color:#b45309;background:#fef3c7;border:1px solid #fcd34d;border-radius:20px;padding:2px 10px}
 .pushbox{position:relative;height:58px;overflow:hidden}
 .push-item{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card,#fff);border:1px solid var(--border,#dce3ec);border-radius:12px;padding:6px 16px;text-decoration:none;font-size:.8rem;font-weight:700;color:var(--primary-dark,#0d47a1);box-shadow:var(--shadow-sm,0 1px 4px rgba(0,0,0,.06));opacity:0;transform:translateX(-115%);line-height:1.5;text-align:center;overflow:hidden}
@@ -799,10 +802,13 @@ header{background:#fffefa;color:var(--primary-dark);border-bottom:1px solid var(
 <section class="blogs-strip" aria-label="مطالب منتخب دندانپزشکان">
 <style>.push-item{animation:pushCycle 38.5s linear infinite;animation-delay:calc(var(--i)*5.5s)}@keyframes pushCycle{0%{opacity:0;transform:translateX(-115%)}0.86%{opacity:1;transform:translateX(0)}11.43%{opacity:1;transform:translateX(0)}13.71%{opacity:0;transform:translateX(115%)}100%{opacity:0;transform:translateX(115%)}}</style>
 <div class="blogs-strip-head">
+<a class="blogs-head-link" href="/blog/" aria-label="مشاهده همه مقالات تخصصی و یافته‌ها (Drs' Choice)">
 <h2>مقالات تخصصی و یافته‌ها</h2>
 <span class="blogs-tag">Drs' Choice</span>
+<span class="bc-all">همه مقالات ←</span>
+</a>
 </div>
-<div class="pushbox"><a class="push-item" style="--i:0" href="/blog/dull-diamond-bur/">فرزت برق می‌زند، اما نمی‌بُرد؟<span class="bc-arrow">←</span></a><a class="push-item" style="--i:1" href="/blog/zirconia-kills-diamond-bur/">فرزت رو به زیرکونیا زدی؟ دیگه بندازش دور! (اثبات با شواهد SEM)<span class="bc-arrow">←</span></a><a class="push-item" style="--i:2" href="/blog/bur-consumption-per-month/">مصرف فرز دندانپزشکی در ماه چقدر است؟ فرمول دقیق محاسبه<span class="bc-arrow">←</span></a><a class="push-item" style="--i:3" href="/blog/luxury-clinic-bur-consumption/">مطب لاکچری چند فرز در ماه مصرف می‌کند؟ (مدل کم‌بیمار)<span class="bc-arrow">←</span></a><a class="push-item" style="--i:4" href="/blog/bleaching-decision-flowchart/">جدیدترین درخت تصمیم گیری در بلیچینگ دندان + فلوچارت<span class="bc-arrow">←</span></a><a class="push-item" style="--i:5" href="/blog/bur-color-ring-meaning/">معنی رنگ دور فرز دندانپزشکی چیست؟ (راهنمای کامل گریت فرز الماسی)<span class="bc-arrow">←</span></a><a class="push-item" style="--i:6" href="/blog/bur-iso-usa-codes/">کد ISO و USA روی فرز دندانپزشکی چه می‌گوید؟ راهنمای خواندن کد فرزها<span class="bc-arrow">←</span></a></div>
+<div class="pushbox"><a class="push-item" style="--i:0" href="/blog/dull-diamond-bur/">فرزت برق می‌زند، اما هنوز می‌بُرد؟ شواهد فرسایش فرز الماسه و تعداد دفعات استفاده<span class="bc-arrow">←</span></a><a class="push-item" style="--i:1" href="/blog/zirconia-kills-diamond-bur/">برش زیرکونیا با فرز الماسه: شواهد سایش فرز، زمان برش و نکات عملی<span class="bc-arrow">←</span></a><a class="push-item" style="--i:2" href="/blog/bur-consumption-per-month/">مصرف ماهانه فرز دندانپزشکی در مطب چقدر است؟ مدل محاسبه با فرض‌های شفاف<span class="bc-arrow">←</span></a><a class="push-item" style="--i:3" href="/blog/luxury-clinic-bur-consumption/">مصرف ماهانه فرز در مطب کم‌بیمار با پرونده‌های سنگین: سناریوی محاسباتی<span class="bc-arrow">←</span></a><a class="push-item" style="--i:4" href="/blog/bleaching-decision-flowchart/">درخت تصمیم‌گیری بلیچینگ دندان: فلوچارت پنج‌مرحله‌ای بر پایه کتاب Perdigão (۲۰۲۳) و مرورهای سیستماتیک<span class="bc-arrow">←</span></a><a class="push-item" style="--i:5" href="/blog/bur-color-ring-meaning/">معنی رنگ دور فرز الماسه چیست؟ جدول گریت طبق استاندارد ISO 7711-1<span class="bc-arrow">←</span></a><a class="push-item" style="--i:6" href="/blog/bur-iso-usa-codes/">کد ISO 6360 و کد USA روی فرز دندانپزشکی چه می‌گوید؟ راهنمای خواندن کد با مثال<span class="bc-arrow">←</span></a></div>
 </section>
 <!-- BLOG:DRS-CHOICE-END -->
       <div class="hero-cert-row">
@@ -987,7 +993,7 @@ header{background:#fffefa;color:var(--primary-dark);border-bottom:1px solid var(
 const PRODUCTS = [
 
   // بسته ۴۰۰ عددی منتخب — قیمت هر بسته، ارسال رایگان
-  {shape:"bundle",bundle:true,model:"PACK-400",featured:1,iso:"-",usa:"-",diameter:"-",length:"-",grit:"-",inventory:17,multiplier:400,old_price:72080000,price:68476000,pack_size:1,card_img:"pack400",card_title:"بسته ۴۰۰ عددی فرزهای پرمصرف",img_note:"ارسال رایگان",free_shipping:true,alt:"بسته ۴۰۰ عددی فرزهای الماسی پرمصرف",details_img:"pack400-contents",desc:"بسته ۴۰۰ عددی از مدل‌های پرمصرف فرز الماسی با تنوع شکل و گریت برای کاربردهای بالینی مختلف."},
+  {shape:"bundle",bundle:true,model:"PACK-400",featured:1,iso:"-",usa:"-",diameter:"-",length:"-",grit:"-",inventory:17,multiplier:400,old_price:72080000,price:64872000,pack_size:1,card_img:"pack400",card_title:"بسته ۴۰۰ عددی فرزهای پرمصرف",img_note:"ارسال رایگان",free_shipping:true,alt:"بسته ۴۰۰ عددی فرزهای الماسی پرمصرف",details_img:"pack400-contents",desc:"بسته ۴۰۰ عددی از مدل‌های پرمصرف فرز الماسی با تنوع شکل و گریت برای کاربردهای بالینی مختلف."},
   {shape:"carbide",model:"ENDO-Z TI",featured:1,iso:"500 316 210 007 015",usa:"FGXL 152",diameter:"-",length:"28",grit:"-",flutes:6,inventory:36,multiplier:1,old_price:1580000,price:1500000,pack_size:6,details_img:"endo-z-blueprint",desc:"فرز Endo Z با نوک غیر‌بُرنده (Non-cutting tip) و تیغه‌های جانبی برنده، عمدتاً برای تکمیل حفره دسترسی اندودانتیک، حذف باقی‌مانده سقف اتاقک پالپ، رفع آندرکات‌ها و اصلاح دیواره‌های محوری به‌منظور دستیابی به دید مستقیم و دسترسی مناسب به اوریفیس کانال‌ها استفاده می‌شود. طراحی نوک آن احتمال برداشت ناخواسته عاج از کف اتاقک پالپ و ایجاد پرفوراسیون را کاهش می‌دهد؛ بااین‌حال، به‌دلیل برندگی جانبی، استفاده کنترل‌شده و پرهیز از تماس با کف پالپ ضروری است. این فرز برای شکل‌دهی اولیه حفره دسترسی یا برداشت انتخابی عاج از نواحی کلسیفیه، ابزار اختصاصی محسوب نمی‌شود."},
 
   {shape:"needle",model:"TC-26EF",iso:"806 314 164 504 012",usa:"852-012EF",diameter:"012",length:"6.0",grit:"Y🟡",inventory:101,collection:"fixed_prostho",old_price:233000,price:221350},

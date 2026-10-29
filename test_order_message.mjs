@@ -40,7 +40,7 @@ test('catalog pricing prioritizes special models over grit and uses a single fix
   assert.equal(price('FO-40EF'), 227050);
   assert.equal(price('ENDO-Z TI'), 1500000);
   for (const product of d.PRODUCTS) {
-    assert.equal(d.salePercent(product), 5, product.model);
+    assert.equal(d.salePercent(product), product.model === 'PACK-400' ? 10 : 5, product.model);
     assert.ok(d.listPrice(product) > d.unitPrice(product));
   }
   assert.equal([...d.GRIT_ORDER].join(','), 'K⚫,G🟢,B🔵,R🔴,Y🟡,W⚪');
@@ -56,14 +56,14 @@ test('small order keeps its model price and paid shipping', () => {
   assert.ok(!o.text.includes('پلکانی'));
 });
 
-test('bundle receives a further five percent discount and ships free', () => {
+test('bundle receives a ten percent discount and ships free', () => {
   const bundle = d.PRODUCTS.find(p => p.model === 'PACK-400');
   const o = makeOrder([bundle]);
   assert.equal(o.total, 400);
-  assert.equal(o.final, 68476000);
+  assert.equal(o.final, 64872000);
   assert.ok(o.free);
-  assert.ok(o.text.includes('PACK-400 x 1 بسته = 68476000 تومان (ارسال رایگان)'));
-  assert.equal(Math.round((1 - bundle.price / (400 * d.PRICE_PER_BUR)) * 100), 21);
+  assert.ok(o.text.includes('PACK-400 x 1 بسته = 64872000 تومان (ارسال رایگان)'));
+  assert.equal(Math.round((1 - bundle.price / (400 * d.PRICE_PER_BUR)) * 100), 25);
 });
 
 test('mixed orders keep per-model prices even when quantity grows', () => {
