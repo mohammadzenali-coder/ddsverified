@@ -1034,6 +1034,8 @@ h2{font-size:1.05rem;color:#0d47a1;margin:18px 0 10px}
 .faq details{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:.88rem}
 .faq summary{cursor:pointer;font-weight:700;color:#37474f}.related a{display:inline-block;background:#fff;border:1px solid #dce3ec;border-radius:20px;padding:4px 12px;margin:3px;text-decoration:none;color:#1565c0;font-size:.82rem}
 .trust{display:flex;gap:10px;font-size:.75rem;color:#455a64;margin:16px 0;flex-wrap:wrap}
+.endo-z-reasons{background:linear-gradient(135deg,#e3f2fd,#fff);border:1px solid #90caf9;border-right:5px solid #1565c0;border-radius:14px;padding:18px 20px;margin:18px 0;box-shadow:0 6px 18px rgba(21,101,192,.12)}
+.endo-z-reasons h2{margin:0 0 8px;color:#0d47a1}.endo-z-reasons p{margin-bottom:6px}.endo-z-reasons ol{padding-right:22px}.endo-z-reasons li{padding:4px 0}.endo-z-reasons a{color:#1565c0;font-weight:700;text-decoration:none}.endo-z-reasons a:hover{text-decoration:underline}
 header{background:#fffefa;color:#071b41;border-bottom:1px solid #e1ded6}header .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 14px}
 header a{color:#071b41;text-decoration:none;font-weight:800;font-size:.95rem}.brand img{display:block;width:185px;max-width:100%;height:auto}
 .site-search{display:flex;flex:1;min-width:220px;max-width:420px;gap:6px}.site-search input{min-width:0;flex:1;padding:8px 10px;border:1px solid #dce3ec;border-radius:8px;font:inherit}
@@ -1256,6 +1258,18 @@ def build_product_page(p, data) -> str:
         clinical = p.get("desc") or INTROS.get(shape_key, f"{sname} یکی از خانواده‌های پرکاربرد فرزهای دندانپزشکی است.")
         intro_html = f"<p>{sname} مدل <strong>{model}</strong> {spec_sentence} {clinical.strip()}</p>"
         evidence_html = ""
+    endo_z_reasons = """
+<div class="endo-z-reasons">
+  <h2>چرا باید فرز اندو زد بگیرید؟</h2>
+  <p>چون:</p>
+  <ol>
+    <li>سرعت کار شما را سریع‌تر می‌کند. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8378494/" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
+    <li>دیواره صاف‌تر و smooth‌تر به شما می‌دهد. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8378494/" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
+    <li>ریسک پرفوریشن به حداقل می‌رسد. <a href="https://www.nature.com/articles/s41415-025-8442-8" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
+    <li>فرز استاندارد در تهیه حفره دسترسی است. <a href="https://www.nature.com/articles/s41415-025-8442-8" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
+  </ol>
+</div>
+""" if model == "ENDO-Z TI" else ""
 
     siblings = [q for q in group_by_page(data)[shape_key] if q["model"] != model]
     sib_html = "".join(
@@ -1288,6 +1302,7 @@ def build_product_page(p, data) -> str:
     body = f"""
 <h1>فرز {short} مدل {model}</h1>
 <div class="intro">{intro_html}</div>
+{endo_z_reasons}
 {evidence_html}
 <section class="model-block">
   <div class="model-head"><h3>مشخصات فنی فرز {model}</h3>{stock_badge}</div>
