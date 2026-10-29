@@ -43,6 +43,7 @@ from generate_emalls_feed import (  # noqa: E402
     ORIGIN,
     color_fa,
     feed_price,
+    feed_old_price,
 )
 
 
@@ -149,7 +150,7 @@ def build_product(p: dict, data: dict) -> dict:
         short_bits.append(f"دور {grit}")
     if p.get("iso"):
         short_bits.append(f"کد ISO {p['iso']}")
-    return {
+    product = {
         "page_unique": anchor_id(model),
         "page_url": f"{BASE}/{product_page_url(model)}",
         "product_group_id": SLUGS[p["shape"]],
@@ -164,6 +165,11 @@ def build_product(p: dict, data: dict) -> dict:
         "guarantee": DEFAULT_GUARANTEE,
         "short_desc": override.get("short_desc", "، ".join(short_bits)),
     }
+    old_price = feed_old_price(p, data)  # Torob v3 optional old_price (same pack/single unit)
+    if old_price is not None:
+        product["old_price"] = old_price
+    return product
+
 
 def assign_dates(models: list, added: dict) -> bool:
     """Assign a stable date_added to every model; prune removed ones."""

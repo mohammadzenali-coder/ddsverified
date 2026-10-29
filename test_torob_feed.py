@@ -3,11 +3,23 @@ import json
 import os
 import sys
 
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools"))
 
 import generate_torob_feed as t
 
 OUT = t.OUT_PATH
+
+
+@pytest.fixture(autouse=True)
+def isolated_feed(tmp_path, monkeypatch):
+    """Exercise date preservation only against a private feed and registry."""
+    monkeypatch.setattr(t, "OUT_DIR", str(tmp_path))
+    monkeypatch.setattr(t, "OUT_PATH", str(tmp_path / "products.json"))
+    monkeypatch.setattr(t, "ADDED_PATH", str(tmp_path / "added.json"))
+    monkeypatch.setattr(sys.modules[__name__], "OUT", t.OUT_PATH)
+    t.main()
 
 
 def _load(name="products.json"):
@@ -67,7 +79,7 @@ def test_known_product_content():
     # ENDO-Z TI is represented as Torob's destination identity only in the
     # Torob feed; the source/site product remains unchanged.
     ez = d["endo-zti"]
-    assert ez["current_price"] == 2700000
+    assert ez["current_price"] == next(p["price"] for p in t.load_data()["products"] if p["model"] == "ENDO-Z TI")
     assert ez["title"] == "فرز اندو اکسس- زد- Safe End - 151Z"
     assert ez["spec"]["مدل"] == "151Z"
     assert ez["spec"]["نوع"] == "Safe End"
@@ -90,20 +102,21 @@ def test_known_product_content():
         "tr-13c": "فرز تیپر روند اند الماسه | Taper Round End Burs",
     }
     assert {slug: d[slug]["title"] for slug in expected_titles} == expected_titles
-    # TC-21EF: pack sale (5×126,000 = 630,000 per pack), yellow grit, size + ISO in spec
+    # TC-21EF: pack sale, yellow grit, size + ISO in spec
     y = d["tc-21ef"]
-    assert y["current_price"] == 1165000
+    src = next(p for p in t.load_data()["products"] if p["model"] == "TC-21EF")
+    assert y["current_price"] == t.feed_price(src, t.load_data())
     assert y["spec"]["بسته‌بندی"] == "بسته ۵ عددی"
     assert y["spec"]["دور (گریت)"] == "زرد"
     assert y["spec"]["قطر"] == "014"  # matches site spec-table label (قطر)
     assert "806 314 165 504 014" in y["spec"]["کد ISO"]  # actual source ISO (grit 504)
-    assert y["guarantee"] == "تست و بررسی و آزمایش شده توسط دندانپزشک قبل از ارسال"
+    assert y["guarantee"] == t.DEFAULT_GUARANTEE
     assert y["product_group_id"] == "needle-burs"
     # trust attributes present on every product (owner-approved copy)
     for p in _load():
         assert p["spec"]["گواهی کیفی"] == "CE , TÜV Rheinland , ISO"
         assert p["spec"]["کشور ساخت"] == "چین"
-        assert p["spec"]["توضیحات"] == "این فرز و برند آن توسط دندانپزشک آزمایش و بررسی کلینیکی شده"
+        assert p["spec"]["توضیحات"] == t.CLINICAL_NOTE
         assert len(p["spec"]["توضیحات"]) <= 200  # fits spec value column
     # pointed_cylinder uses owner-confirmed chamfer naming
     assert "شمفر" in d["cp-12c"]["category_name"]
@@ -122,9 +135,11 @@ def test_feed_price_matches_packaging():
         expected = per_bur if src.get("multiplier") == 1 else per_bur * data["burs_per_pack"]
         assert fp["current_price"] == expected, src["model"]
     # ENDO-Z TI (multiplier=1, price override) must never be multiplied
-    assert by_unique[t.anchor_id("ENDO-Z TI")]["current_price"] == 2700000
+    assert by_unique[t.anchor_id("ENDO-Z TI")]["current_price"] == next(
+        p["price"] for p in data["products"] if p["model"] == "ENDO-Z TI")
     # EX-11S (multiplier=1, black grit override) stays at its per-bur sticker
-    assert by_unique[t.anchor_id("EX-11S")]["current_price"] == 234000
+    assert by_unique[t.anchor_id("EX-11S")]["current_price"] == next(
+        p["price"] for p in data["products"] if p["model"] == "EX-11S")
 
 
 def test_dates_stable_across_runs():
@@ -162,6 +177,53 @@ def test_date_added_ordering_matches_registry():
     assert {p["page_unique"]: p["date_added"] for p in d} == {t.anchor_id(m): v for m, v in added.items()}
     ts = [datetime.datetime.fromisoformat(p["date_added"]) for p in d]
     assert ts == sorted(ts), "date_added must be non-decreasing (deterministic date_added_desc)"
+
+
+def test_discount_old_price_respects_packaging_and_identity():
+    data = t.load_data().copy()
+    data.update(price_per_bur=215650, old_price_per_bur=227000)
+    default = next(p for p in data["products"] if not p.get("price") and not p.get("bundle"))
+    override = next(p for p in data["products"] if p["model"] == "TC-21EF").copy()
+    override.update(price=221350, old_price=233000)
+    endo = next(p for p in data["products"] if p["model"] == "ENDO-Z TI").copy()
+    endo.update(price=1500000, old_price=1580000)
+    assert (t.build_product(default, data)["current_price"],
+            t.build_product(default, data)["old_price"]) == (1078250, 1135000)
+    assert (t.build_product(override, data)["current_price"],
+            t.build_product(override, data)["old_price"]) == (1106750, 1165000)
+    product = t.build_product(endo, data)
+    assert (product["current_price"], product["old_price"]) == (1500000, 1580000)
+    assert product["page_unique"] == "endo-zti" and product["spec"]["مدل"] == "151Z"
+    assert product["title"] == "فرز اندو اکسس- زد- Safe End - 151Z"
+    assert "old_price" not in t.build_product({**override, "price": 233000}, data)
+    assert "old_price" not in t.build_product(default, {
+        **data, "old_price_per_bur": None})
+
+
+def test_previous_price_only_bumps_changed_product_timestamp_in_temp(tmp_path, monkeypatch):
+    monkeypatch.setattr(t, "ADDED_PATH", str(tmp_path / "added.json"))
+    monkeypatch.setattr(t, "OUT_DIR", str(tmp_path))
+    monkeypatch.setattr(t, "OUT_PATH", str(tmp_path / "products.json"))
+    data = t.load_data().copy()
+    data.update(price_per_bur=215650, old_price_per_bur=227000)
+    data["products"] = [p.copy() for p in data["products"] if not p.get("bundle")][:2]
+    monkeypatch.setattr(t, "load_data", lambda: data)
+    t.main()
+    before = {p["page_unique"]: p for p in json.load(open(t.OUT_PATH, encoding="utf-8"))}
+    t.main()
+    assert before == {p["page_unique"]: p for p in json.load(open(t.OUT_PATH, encoding="utf-8"))}
+    changed = data["products"][0]
+    changed["old_price"] = changed["price"] + 100000
+    t.main()
+    after = {p["page_unique"]: p for p in json.load(open(t.OUT_PATH, encoding="utf-8"))}
+    slug = t.anchor_id(changed["model"])
+    assert set(after) == set(before)
+    assert after[slug]["old_price"] == changed["old_price"] * (1 if changed.get("multiplier") == 1 else 5)
+    assert after[slug]["current_price"] == before[slug]["current_price"]
+    assert after[slug]["date_added"] == before[slug]["date_added"]
+    assert datetime.datetime.fromisoformat(after[slug]["date_updated"]) > datetime.datetime.fromisoformat(before[slug]["date_updated"])
+    for other in set(after) - {slug}:
+        assert after[other] == before[other]
 
 
 def test_registry_prunes_removed_models(tmp_path, monkeypatch):

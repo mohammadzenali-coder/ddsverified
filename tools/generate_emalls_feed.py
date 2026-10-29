@@ -25,18 +25,18 @@ SITE_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_FILE = os.path.join(SITE_ROOT, "products_data.json")
 OUT_DIR = os.path.join(SITE_ROOT, "emalls")
 DEFAULT_ITEM_PER_PAGE = 50
-DEFAULT_GUARANTEE = "تست و بررسی و آزمایش شده توسط دندانپزشک قبل از ارسال"
+DEFAULT_GUARANTEE = "تضمین کیفیت کالا و مطابقت مشخصات مدل"
 
 # Marketplace trust attributes (owner-approved copy, shared with the Torob feed).
 CERTS = "CE , TÜV Rheinland , ISO"  # quality certificates
 ORIGIN = "چین"  # country of manufacture
-CLINICAL_NOTE = "این فرز و برند آن توسط دندانپزشک آزمایش و بررسی کلینیکی شده"
+CLINICAL_NOTE = "تنوع مدل و گریت با مشخصات فنی دقیق"
 # Emalls PDF spec has no spec/description fields — its trust text rides in the
 # free-text `guarantee` field (clinical testing + certificates + origin).
 EMALLS_GUARANTEE = f"{CLINICAL_NOTE} · گواهی {CERTS} · ساخت {ORIGIN}"
 
 sys.path.insert(0, SITE_ROOT)
-from generate_pages import SLUGS, anchor_id, fa, img_rel, product_page_url  # noqa: E402  (single source of truth)
+from generate_pages import SLUGS, anchor_id, fa, img_rel, product_old_price, product_page_url, product_price  # noqa: E402  (single source of truth)
 
 
 def load_data() -> dict:
@@ -46,17 +46,25 @@ def load_data() -> dict:
 def feed_price(p: dict, data: dict) -> int:
     """Marketplace sticker price for the item as sold.
 
-    `price` in products_data.json (and price_per_bur) is the PER-BUR sticker.
+    `price` in products_data.json (and price_per_bur) is the discounted PER-BUR price.
     Marketplaces list the item as it is sold: pack products (multiplier≠1,
     i.e. the standard بسته ۵ عددی line) are priced per-bur × burs_per_pack so
     the feed matches the packaging note and what a buyer actually pays.
     Single-sale products (multiplier=1, e.g. ENDO-Z TI, EX-11S) keep their own
     price untouched — never multiplied.
     """
-    price = int(p.get("price") or data["price_per_bur"])
+    price = product_price(p, data)
     if p.get("multiplier") == 1:
         return price
     return price * int(data["burs_per_pack"])
+
+
+def feed_old_price(p: dict, data: dict) -> int | None:
+    """Previous price in toman for the same sale unit as feed_price."""
+    old = product_old_price(p, data)
+    if old is None:
+        return None
+    return old if p.get("multiplier") == 1 else old * int(data["burs_per_pack"])
 
 
 def shape_fa(key: str, data: dict) -> str:
@@ -112,12 +120,12 @@ def build_products(data: dict) -> list:
         grit = color_fa(p.get("grit", ""))
         # Pack line: per-bur sticker × 5 (matches بسته‌بندی note); single-sale keeps own price
         price = feed_price(p, data)
-        old_price = p.get("old_price")
+        old_price = feed_old_price(p, data)
         entry = {
             "title": product_title(p, data),
             "id": p["model"],
             "price": price,
-            "old_price": int(old_price) if old_price else None,
+            "old_price": old_price,
             "category": product_category(shape, data),
             "image": image_url(p["model"]),
             "color": grit if grit and grit != "-" else None,

@@ -96,8 +96,32 @@ def fmt_price(price: int) -> str:
 
 
 def product_price(p: dict, data: dict) -> int:
-    """Sticker price in toman from the product override or the catalog default."""
+    """Discounted per-bur price in toman (bundle rows have their own total)."""
     return int(p["price"] if p.get("price") is not None else data["price_per_bur"])
+
+
+def product_old_price(p: dict, data: dict) -> int | None:
+    """Previous per-bur price, or the bundle's previous total, when discounted."""
+    old = p.get("old_price")
+    if old is None and not p.get("bundle"):
+        old = data.get("old_price_per_bur")
+    if old is None:
+        return None
+    old = int(old)
+    return old if old > product_price(p, data) else None
+
+
+def price_html(p: dict, data: dict, *, campaign: bool = False) -> str:
+    """Visible toman price with a reference price and rounded discount label."""
+    price = product_price(p, data)
+    old = product_old_price(p, data)
+    reference = ""
+    if old is not None:
+        percent = round(100 * (old - price) / old)
+        reference = (f' <del class="old-price">{fmt_price(old)} تومان</del>'
+                     f' <span class="discount-badge">{fa(percent)}٪ تخفیف</span>')
+    unit = "" if campaign else " <small>/ هر عدد</small>"
+    return f"{fmt_price(price)} تومان{unit}{reference}"
 
 
 TRUST_HTML = '<div class="trust">🔍 انتخاب بر اساس کیفیت ساخت و مشخصات فنی &nbsp;·&nbsp; 🎨 تنوع شکل و دور فرز &nbsp;·&nbsp; 📦 ارسال سراسر ایران</div>'
@@ -765,6 +789,8 @@ def campaign_page_url() -> str:
 CAMPAIGN_CSS = (
     '.cmp-price{font-size:1.5rem;font-weight:800;color:#ef6c00;margin:10px 0 4px}'
     '.cmp-price small{font-weight:400;font-size:.75rem;color:#78909c}'
+    '.cmp-price .old-price{font-size:1rem;font-weight:400;color:#78909c}'
+    '.cmp-price .discount-badge{font-size:.85rem;color:#2e7d32;background:#e8f5e9;border-radius:12px;padding:2px 8px}'
     '.cmp-bullets{margin:12px 0 12px 20px;line-height:2}'
     '.cmp-contents{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:12px 14px;font-size:.88rem;margin:14px 0}'
     '.cmp-contents ul{margin:8px 0 8px 20px;line-height:2}'
@@ -845,7 +871,7 @@ def build_campaign_page(p: dict, data: dict) -> bool:
 <figure class="hero-img-wrap"><img src="{hero_img}" srcset="{hero_img} 770w, {hero_img} 1540w" sizes="(max-width:768px) 100vw, 1256w" alt="{title}" width="1540" height="866" fetchpriority="high" decoding="async"></figure>
 <h1>{title}</h1>
 <div class="intro"><p>{intro}</p></div>
-<div class="cmp-price">{fmt_price(price)} تومان <small>({fmt_price(price // quantity)} تومان به ازای هر عدد فرز)</small></div>
+<div class="cmp-price">{price_html(p, data, campaign=True)} <small>({fmt_price(price // quantity)} تومان به ازای هر عدد فرز)</small></div>
 <p>{f'حدود {fa(savings_percent)}٪ کمتر از خرید {fa(quantity)} فرز معمولی با قیمت پایه' if savings_percent else 'مجموعه‌ای از مدل‌های متنوع در یک بسته'}</p>
 <ul class="cmp-bullets">
 {bullets_html}
@@ -906,6 +932,7 @@ h2{font-size:1.05rem;color:#0d47a1;margin:18px 0 10px}
 .specs-t{flex:1;min-width:230px;font-size:.84rem}.specs-t td{padding:3px 8px;border-bottom:1px dashed #eceff1}
 .specs-t td:first-child{color:#78909c;width:90px}
 .price{font-size:1.15rem;font-weight:800;color:#ef6c00;margin-top:10px}.price small{font-weight:400;font-size:.72rem;color:#78909c}
+.price .old-price{font-size:.85rem;font-weight:400;color:#78909c}.price .discount-badge{font-size:.75rem;color:#2e7d32;background:#e8f5e9;border-radius:12px;padding:2px 8px}
 .cta{display:block;background:#1565c0;color:#fff;text-align:center;padding:11px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.9rem;margin-top:10px}
 .faq details{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:.88rem}
 .faq summary{cursor:pointer;font-weight:700;color:#37474f}.related a{display:inline-block;background:#fff;border:1px solid #dce3ec;border-radius:20px;padding:4px 12px;margin:3px;text-decoration:none;color:#1565c0;font-size:.82rem}
@@ -971,7 +998,7 @@ def _layout(title, description, canonical_path, crumbs_html, body_html, extra_he
 <nav class="crumbs">{crumbs_html}</nav>
 {body_html}
 </div>
-<footer>{CONTACT_LINKS}<p>DDSVerified © · تنوع مدل و دور فرز برای انتخاب متناسب با نیاز شما · ddsverified.ir</p></footer>
+<footer>{CONTACT_LINKS}<p>📍 آدرس: سعادت آباد، بهزادی جنوبی</p><p>مسئول علمی مجموعه : دکتر محمد رضا زینلی DMD DDS</p><p>DDSVerified © · تنوع مدل و دور فرز برای انتخاب متناسب با نیاز شما · ddsverified.ir</p></footer>
 </body>
 </html>"""
 
@@ -982,7 +1009,6 @@ def _model_block(p, shape_name_short, data):
     in_stock = p["inventory"] > 0
     grit_fa = data["grits"].get(p["grit"], GRIT_LABELS.get(p["grit"], "-"))
     pack_note = ("تک‌فروشی یا بسته ۶ عددی" if p.get("pack_size") else "فروش تکی") if p.get("multiplier") == 1 else f"بسته {fa(data['burs_per_pack'])} عددی"
-    price = product_price(p, data)
     length_td = f'<tr><td>طول</td><td>{fa(p["length"])} mm</td></tr>' if p["length"] != "-" else ""
     dia_td = f'<tr><td>قطر</td><td>{fa(p["diameter"])}</td></tr>' if p["diameter"] != "-" else ""
     alt = f"فرز {shape_name_short} {model}"
@@ -1000,7 +1026,7 @@ def _model_block(p, shape_name_short, data):
       <tr><td>بسته‌بندی</td><td>{pack_note}</td></tr>
     </table>
   </div>
-  <p class="price">{fmt_price(price)} تومان <small>/ هر عدد</small></p>
+  <p class="price">{price_html(p, data)}</p>
   <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model} — افزودن به سبد خرید</a>
 </section>"""
 
@@ -1174,7 +1200,7 @@ def build_product_page(p, data) -> str:
     </table>
   </div>
   {blueprint_html}
-  <p class="price">{fmt_price(price)} تومان <small>/ هر عدد</small></p>
+  <p class="price">{price_html(p, data)}</p>
   <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model} — افزودن به سبد خرید</a>
 </section>
 {TRUST_HTML}

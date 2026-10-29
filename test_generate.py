@@ -1,6 +1,8 @@
+import json
 import re
 
 import generate_pages as g
+from tools import extract_products as extractor
 
 
 def test_slug_map_covers_all_shapes():
@@ -143,3 +145,69 @@ def test_campaign_shows_real_savings_without_endorsements(tmp_path, monkeypatch)
     assert 'property="og:image" content="https://ddsverified.ir/logo-wordmark-square.webp"' in html
     assert "حدود ۲۱٪ کمتر" in html and "۱۲٪" not in html
     assert "۸۰ درصد" not in html and "تست شده توسط دندانپزشک" not in html
+
+
+def test_extractor_reads_list_and_current_prices_without_writing_files():
+    html = """
+    const LIST_PRICE_PER_BUR = 227000;
+    const PRICE_PER_BUR = 215650;
+    const SHAPE_MAP = {needle: "نیدل"};
+    const GRIT_TEXT = {"Y🟡": "زرد"};
+    const PRODUCTS = [{model: "TC-21EF", old_price: 233000, price: 221350}];
+    """
+    data = extractor.extract(html)
+    assert data["old_price_per_bur"] == 227000
+    assert data["price_per_bur"] == 215650
+    assert data["products"][0]["old_price"] == 233000
+
+
+def test_discount_display_uses_product_reference_or_catalog_fallback():
+    data = g.load_data().copy()
+    data.update(price_per_bur=215650, old_price_per_bur=227000)
+    default = next(p for p in data["products"] if not p.get("price") and not p.get("bundle"))
+    overridden = next(p for p in data["products"] if p["model"] == "TC-21EF").copy()
+    overridden.update(price=221350, old_price=233000)
+    endo = next(p for p in data["products"] if p["model"] == "ENDO-Z TI").copy()
+    endo.update(price=1500000, old_price=1580000)
+    for p, current, previous in ((default, 215650, 227000),
+                                 (overridden, 221350, 233000),
+                                 (endo, 1500000, 1580000)):
+        block = g._model_block(p, "آزمایشی", data)
+        page = g.build_product_page(p, data)
+        for html in (block, page):
+            assert f'{g.fmt_price(current)} تومان' in html
+            assert f'<del class="old-price">{g.fmt_price(previous)} تومان</del>' in html
+            assert '<span class="discount-badge">۵٪ تخفیف</span>' in html
+        ld = [json.loads(x) for x in re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>', page, re.S)]
+        assert next(x for x in ld if x.get("@type") == "Product")["offers"]["price"] == current * 10
+    data["products"] = [default, overridden, endo]
+    for html in (g.build_category_page("needle", data),
+                 g.build_collection_page("restorative", data)):
+        assert f'<del class="old-price">{g.fmt_price(233000)} تومان</del>' in html
+        assert '<span class="discount-badge">۵٪ تخفیف</span>' in html
+        ld = [json.loads(x) for x in re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>', html, re.S)]
+        itemlist = next(x for x in ld if x.get("@type") == "ItemList")
+        item = next(x["item"] for x in itemlist["itemListElement"] if x["item"]["sku"] == "TC-21EF")
+        assert item["offers"]["price"] == 221350 * 10
+    # No fabricated discount when the reference is absent or no longer higher.
+    assert '<del' not in g.price_html({"price": 220000}, {"price_per_bur": 220000})
+    assert '<del' not in g.price_html({"price": 230000}, data)
+
+
+def test_campaign_displays_bundle_reference_and_saves_against_discounted_default(tmp_path, monkeypatch):
+    data = g.load_data().copy()
+    data.update(price_per_bur=215650, old_price_per_bur=227000)
+    bundle = next(p for p in data["products"] if p.get("bundle")).copy()
+    bundle.update(price=68476000, old_price=72080000)
+    monkeypatch.chdir(tmp_path)
+    assert g.build_campaign_page(bundle, data)
+    html = (tmp_path / "campaign" / "pack-400" / "index.html").read_text(encoding="utf-8")
+    assert f'<del class="old-price">{g.fmt_price(72080000)} تومان</del>' in html
+    assert '<span class="discount-badge">۵٪ تخفیف</span>' in html
+    assert 'حدود ۲۱٪ کمتر' in html
+    product = next(json.loads(x) for x in re.findall(
+        r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+        if json.loads(x).get("@type") == "Product")
+    assert product["offers"]["price"] == 68476000 * 10

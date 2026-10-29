@@ -2,8 +2,6 @@
 import json
 import re
 
-html = open("index.html", encoding="utf-8").read()
-
 
 def js_to_json(s: str) -> str:
     # quote unquoted object keys, strip trailing commas
@@ -13,7 +11,7 @@ def js_to_json(s: str) -> str:
     return s
 
 
-def grab(name: str):
+def grab(name: str, html: str):
     m = re.search(rf"const {name} = (\[.*?\]|\{{.*?\}});", html, re.S)
     assert m, f"{name} not found in index.html"
     raw = js_to_json(m.group(1))
@@ -22,12 +20,29 @@ def grab(name: str):
     return json.loads(raw)
 
 
-data = {
-    "price_per_bur": int(re.search(r'const PRICE_PER_BUR = (\d+);', html).group(1)),
-    "burs_per_pack": 5,
-    "shapes": grab("SHAPE_MAP"),
-    "grits": grab("GRIT_TEXT"),
-    "products": grab("PRODUCTS"),
-}
-json.dump(data, open("products_data.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-print(f"OK: {len(data['products'])} products, {len(data['shapes'])} shapes")
+def extract(html: str) -> dict:
+    def price(name: str) -> int:
+        m = re.search(rf'const {name}\s*=\s*(\d+)\s*;', html)
+        assert m, f"{name} not found in index.html"
+        return int(m.group(1))
+
+    return {
+        "price_per_bur": price("PRICE_PER_BUR"),
+        "old_price_per_bur": price("LIST_PRICE_PER_BUR"),
+        "burs_per_pack": 5,
+        "shapes": grab("SHAPE_MAP", html),
+        "grits": grab("GRIT_TEXT", html),
+        "products": grab("PRODUCTS", html),
+    }
+
+
+def main() -> None:
+    with open("index.html", encoding="utf-8") as f:
+        data = extract(f.read())
+    with open("products_data.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    print(f"OK: {len(data['products'])} products, {len(data['shapes'])} shapes")
+
+
+if __name__ == "__main__":
+    main()

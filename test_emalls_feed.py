@@ -3,11 +3,21 @@ import os
 import sys
 from urllib.parse import unquote, urlsplit
 
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools"))
 
 import generate_emalls_feed as f
 
 OUT = os.path.join(f.SITE_ROOT, "emalls")
+
+
+@pytest.fixture(autouse=True)
+def isolated_feed(tmp_path, monkeypatch):
+    """Feed tests must never overwrite checked-in marketplace JSON."""
+    monkeypatch.setattr(f, "OUT_DIR", str(tmp_path))
+    monkeypatch.setattr(sys.modules[__name__], "OUT", str(tmp_path))
+    f.main()
 
 
 def _load(name="list.json"):
@@ -117,7 +127,29 @@ def test_price_matches_packaging():
         per_bur = int(src.get("price") or data["price_per_bur"])
         expected = per_bur if src.get("multiplier") == 1 else per_bur * data["burs_per_pack"]
         assert by_id[src["model"]]["price"] == expected, src["model"]
-    assert by_id["ENDO-Z TI"]["price"] == 2700000  # single-sale, never multiplied
+    assert by_id["ENDO-Z TI"]["price"] == next(
+        p["price"] for p in data["products"] if p["model"] == "ENDO-Z TI")  # never multiplied
+
+
+def test_discount_prices_match_sale_unit_without_reading_generated_feed():
+    data = f.load_data().copy()
+    data.update(price_per_bur=215650, old_price_per_bur=227000)
+    default = next(p for p in data["products"] if not p.get("price") and not p.get("bundle"))
+    override = next(p for p in data["products"] if p["model"] == "TC-21EF").copy()
+    override.update(price=221350, old_price=233000)
+    single = next(p for p in data["products"] if p["model"] == "ENDO-Z TI").copy()
+    single.update(price=1500000, old_price=1580000)
+    no_discount = {**override, "model": "NO-DISCOUNT", "price": 233000}
+    data["products"] = [default, override, single, no_discount,
+                        next(p for p in data["products"] if p.get("bundle"))]
+    by_id = {p["id"]: p for p in f.build_products(data)}
+    assert len(by_id) == 4  # bundle excluded
+    assert (by_id[default["model"]]["price"], by_id[default["model"]]["old_price"]) == (1078250, 1135000)
+    assert (by_id[override["model"]]["price"], by_id[override["model"]]["old_price"]) == (1106750, 1165000)
+    assert (by_id[single["model"]]["price"], by_id[single["model"]]["old_price"]) == (1500000, 1580000)
+    assert "old_price" not in by_id["NO-DISCOUNT"]
+    # Missing catalog reference must not produce an invented old_price.
+    assert f.feed_old_price(default, {"price_per_bur": 215650, "burs_per_pack": 5}) is None
 
 
 def test_pagination_files_and_stale_cleanup(tmp_path):
