@@ -167,6 +167,358 @@ FAQS = {
     ],
 }
 
+# ------------------------------------------------------- evidence (PubMed) ----
+# Every claim below was checked against the PubMed abstract of the cited paper.
+# Keep findings faithful to the abstract; add new papers to SOURCES first.
+EVIDENCE_REVIEWED = "2026-10-29"
+
+SOURCES = {
+    "goodacre2001": {"authors": "Goodacre CJ, Campagni WV, Aquilino SA", "title": "Tooth preparations for complete crowns: an art form based on scientific principles", "journal": "J Prosthet Dent", "year": "2001", "cite": "85(4):363-76", "pmid": "11319534", "type": "مرور متون"},
+    "yu2019": {"authors": "Yu H, Chen YH, Cheng H, Sawase T", "title": "Finish-line designs for ceramic crowns: A systematic review and meta-analysis", "journal": "J Prosthet Dent", "year": "2019", "cite": "122(1):22-30", "pmid": "30782459", "type": "مرور سیستماتیک و متاآنالیز"},
+    "pal2025": {"authors": "Pál A, Papócsi P, Kelemen K, et al.", "title": "Impact of finish line designs on the adaptation of ceramic fixed dental prostheses: a systematic review and network meta-analysis", "journal": "BMC Oral Health", "year": "2025", "cite": "25(1):1085", "pmid": "40611068", "type": "مرور سیستماتیک و متاآنالیز شبکه‌ای"},
+    "gavara2023": {"authors": "Gavara SG, Jain S, Gupta H, et al.", "title": "Comparative Effect of No Finish Line, Heavy Chamfer, and Shoulder Marginal Designs on the Fracture Resistance of Zirconia (Cercon) Ceramic Restoration: An In Vitro Study", "journal": "Cureus", "year": "2023", "cite": "15(5):e39009", "pmid": "37323304", "type": "مطالعه آزمایشگاهی"},
+    "potiket2004": {"authors": "Potiket N, Chiche G, Finger IM", "title": "In vitro fracture strength of teeth restored with different all-ceramic crown systems", "journal": "J Prosthet Dent", "year": "2004", "cite": "92(5):491-5", "pmid": "15523339", "type": "مطالعه آزمایشگاهی"},
+    "abad2024": {"authors": "Abad-Coronel C, Villacís Manosalvas J, Palacio Sarmiento C, et al.", "title": "Clinical outcomes of the biologically oriented preparation technique (BOPT) in fixed dental prostheses: A systematic review", "journal": "J Prosthet Dent", "year": "2024", "cite": "132(3):502-508", "pmid": "36192194", "type": "مرور سیستماتیک"},
+    "loi2013": {"authors": "Loi I, Di Felice A", "title": "Biologically oriented preparation technique (BOPT): a new approach for prosthetic restoration of periodontically healthy teeth", "journal": "Eur J Esthet Dent", "year": "2013", "cite": "8(1):10-23", "pmid": "23390618", "type": "گزارش تکنیک بالینی"},
+    "mohammad2023": {"authors": "Mohammad A, Abraham S, Nada A", "title": "The effect of biologically oriented and subgingival horizontal preparation techniques on periodontal health: A double-blind randomized controlled clinical trial", "journal": "Saudi Dent J", "year": "2023", "cite": "35(6):727-733", "pmid": "37817795", "type": "کارآزمایی بالینی تصادفی"},
+    "badar2019": {"authors": "Badar SB, Ghafoor R, Hameed MH, Anwer N", "title": "Assessment of iatrogenic damage to adjacent teeth during crown and bridge preparation", "journal": "Indian J Dent Res", "year": "2019", "cite": "30(1):107-111", "pmid": "30900667", "type": "مطالعه آینده‌نگر"},
+    "moopnar1991": {"authors": "Moopnar M, Faulkner KD", "title": "Accidental damage to teeth adjacent to crown-prepared abutment teeth", "journal": "Aust Dent J", "year": "1991", "cite": "36(2):136-40", "pmid": "1678936", "type": "مطالعه مشاهده‌ای"},
+    "lussi2003": {"authors": "Lussi A, Kronenberg O, Megert B", "title": "The effect of magnification on the iatrogenic damage to adjacent tooth surfaces during class II preparation", "journal": "J Dent", "year": "2003", "cite": "31(4):291-6", "pmid": "12735924", "type": "مطالعه آزمایشگاهی"},
+    "lenters2006": {"authors": "Lenters M, van Amerongen WE, Mandari GJ", "title": "Iatrogenic damage to the adjacent surfaces of primary molars, in three different ways of cavity preparation", "journal": "Eur Arch Paediatr Dent", "year": "2006", "cite": "7(1):6-10", "pmid": "17140521", "type": "مطالعه بالینی"},
+    "jung1997": {"authors": "Jung M", "title": "Surface roughness and cutting efficiency of composite finishing instruments", "journal": "Oper Dent", "year": "1997", "cite": "22(3):98-104", "pmid": "9484147", "type": "مطالعه آزمایشگاهی"},
+    "ferreira2004": {"authors": "Ferreira Rde S, Lopes GC, Baratieri LN", "title": "Direct posterior resin composite restorations: considerations on finishing/polishing. Clinical procedures", "journal": "Quintessence Int", "year": "2004", "cite": "35(5):359-66", "pmid": "15130074", "type": "مقاله بالینی"},
+    "siegel2000": {"authors": "Siegel SC, von Fraunhofer JA", "title": "Cutting efficiency of three diamond bur grit sizes", "journal": "J Am Dent Assoc", "year": "2000", "cite": "131(12):1706-10", "pmid": "11143734", "type": "مطالعه آزمایشگاهی"},
+    "vonfraunhofer2000": {"authors": "von Fraunhofer JA, Siegel SC, Feldman S", "title": "Handpiece coolant flow rates and dental cutting", "journal": "Oper Dent", "year": "2000", "cite": "25(6):544-8", "pmid": "11203868", "type": "مطالعه آزمایشگاهی"},
+    "zarpellon2021": {"authors": "Zarpellon DC, Runnacles P, Maucoski C, et al.", "title": "In Vivo Pulp Temperature Changes During Class V Cavity Preparation and Resin Composite Restoration in Premolars", "journal": "Oper Dent", "year": "2021", "cite": "46(4):374-384", "pmid": "34370040", "type": "مطالعه in vivo"},
+    "rues2017": {"authors": "Rues S, Schwindling FS, Meyer A, Rammelsberg P, Schmitter M", "title": "Fracture resistance of zirconia-based all-ceramic crowns after bur adjustment", "journal": "Eur J Oral Sci", "year": "2017", "cite": "125(4):310-313", "pmid": "28597965", "type": "مطالعه آزمایشگاهی"},
+    "barros2020": {"authors": "Barros MMAF, De Queiroz Rodrigues MI, Muniz FWMG, Rodrigues LKA", "title": "Selective, stepwise, or nonselective removal of carious tissue: which technique offers lower risk for the treatment of dental caries in permanent teeth? A systematic review and meta-analysis", "journal": "Clin Oral Investig", "year": "2020", "cite": "24(2):521-532", "pmid": "31773371", "type": "مرور سیستماتیک و متاآنالیز"},
+    "neves2011": {"authors": "Neves Ade A, Coutinho E, De Munck J, Van Meerbeek B", "title": "Caries-removal effectiveness and minimal-invasiveness potential of caries-excavation techniques: a micro-CT investigation", "journal": "J Dent", "year": "2011", "cite": "39(2):154-62", "pmid": "21111770", "type": "مطالعه آزمایشگاهی (میکروسی‌تی)"},
+    "alhelou2023": {"authors": "Al-Helou N, Zaki AA, Al Agha M, Moawad E, Jarad F", "title": "Which endodontic access cavity is best? A literature review", "journal": "Br Dent J", "year": "2023", "cite": "234(5):335-339", "pmid": "36899249", "type": "مرور متون"},
+    "shabbir2021": {"authors": "Shabbir J, Zehra T, Najmi N, et al.", "title": "Access Cavity Preparations: Classification and Literature Review of Traditional and Minimally Invasive Endodontic Access Cavity Designs", "journal": "J Endod", "year": "2021", "cite": "47(8):1229-1244", "pmid": "34058252", "type": "مرور متون"},
+    "zogheib2021": {"authors": "Zogheib C, Roumi R, Bourbouze G, Naaman A, Khalil I, Plotino G", "title": "Effects of ultrasonic refinement on endodontic access cavity walls: A microcomputed tomography analysis", "journal": "J Conserv Dent", "year": "2021", "cite": "24(1):29-35", "pmid": "34475676", "type": "مطالعه آزمایشگاهی (میکروسی‌تی)"},
+    "souza2023": {"authors": "Souza PHF, Oliveira Santos-Junior A, Pinto JC, et al.", "title": "Effect of Endo-Z bur or Bladesonic ultrasonic tip on the adaptation of filling material. A micro-CT study", "journal": "Braz Dent J", "year": "2023", "cite": "34(5):29-35", "pmid": "38133470", "type": "مطالعه آزمایشگاهی (میکروسی‌تی)"},
+    "henry1956": {"authors": "Henry EE", "title": "The influence of design factors on the performance of the inverted cone bur", "journal": "J Dent Res", "year": "1956", "cite": "35(5):704-13", "pmid": "13367288", "type": "مطالعه آزمایشگاهی کلاسیک"},
+    "cherukara2002": {"authors": "Cherukara GP, Seymour KG, Samarawickrama DY, Zou L", "title": "A study into the variations in the labial reduction of teeth prepared to receive porcelain veneers--a comparison of three clinical techniques", "journal": "Br Dent J", "year": "2002", "cite": "192(7):401-4", "pmid": "12017460", "type": "مطالعه آزمایشگاهی"},
+    "gurel2013": {"authors": "Gurel G, Sesma N, Calamita MA, Coachman C, Morimoto S", "title": "Influence of enamel preservation on failure rates of porcelain laminate veneers", "journal": "Int J Periodontics Restorative Dent", "year": "2013", "cite": "33(1):31-9", "pmid": "23342345", "type": "مطالعه بالینی گذشته‌نگر (۱۲ ساله)"},
+    "gao2022": {"authors": "Gao J, He J, Fan L, Lu J, Xie C, Yu H", "title": "Accuracy of Reduction Depths of Tooth Preparation for Porcelain Laminate Veneers Assisted by Different Tooth Preparation Guides: An In Vitro Study", "journal": "J Prosthodont", "year": "2022", "cite": "31(7):593-600", "pmid": "34859537", "type": "مطالعه آزمایشگاهی"},
+}
+
+# Reusable evidence findings (Persian summary of each abstract's result)
+_E = {
+    "goodacre_crown": ("همگرایی کلی اکلوزالی ۱۰ تا ۲۰ درجه، حداقل ارتفاع ۴ میلی‌متر برای مولرها و ۳ میلی‌متر برای سایر دندان‌ها و گرد بودن زوایای داخلی، از اصول علمی تراش روکش کامل است.", "goodacre2001"),
+    "goodacre_finish": ("انتخاب نوع مارجین باید بر اساس نوع روکش، نیاز زیبایی و سهولت ایجاد آن باشد؛ برتری تطابق مارجینال یک طرح خاص در پژوهش‌های جدید تأیید نشده و مارجین بالای لثه قابل‌قبول‌تر است.", "goodacre2001"),
+    "yu_finish": ("در متاآنالیز ۱۶ مطالعه، روکش‌های سرامیکی با شولدر گرد تطابق مارجینال کمی بهتر و با شمفر تطابق داخلی بهتری داشتند؛ تفاوت مارجینال از نظر بالینی کوچک بود.", "yu2019"),
+    "pal_chamfer": ("متاآنالیز شبکه‌ای ۲۰۲۵ (۳۴ مطالعه کمّی) تفاوت معناداری در تطابق مارجینال بین شمفر، شولدر، شولدر گرد و تراش عمودی نیافت، اما شمفر تطابق داخلی بهتری داشت و برای استفاده بالینی توصیه شد.", "pal2025"),
+    "gavara_zr": ("در یک مطالعه آزمایشگاهی روی روکش زیرکونیا، مقاومت به شکست با مارجین شمفر عمیق به‌طور معناداری بیشتر از مارجین شولدر بود.", "gavara2023"),
+    "rues_grit": ("در اصلاح داخل‌دهانی روکش زیرکونیا، با ریزتر شدن گریت فرز مقاومت به شکست افزایش یافت؛ استفاده از فرز درشت در مرحله نهایی پیش از پالیش توصیه نمی‌شود.", "rues2017"),
+    "jung_finish": ("برای حذف اضافات و کانتور کامپوزیت (به‌ویژه سطح لینگوال قدامی و اکلوزال خلفی)، فرز الماسی پرداخت ۱۵ تا ۴۰ میکرون پیشنهاد شده و سپس فرز کارباید سطح صاف‌تری ایجاد می‌کند.", "jung1997"),
+    "lussi_adj": ("در تراش حفرات کلاس II، ۹۷٪ سطوح دندان مجاور دچار ترومای تراش شدند و استفاده از لوپ به‌تنهایی این آسیب را کاهش نداد.", "lussi2003"),
+    "coolant": ("افزایش جریان آب خنک‌کننده هندپیس (از ۱۵ تا ۴۴ میلی‌لیتر در دقیقه) سرعت برش فرز الماسی را افزایش داد.", "vonfraunhofer2000"),
+    "pulp_temp": ("در یک مطالعه in vivo روی پرمولرها، تراش حفره کلاس V با عمق ۲ میلی‌متر با فرز الماسی توربین زیر اسپری آب‌وهوا، دمای پالپ را تا حد خطرناک بالا نبرد.", "zarpellon2021"),
+    "alhelou_access": ("مرور متون ۲۰۲۳ حفره دسترسی سنتی (straight-line access) را برای یافتن قابل‌پیش‌بینی دهانه کانال‌ها، شست‌وشوی مؤثر و پرکردن بهتر توصیه می‌کند.", "alhelou2023"),
+    "shabbir_access": ("مرور ۴۹ مقاله نشان داد طرح‌های بسیار محافظه‌کارانه حفره دسترسی مزیت روشنی ندارند و می‌توانند ضدعفونی، پرکردن و ترمیم دندان را دشوارتر کنند.", "shabbir2021"),
+    "abad_bopt": ("در مرور سیستماتیک تکنیک BOPT، افزایش عمق پروب بیش از ۳ میلی‌متر در ۲٫۳٪، تحلیل لثه در ۱٫۷٪ و شکست مکانیکی یا بیولوژیک در ۴٫۴٪ دندان‌ها تا ۵ سال گزارش شد؛ نویسندگان کارآزمایی‌های بلندمدت بیشتری را لازم می‌دانند.", "abad2024"),
+    "cherukara_dimple": ("در مقایسه سه روش کنترل عمق تراش ونیر، ایجاد گودی راهنما با فرز روند کوچک (قطر ۰۰۱ تا ۰۱۲) با زاویه ۴۵ درجه بیشترین تعداد تراش را در محدوده هدف ۰٫۴ تا ۰٫۶ میلی‌متر ایجاد کرد.", "cherukara2002"),
+}
+
+EVIDENCE = {
+    "needle": {
+        "meta": "فرز نیدل (سوزنی) برای شکستن تماس پروگزیمال و تراش بین‌دندانی در آماده‌سازی روکش و بریج؛ کاربرد بالینی مبتنی بر شواهد با منابع PubMed.",
+        "lead": "فرز نیدل با قطر کم و بدنه مخروطیِ نوک‌تیز طراحی شده تا از تماس بین‌دندانی عبور کند و دیواره پروگزیمال را بدون تراش اضافه باز کند. مهم‌ترین چالش این مرحله آسیب ناخواسته به دندان مجاور است؛ مطالعات نشان می‌دهند این آسیب بسیار شایع است و انتخاب فرز باریک همراه با تکنیک محافظتی اهمیت زیادی دارد.",
+        "uses": [
+            "شکستن تماس پروگزیمال (proximal slicing) در شروع تراش روکش و بریج",
+            "تراش اولیه دیواره‌های بین‌دندانی پیش از استفاده از فرزهای مخروطی بزرگ‌تر",
+            "مدل‌های EF (ریز): پرداخت امبرژرها و نواحی بین‌دندانی ترمیم‌های کامپوزیت",
+        ],
+        "evidence": [
+            ("در بررسی ۱۵۰ کست، آسیب به سطح پروگزیمال دندان مجاور در ۷۸٪ سطوح مزیال و ۶۰٫۶٪ سطوح دیستال تراش روکش و بریج دیده شد؛ بیشتر آسیب‌ها از نوع خراش خفیف بودند.", "badar2019"),
+            ("بررسی ۶۵۲ سطح پروگزیمال مجاور تراش روکش نیز شیوع بالای آسیب به بافت سخت دندان مجاور را گزارش کرده است.", "moopnar1991"),
+            _E["lussi_adj"],
+            ("محافظت از سطح دندان مجاور، برای مثال با جداسازی به‌وسیله ماتریکس‌باند، برای کاهش این آسیب توصیه شده است.", "lenters2006"),
+            _E["jung_finish"],
+        ],
+        "caution": "برای کاهش آسیب به دندان مجاور، فرز را درون ساختار دندانِ در حال تراش نگه دارید و از ماتریکس‌باند فلزی یا وج محافظ استفاده کنید.",
+    },
+    "flat_cylinder": {
+        "meta": "فرز فیشور (استوانه‌ای تخت) برای تراش حفره کلاس I و II، باکس پروگزیمال و گروو کمکی روکش؛ کاربرد بالینی مبتنی بر شواهد با منابع PubMed.",
+        "lead": "فرز فیشور با دیواره‌های موازی و انتهای تخت، کف صاف و دیواره‌های عمود ایجاد می‌کند. این هندسه آن را برای آماده‌سازی حفرات اکلوزال و باکس پروگزیمال و همچنین ایجاد گروو و باکس کمکی برای افزایش مقاومت در تراش روکش مناسب می‌کند.",
+        "uses": [
+            "آماده‌سازی حفره کلاس I و باکس پروگزیمال کلاس II",
+            "ایجاد گروو محوری و باکس کمکی برای افزایش مقاومت در تراش‌های کوتاه روکش",
+            "مدل‌های کوتاه (مانند SF-41 و SF-31C): تراش کنترل‌شده در حفرات کوچک و کم‌عمق",
+        ],
+        "evidence": [
+            ("مرور اصول علمی تراش روکش توصیه می‌کند وقتی ارتفاع یا همگرایی دیواره‌ها کافی نیست، از گروو محوری یا باکس — ترجیحاً در سطوح پروگزیمال — برای افزایش مقاومت استفاده شود و زوایای داخلی گرد شوند.", "goodacre2001"),
+            _E["lussi_adj"],
+            _E["coolant"],
+            _E["pulp_temp"],
+        ],
+        "caution": "انتهای تخت فرز فیشور گوشه‌های داخلی تیز ایجاد می‌کند؛ در تراش روکش سرامیکی این زوایا را گرد کنید.",
+    },
+    "taper_round_edge": {
+        "meta": "فرز تیپر روند اند (مخروطی با لبه گرد) برای کاهش محوری روکش با همگرایی ۱۰ تا ۲۰ درجه و ایجاد شولدر گرد یا شمفر؛ مبتنی بر شواهد PubMed.",
+        "lead": "فرز تیپر روند اند با دیواره مخروطی و لبه گرد، هم‌زمان دیواره محوری را با شیب کنترل‌شده تراش می‌دهد و در انتها مارجین شولدر گرد (rounded shoulder) یا شمفر عمیق ایجاد می‌کند. قطر بزرگ‌تر این سری (۰۱۸ و ۰۱۹) برای کاهش محوری سریع در دندان‌های خلفی مناسب است.",
+        "uses": [
+            "کاهش محوری (axial reduction) در تراش روکش تمام‌سرامیک و متال‌سرامیک",
+            "ایجاد مارجین شولدر با زاویه داخلی گرد یا شمفر عمیق",
+            "تنظیم همگرایی دیواره‌ها برای گیر و مقاومت روکش",
+        ],
+        "evidence": [_E["goodacre_crown"], _E["yu_finish"], _E["pal_chamfer"]],
+        "caution": "",
+    },
+    "round_taper": {
+        "meta": "فرز تیپر روند اند برای ایجاد مارجین شمفر در تراش روکش زیرکونیا و سرامیکی و کاهش محوری؛ کاربرد بالینی مبتنی بر شواهد با منابع PubMed.",
+        "lead": "نوک گرد این فرز وقتی تا نیمی از قطرش در لبه لثه‌ای قرار گیرد، مارجین شمفر ایجاد می‌کند و بدنه مخروطی آن هم‌زمان دیواره محوری را با همگرایی مناسب تراش می‌دهد. شواهد فعلی شمفر را از نظر تطابق داخلی روکش‌های سرامیکی مطلوب نشان می‌دهد.",
+        "uses": [
+            "ایجاد مارجین شمفر و شمفر عمیق (heavy chamfer) در روکش زیرکونیا، لیتیوم دی‌سیلیکات و متال‌سرامیک",
+            "کاهش محوری با همگرایی کنترل‌شده",
+            "مدل‌های EF: صاف کردن و پرداخت مارجین و دیواره‌ها پس از تراش با گریت درشت‌تر",
+        ],
+        "evidence": [_E["pal_chamfer"], _E["gavara_zr"], _E["goodacre_crown"], _E["rues_grit"]],
+        "caution": "",
+    },
+    "taper_flat": {
+        "meta": "فرز تیپر فلت اند (مخروطی ته تخت) برای ایجاد مارجین شولدر در روکش تمام‌سرامیک و کاهش محوری؛ کاربرد بالینی مبتنی بر شواهد با منابع PubMed.",
+        "lead": "انتهای تخت این فرز مارجین شولدر با عرض یکنواخت ایجاد می‌کند و دیواره مخروطی آن همگرایی لازم برای گیر روکش را فراهم می‌کند. شولدر به‌طور سنتی برای روکش‌های تمام‌سرامیک و لبه پرسلنی روکش‌های متال‌سرامیک قدامی استفاده می‌شود.",
+        "uses": [
+            "ایجاد مارجین شولدر حدود ۱ میلی‌متر در روکش تمام‌سرامیک",
+            "شولدر لبه پرسلنی (porcelain butt margin) در روکش متال‌سرامیک قدامی",
+            "کاهش محوری و ایجاد سطح اکلوزال صاف",
+        ],
+        "evidence": [
+            ("در مطالعه‌ای روی سانترال‌های ماگزیلا با شولدر ۱ میلی‌متری و زاویه داخلی گرد، روکش‌های تمام‌سرامیک (آلومینا و زیرکونیا) مقاومت به شکستی مشابه روکش متال‌سرامیک داشتند.", "potiket2004"),
+            _E["goodacre_finish"],
+            _E["yu_finish"],
+            ("در روکش زیرکونیای خلفی، شمفر عمیق مقاومت به شکست بیشتری از شولدر نشان داد؛ بنابراین برای زیرکونیای خلفی، شمفر عمیق گزینه قابل‌توجهی است.", "gavara2023"),
+        ],
+        "caution": "زاویه داخلی شولدر را گرد کنید تا تمرکز تنش در سرامیک کاهش یابد.",
+    },
+    "flame": {
+        "meta": "فرز فلیم (شعله‌ای) برای تراش عمودی (feather-edge و BOPT)، پرداخت مارجین زیر لثه و کانتور کامپوزیت؛ کاربرد مبتنی بر شواهد با منابع PubMed.",
+        "lead": "فرز فلیم با نوک باریک و بدنه شعله‌ای امکان کار دقیق در ناحیه سالکوس و مارجین را فراهم می‌کند. کاربرد اصلی این شکل در تراش عمودی (vertical / feather-edge) و تکنیک BOPT است و مدل‌های EF آن برای پرداخت مارجین و کانتور ترمیم‌های کامپوزیت استفاده می‌شوند.",
+        "uses": [
+            "تراش عمودی بدون خط خاتمه مشخص (feather-edge) و تکنیک BOPT",
+            "پرداخت و صاف کردن مارجین زیر لثه پس از تراش اولیه",
+            "مدل‌های EF: کانتور و پرداخت سطوح لینگوال و امبرژرهای ترمیم کامپوزیت",
+        ],
+        "evidence": [
+            ("تکنیک BOPT بر پایه تراش عمودی (feather-edge) بدون فلپ برای دندان‌های با پریودنشیوم سالم معرفی شده و پایداری بافت نرم در پیگیری بالینی تا ۱۵ سال گزارش شده است.", "loi2013"),
+            _E["abad_bopt"],
+            ("در یک کارآزمایی بالینی تصادفی دوسوکور (۱۰۰ بیمار، طرح split-mouth)، BOPT در پیگیری دوساله ثبات مارجین و رفتار پریودنتال مطلوبی نشان داد.", "mohammad2023"),
+            _E["jung_finish"],
+        ],
+        "caution": "",
+    },
+    "flame_long": {
+        "meta": "فرز فلیم شنک بلند (EF) برای پرداخت مارجین و کانتور کامپوزیت در نواحی عمیق و کم‌دسترس؛ کاربرد بالینی مبتنی بر شواهد با منابع PubMed.",
+        "lead": "این فرز همان هندسه شعله‌ای را با گردن بلندتر ارائه می‌کند تا در نواحی عمیق، دندان‌های خلفی و امبرژرهای تنگ دید و دسترسی بهتری فراهم شود. گریت بسیار ریز (EF) آن را برای مرحله پرداخت مناسب می‌کند، نه برداشت حجیم نسج.",
+        "uses": [
+            "پرداخت مارجین تراش‌های عمودی و شمفر در نواحی کم‌دسترس",
+            "کانتور و پرداخت ترمیم‌های کامپوزیت در امبرژرها و سطوح پروگزیمال",
+            "صاف کردن سطوح پس از تراش با فرز درشت‌تر",
+        ],
+        "evidence": [
+            _E["jung_finish"],
+            _E["rues_grit"],
+            ("در متاآنالیز شبکه‌ای ۲۰۲۵، تراش عمودی کمترین گپ مارجینال را در روکش‌های سرامیکی داشت؛ هرچند تفاوت با سایر طرح‌ها معنادار نبود.", "pal2025"),
+            _E["abad_bopt"],
+        ],
+        "caution": "",
+    },
+    "round": {
+        "meta": "فرز روند الماسی توربین برای دسترسی به پوسیدگی، شروع حفره دسترسی اندو و ایجاد گودی‌های راهنمای عمق در تراش ونیر؛ مبتنی بر شواهد PubMed.",
+        "lead": "نوک کروی فرز روند امکان نفوذ کنترل‌شده و تراش یکنواخت در همه جهات را می‌دهد. شواهد علمی کاربرد آن را در سه حوزه پشتیبانی می‌کنند: دسترسی به ضایعه پوسیدگی، شروع حفره دسترسی درمان ریشه و ایجاد گودی‌های راهنمای عمق (depth dimples) در تراش ونیر.",
+        "uses": [
+            "باز کردن مینا و دسترسی به ضایعه پوسیدگی",
+            "شروع حفره دسترسی اندودانتیک و برداشت سقف اتاقک پالپ",
+            "ایجاد گودی‌های راهنمای عمق روی سطح لبیال پیش از تراش ونیر (به‌ویژه سایزهای کوچک مانند BR-49)",
+        ],
+        "evidence": [
+            _E["cherukara_dimple"],
+            ("مرور سیستماتیک و متاآنالیز نشان داد برداشت انتخابی بافت پوسیده (selective removal) نسبت به برداشت کامل، موفقیت بیشتری در حفظ سلامت پالپ و خطر کمتر اکسپوز پالپ دارد.", "barros2020"),
+            ("در بررسی میکروسی‌تی، روش‌های چرخشی برداشت پوسیدگی کارایی خوبی داشتند اما تمایل به برداشت بیش از حد عاج سالم دیده شد؛ این خطر با استفاده از فرز کارباید کمتر بود.", "neves2011"),
+            _E["alhelou_access"],
+        ],
+        "caution": "فرز الماسی توربین برای باز کردن مینا و تراش کنترل‌شده مناسب است؛ برای برداشت عاج نرم پوسیده نزدیک پالپ، ابزارهای انتخابی‌تر مانند فرز کارباید با دور کم یا اکسکاواتور توصیه می‌شوند.",
+    },
+    "round_long": {
+        "meta": "فرز روند شنک بلند برای کار در عمق اتاقک پالپ، برداشت سقف پالپ و یافتن دهانه کانال با دید بهتر؛ کاربرد مبتنی بر شواهد با منابع PubMed.",
+        "lead": "گردن بلند این فرز سر هندپیس را از دندان دور نگه می‌دارد تا در عمق حفره دسترسی، دید مستقیم به نوک فرز حفظ شود. این ویژگی در برداشت کامل سقف اتاقک پالپ، حذف کلسیفیکاسیون‌ها و یافتن دهانه کانال‌ها کاربرد دارد.",
+        "uses": [
+            "برداشت کامل سقف اتاقک پالپ و شاخ‌های پالپی",
+            "حذف کلسیفیکاسیون و دنتیکل در عمق اتاقک پالپ",
+            "دسترسی به دهانه کانال‌ها در دندان‌های خلفی و تاج‌های بلند",
+        ],
+        "evidence": [
+            ("حفره دسترسی باید امکان حذف موانع اتاقک پالپ، یافتن همه دهانه‌های کانال و پاک‌سازی کامل سیستم کانال را با کمترین برداشت نسج فراهم کند؛ روش سنتی دسترسی پیش‌بینی‌پذیرتر گزارش شده است.", "alhelou2023"),
+            _E["shabbir_access"],
+            _E["coolant"],
+        ],
+        "caution": "شواهد مقایسه‌ای مستقیم درباره فرزهای روند شنک بلند محدود است؛ کاربرد آن بر پایه اصول حفره دسترسی مطرح‌شده در منابع است.",
+    },
+    "torpedo": {
+        "meta": "فرز تورپیدو برای ایجاد مارجین شمفر سبک یا نایف‌اج و کاهش محوری محافظه‌کارانه در تراش روکش؛ کاربرد مبتنی بر شواهد با منابع PubMed.",
+        "lead": "فرز تورپیدو با بدنه استوانه‌ای و نوک دوکی‌شکل، مارجینی بین شمفر سبک و لبه چاقویی (knife-edge) ایجاد می‌کند و برای کاهش محوری با برداشت کم نسج در ناحیه سرویکال مناسب است.",
+        "uses": [
+            "ایجاد مارجین شمفر سبک یا knife-edge در روکش‌های فلزی، متال‌سرامیک و زیرکونیای مونولیتیک",
+            "کاهش محوری محافظه‌کارانه در ناحیه سرویکال",
+            "شکل‌دهی شیارها و اصلاح آناتومی اکلوزال",
+        ],
+        "evidence": [_E["pal_chamfer"], _E["yu_finish"], _E["goodacre_finish"], _E["gavara_zr"]],
+        "caution": "",
+    },
+    "football": {
+        "meta": "فرز فوتبالی (تخم‌مرغی) برای کاهش لینگوال قدامی، فرم‌دهی آناتومی اکلوزال و کانتور کامپوزیت؛ کاربرد مبتنی بر شواهد با منابع PubMed.",
+        "lead": "شکل بیضوی این فرز با تقعر سطح لینگوال دندان‌های قدامی و شیب کاسپ‌ها هم‌خوانی دارد؛ به همین دلیل برای کاهش لینگوال در تراش روکش قدامی، فرم‌دهی آناتومی اکلوزال و کانتور ترمیم‌های کامپوزیت استفاده می‌شود.",
+        "uses": [
+            "کاهش سطح لینگوال (تقعر) دندان‌های قدامی در تراش روکش",
+            "کاهش آناتومیک سطح اکلوزال و شکل‌دهی کاسپ‌ها",
+            "مدل‌های EF: کانتور و پرداخت اکلوزال ترمیم کامپوزیت و اصلاح اکلوژن",
+        ],
+        "evidence": [
+            _E["jung_finish"],
+            ("اصلاح اکلوزال روکش‌های زیرکونیا با فرز ریزتر، مقاومت به شکست بیشتری نسبت به فرز درشت ایجاد کرد.", "rues2017"),
+            ("پرداخت ترمیم‌های کامپوزیت خلفی مزایایی دارد اما ممکن است شکست مارجینال و سایش را افزایش دهد؛ پیشنهاد شده سطوح پرداخت‌شده با رزین سیل شوند.", "ferreira2004"),
+            _E["goodacre_crown"],
+        ],
+        "caution": "",
+    },
+    "inverted_cone": {
+        "meta": "فرز اینورتد (معکوس) برای ایجاد زیربرش گیر، صاف کردن کف حفره و آماده‌سازی حفره کلاس V؛ کاربرد بالینی با منابع PubMed و سطح شواهد.",
+        "lead": "فرز اینورتد کن با سر پهن و بدنه باریک‌شونده، کف صاف و زاویه زیربرش (undercut) در دیواره‌های حفره ایجاد می‌کند. این شکل به‌طور سنتی برای گیر مکانیکی ترمیم‌های آمالگام و آماده‌سازی حفرات سرویکال استفاده می‌شود.",
+        "uses": [
+            "ایجاد زیربرش و گیر مکانیکی در حفرات ترمیم‌های غیرچسبنده",
+            "صاف کردن کف پالپال حفره",
+            "آماده‌سازی حفره کلاس V",
+        ],
+        "evidence": [
+            ("پژوهش کلاسیک نشان داد عوامل طراحی (هندسه سر و تیغه‌ها) بر عملکرد برش فرز اینورتد کن اثرگذار است.", "henry1956"),
+            _E["pulp_temp"],
+            _E["coolant"],
+        ],
+        "caution": "در ترمیم‌های چسبنده (کامپوزیت)، گیر عمدتاً از باندینگ تأمین می‌شود و ایجاد زیربرش اضافی معمولاً ضرورتی ندارد. شواهد مقایسه‌ای جدید درباره این شکل فرز محدود است.",
+    },
+    "barrel": {
+        "meta": "فرز دابل برل (بشکه‌ای) برای کاهش سریع و یکنواخت سطح اکلوزال و تراش‌های وسیع؛ کاربرد بالینی مبتنی بر شواهد با منابع PubMed.",
+        "lead": "فرز دابل برل با قطر بزرگ (۰۳۲) و بدنه بشکه‌ای، سطح تماس زیادی با دندان دارد و برای کاهش سریع و یکنواخت سطح اکلوزال، برداشت حجیم و شکل‌دهی سطوح وسیع طراحی شده است.",
+        "uses": [
+            "کاهش اکلوزال در تراش روکش، انله و آنله",
+            "برداشت حجیم و یکنواخت در سطوح وسیع",
+            "شکل‌دهی اولیه کانتور ترمیم‌های بزرگ کامپوزیت پیش از پرداخت",
+        ],
+        "evidence": [
+            _E["goodacre_crown"],
+            ("فرزهای الماسی درشت‌تر برای کاهش حجیم دندان سرعت برش خود را در طول کار بهتر حفظ کردند، اما نویسندگان درباره اثر گریت درشت بر کیفیت سطح، تولید حرارت و آسیب مینا هشدار می‌دهند.", "siegel2000"),
+            _E["coolant"],
+        ],
+        "caution": "در کاهش اکلوزال مراقب ارتفاع باقی‌مانده تاج باشید؛ کاهش بیش از حد، گیر و مقاومت روکش را کم می‌کند.",
+    },
+    "depth_veneer": {
+        "meta": "فرز دپس کات ونیر (۰٫۳، ۰٫۴ و ۰٫۵ میلی‌متر) برای کنترل عمق تراش لمینت و حفظ مینا؛ کاربرد بالینی مبتنی بر شواهد با منابع PubMed.",
+        "lead": "فرز دپس کات با حلقه‌های برش با عمق مشخص، شیارهای راهنمای افقی روی سطح لبیال ایجاد می‌کند تا تراش ونیر در عمق برنامه‌ریزی‌شده و در محدوده مینا باقی بماند. حفظ مینا از مهم‌ترین عوامل شناخته‌شده در بقای لمینت‌های پرسلنی است.",
+        "uses": [
+            "ایجاد شیارهای راهنمای عمق ۰٫۳، ۰٫۴ یا ۰٫۵ میلی‌متر روی سطح لبیال",
+            "کنترل یکنواختی تراش لمینت و ونیر سرامیکی",
+            "حفظ تراش در محدوده مینا برای باندینگ قابل‌اعتماد",
+        ],
+        "evidence": [
+            ("در پیگیری تا ۱۲ سال روی ۵۸۰ لمینت، بقای ونیرهایی که تراش آن‌ها در مینا مانده بود ۹۹٪ بود و ونیرهای باندشده به عاج حدود ۱۰ برابر بیشتر در معرض شکست بودند.", "gurel2013"),
+            ("تراش ونیر با راهنما دقیق‌تر از تراش آزاد بود؛ خطای میانگین تراش آزاد ۰٫۱۹ تا ۰٫۲۷ میلی‌متر گزارش شد که نسبت به ضخامت مینای لبیال قابل‌توجه است.", "gao2022"),
+            ("حتی با تکنیک‌های کنترل عمق، تراش یک اپراتور واحد تفاوت قابل‌توجهی با عمق ایده‌آل داشت؛ بنابراین بررسی عمق تراش پس از شیارگذاری اهمیت دارد.", "cherukara2002"),
+        ],
+        "caution": "عمق انتخاب‌شده را با ضخامت مینای ناحیه تطبیق دهید؛ مینا در ناحیه سرویکال نازک‌تر است.",
+    },
+    "pointed_cylinder": {
+        "meta": "فرز شمفر استوانه‌ای برای ایجاد مارجین شمفر و کاهش محوری در تراش روکش و لمینت؛ کاربرد بالینی مبتنی بر شواهد با منابع PubMed.",
+        "lead": "این فرز با بدنه استوانه‌ای و نوک شیب‌دار، مارجین شمفر با عرض کنترل‌شده ایجاد می‌کند. شواهد مرور سیستماتیک، شمفر را از نظر تطابق داخلی روکش‌های سرامیکی مطلوب نشان می‌دهد.",
+        "uses": [
+            "ایجاد مارجین شمفر در روکش زیرکونیا، لیتیوم دی‌سیلیکات و متال‌سرامیک",
+            "کاهش محوری با دیواره‌های کنترل‌شده",
+            "تعریف مارجین در تراش لمینت و روکش‌های قدامی",
+        ],
+        "evidence": [_E["pal_chamfer"], _E["yu_finish"], _E["gavara_zr"], _E["goodacre_crown"]],
+        "caution": "",
+    },
+    "round_end_cylinder": {
+        "meta": "فرز فیشور روند اند (استوانه‌ای ته گرد) برای ایجاد شولدر گرد و شمفر عمیق با دیواره‌های موازی؛ کاربرد مبتنی بر شواهد با منابع PubMed.",
+        "lead": "فرز فیشور روند اند دیواره‌های موازی با انتهای گرد دارد؛ در تراش روکش، مارجین شولدر گرد یا شمفر عمیق با زاویه داخلی گرد ایجاد می‌کند و در حفرات ترمیمی، کف حفره را بدون گوشه تیز شکل می‌دهد.",
+        "uses": [
+            "ایجاد مارجین شولدر گرد (rounded shoulder) و شمفر عمیق",
+            "تراش باکس و حفرات ترمیمی با زوایای داخلی گرد",
+            "کاهش محوری کنترل‌شده در نواحی کم‌ارتفاع",
+        ],
+        "evidence": [
+            _E["yu_finish"],
+            ("در متاآنالیز شبکه‌ای ۲۰۲۵، شولدر گرد کمترین ناهمخوانی مطلق مارجینال (AMD) را داشت؛ هرچند تفاوت‌های مارجینال بین طرح‌ها معنادار نبود.", "pal2025"),
+            _E["goodacre_crown"],
+            ("روکش‌های تمام‌سرامیک روی تراش با شولدر ۱ میلی‌متری و زاویه داخلی گرد، مقاومت به شکستی مشابه روکش متال‌سرامیک داشتند.", "potiket2004"),
+        ],
+        "caution": "",
+    },
+    "carbide": {
+        "meta": "فرز Endo-Z کارباید با نوک غیربرنده برای صاف کردن دیواره‌های حفره دسترسی اندو و برداشت سقف پالپ؛ کاربرد مبتنی بر شواهد با منابع PubMed.",
+        "lead": "فرز Endo-Z یک فرز کارباید مخروطی با تیغه‌های جانبی و نوک غیربرنده (safe-ended) است. تیغه‌های جانبی دیواره‌های حفره دسترسی را صاف و واگرا می‌کنند و نوک غیربرنده برای کاهش احتمال برش کف اتاقک پالپ طراحی شده است.",
+        "uses": [
+            "برداشت باقیمانده سقف اتاقک پالپ و صاف کردن دیواره‌ها پس از ورود اولیه با فرز روند",
+            "ایجاد دسترسی مستقیم (straight-line access) به دهانه کانال‌ها",
+            "رزکسیون انتهای ریشه (apicoectomy) در جراحی اندو، طبق گزارش آزمایشگاهی",
+        ],
+        "evidence": [
+            ("در مطالعه میکروسی‌تی روی ۳۰ مولر، دیواره‌های داخلی حفره دسترسی پس از اصلاح با Endo-Z صاف‌تر از نوک اولتراسونیک بود و زمان کار کوتاه‌تر بود؛ تعداد ترک‌های جدید بین دو گروه تفاوت معناداری نداشت.", "zogheib2021"),
+            ("در رزکسیون ۳ میلی‌متر انتهای ریشه، Endo-Z سریع‌تر از نوک اولتراسونیک Bladesonic بود و هر دو روش به یک اندازه بر فصل مشترک ماده پرکننده و عاج اثر گذاشتند.", "souza2023"),
+            _E["alhelou_access"],
+            _E["shabbir_access"],
+        ],
+        "caution": "نوک غیربرنده جایگزین دقت اپراتور نیست؛ فرز را با فشار سبک و در امتداد دیواره‌ها حرکت دهید و از تماس فعال با کف پالپ پرهیز کنید.",
+    },
+}
+
+
+def pubmed_url(pmid: str) -> str:
+    return f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
+
+
+def _evidence_refs(shape_key: str) -> list:
+    """Source keys in first-citation order for one category page."""
+    refs = []
+    for _, key in EVIDENCE.get(shape_key, {}).get("evidence", []):
+        if key not in refs:
+            refs.append(key)
+    return refs
+
+
+def build_evidence_html(shape_key: str, short: str) -> str:
+    ev = EVIDENCE.get(shape_key)
+    if not ev:
+        return ""
+    refs = _evidence_refs(shape_key)
+    num = {k: i + 1 for i, k in enumerate(refs)}
+    uses = "".join(f"<li>{u}</li>" for u in ev["uses"])
+    findings = "".join(
+        f'<li>{text} <sup><a href="#ref-{num[key]}" aria-label="منبع {fa(num[key])}">[{fa(num[key])}]</a></sup>'
+        f' <span class="ev-type">({SOURCES[key]["type"]})</span></li>'
+        for text, key in ev["evidence"])
+    caution = f'<p class="ev-note">⚠️ {ev["caution"]}</p>' if ev.get("caution") else ""
+    ref_items = "".join(
+        f'<li id="ref-{num[k]}" dir="ltr">{SOURCES[k]["authors"]}. {SOURCES[k]["title"]}. '
+        f'<i>{SOURCES[k]["journal"]}</i>. {SOURCES[k]["year"]};{SOURCES[k]["cite"]}. '
+        f'<a href="{pubmed_url(SOURCES[k]["pmid"])}" target="_blank" rel="noopener">PubMed PMID: {SOURCES[k]["pmid"]}</a></li>'
+        for k in refs)
+    return f"""
+<section class="evidence" id="clinical-evidence">
+<h2>فرز {short} برای چه کاری استفاده می‌شود؟</h2>
+<p>{ev["lead"]}</p>
+<h3>کاربردهای بالینی اصلی</h3>
+<ul>{uses}</ul>
+<h3>شواهد علمی چه می‌گویند؟</h3>
+<ul class="ev-list">{findings}</ul>
+{caution}
+<h3>منابع علمی (PubMed)</h3>
+<ol class="refs">{ref_items}</ol>
+<p class="ev-meta">آخرین بازبینی منابع: {fa(EVIDENCE_REVIEWED)} · این محتوا جنبه آموزشی دارد و جایگزین قضاوت بالینی دندانپزشک نیست.</p>
+</section>"""
+
+
 def build_collection_page(collection_key: str, data: dict) -> str:
     collection = COLLECTIONS[collection_key]
     products = collection_products(data, collection_key)
@@ -569,6 +921,14 @@ footer{text-align:center;font-size:.78rem;color:#455a64;padding:18px}footer .con
 footer .contact-links a{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border:1px solid #dce3ec;border-radius:8px;color:#1565c0;background:#fff;text-decoration:none}
 footer .contact-links svg{width:20px;height:20px;flex:none}footer p{margin:4px 0}"""
 
+EVIDENCE_CSS = """.evidence{background:#fff;border:1px solid #dce3ec;border-right:4px solid #1565c0;border-radius:12px;padding:14px 16px;margin:0 0 16px;font-size:.88rem}
+.evidence h2{margin-top:0}.evidence h3{font-size:.95rem;color:#1565c0;margin:14px 0 6px}.evidence p{margin:6px 0}
+.evidence ul,.evidence ol{padding-right:20px;margin:6px 0}.evidence li{margin:5px 0}
+.evidence sup a{color:#1565c0;text-decoration:none;font-weight:700}.ev-type{font-size:.72rem;color:#78909c}
+.ev-note{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:8px 10px}
+.evidence .refs{direction:ltr;text-align:left;padding:0 0 0 22px;font-size:.76rem;color:#455a64}.evidence .refs a{color:#1565c0;word-break:break-word}
+.ev-meta{font-size:.72rem;color:#78909c}"""
+
 
 CONTACT_LINKS = f"""<nav class="contact-links" aria-label="راه‌های ارتباطی">
 <a href="tel:{CONTACT_NUMBER}"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h4l1 5-2 2a16 16 0 0 0 5 5l2-2 5 1v4c0 2-2 3-4 3A18 18 0 0 1 3 7c0-2 1-4 3-4z"/></svg>تماس: {fa(CONTACT_NUMBER)}</a>
@@ -653,14 +1013,24 @@ def build_category_page(shape_key, data):
     slug_url = cat_url(shape_key)
     n_models = fa(len(products))
 
-    title = f"فرز {short} | {n_models} مدل باکیفیت | DDSVerified"
-    desc = f"فرز دندانپزشکی {short} در {n_models} مدل با اندازه‌ها و گریت‌های مختلف؛ مشخصات فنی و کد ISO و USA برای انتخاب دقیق و ارسال به سراسر ایران."
-    intro = INTROS.get(shape_key, f"{sname} در مدل‌ها و دورهای مختلف عرضه می‌شود. مشخصات فنی هر مدل را برای انتخاب متناسب با نیاز خود بررسی کنید.")
+    ev = EVIDENCE.get(shape_key)
+    title = f"فرز {short} | کاربرد بالینی مبتنی بر شواهد و {n_models} مدل | DDSVerified"
+    desc = ev["meta"] if ev else f"فرز دندانپزشکی {short} در {n_models} مدل با اندازه‌ها و گریت‌های مختلف؛ مشخصات فنی و کد ISO و USA برای انتخاب دقیق و ارسال به سراسر ایران."
+    intro = (f"{sname} در {n_models} مدل با اندازه و گریت‌های مختلف موجود است. در ادامه، کاربرد بالینی این فرز بر پایه مقالات علمی نمایه‌شده در PubMed خلاصه شده و منبع هر یافته لینک شده است."
+             if ev else INTROS.get(shape_key, f"{sname} در مدل‌ها و دورهای مختلف عرضه می‌شود. مشخصات فنی هر مدل را برای انتخاب متناسب با نیاز خود بررسی کنید."))
+    evidence_html = build_evidence_html(shape_key, short)
 
     grit_strip = "".join(f"<span>{data['grits'].get(g_, GRIT_LABELS[g_])}</span>" for g_ in GRIT_ORDER)
     blocks = "".join(_model_block(p, short, data) for p in products)
 
-    faq_items = FAQS.get(shape_key, []) + FAQS["_common"]
+    ev_faqs = []
+    if ev:
+        ev_faqs = [
+            (f"فرز {short} برای چه کاری استفاده می‌شود؟", "، ".join(ev["uses"]) + "."),
+            (f"شواهد علمی درباره کاربرد فرز {short} چه می‌گویند؟",
+             f"{ev['evidence'][0][0]} (منبع: {SOURCES[ev['evidence'][0][1]]['journal']} {SOURCES[ev['evidence'][0][1]]['year']}، PMID {SOURCES[ev['evidence'][0][1]]['pmid']})"),
+        ]
+    faq_items = ev_faqs + FAQS.get(shape_key, []) + FAQS["_common"]
     faq_html = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in faq_items)
 
     related_keys = [k for k in group_by_page(data) if k != shape_key][:4]
@@ -684,11 +1054,29 @@ def build_category_page(shape_key, data):
     extra = (f'<script type="application/ld+json">{ld_itemlist}</script>\n'
              f'<script type="application/ld+json">{ld_bc}</script>\n'
              f'<script type="application/ld+json">{ld_faq}</script>')
+    if ev:
+        ld_page = json.dumps({
+            "@context": "https://schema.org", "@type": "CollectionPage",
+            "name": f"فرز {short}: کاربرد بالینی مبتنی بر شواهد",
+            "description": desc, "url": f"{BASE}/{slug_url}", "inLanguage": "fa-IR",
+            "lastReviewed": EVIDENCE_REVIEWED,
+            "about": {"@type": "Thing", "name": sname},
+            "publisher": {"@type": "Organization", "name": "DDSVerified", "url": f"{BASE}/"},
+            "citation": [{
+                "@type": "ScholarlyArticle", "name": SOURCES[k]["title"],
+                "author": SOURCES[k]["authors"], "datePublished": SOURCES[k]["year"],
+                "isPartOf": {"@type": "Periodical", "name": SOURCES[k]["journal"]},
+                "url": pubmed_url(SOURCES[k]["pmid"]),
+                "identifier": {"@type": "PropertyValue", "propertyID": "PMID", "value": SOURCES[k]["pmid"]},
+            } for k in _evidence_refs(shape_key)],
+        }, ensure_ascii=False)
+        extra += f'\n<script type="application/ld+json">{ld_page}</script>\n<style>{EVIDENCE_CSS}</style>'
 
     body = f"""
-<h1>خرید {short}</h1>
+<h1>فرز {short}: کاربرد بالینی مبتنی بر شواهد و خرید</h1>
 <div class="intro"><p>{intro}</p>
 <p class="grits">ترتیب سختی دور فرز از سخت‌ترین به نرم‌ترین: {grit_strip}</p></div>
+{evidence_html}
 <h2>مدل‌های موجود ({n_models} مدل)</h2>
 {blocks}
 <h2>پرسش‌های متداول درباره {short}</h2>
