@@ -501,13 +501,13 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 /* Cart Drawer */
 .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s;z-index:300}
 .cart-overlay.open{opacity:1;pointer-events:all}
-.cart-drawer{position:fixed;top:0;left:0;bottom:0;width:100%;max-width:420px;background:var(--bg);z-index:400;transform:translateX(-100%);transition:transform .3s ease;display:flex;flex-direction:column;box-shadow:4px 0 30px rgba(0,0,0,.2)}
+.cart-drawer{position:fixed;top:0;left:0;bottom:0;width:100%;height:100vh;height:100dvh;max-width:420px;background:var(--bg);z-index:400;transform:translateX(-100%);transition:transform .3s ease;display:flex;flex-direction:column;box-shadow:4px 0 30px rgba(0,0,0,.2)}
 .cart-drawer.open{transform:translateX(0)}
-.cart-header{background:var(--primary-dark);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.cart-header{background:var(--primary-dark);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex:none;min-height:56px}
 .cart-header h2{font-size:1rem;font-weight:700}
 .cart-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
 .cart-close:hover{background:rgba(255,255,255,.25)}
-.cart-body{flex:1;overflow-y:auto;padding:12px 14px}
+.cart-body{flex:1 1 auto;min-height:70%;overflow-y:auto;overscroll-behavior:contain;padding:12px 14px}
 
 /* Cart Empty */
 .cart-empty{text-align:center;padding:50px 20px;color:var(--text-light)}
@@ -591,7 +591,11 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .total-row.shipping .ship-original{text-decoration:line-through;opacity:.55;font-size:.74rem;margin-left:6px;font-weight:500}
 .total-row.shipping .ship-free{display:inline-flex;align-items:center;gap:4px;font-weight:800;color:var(--success)}
 /* Cart Totals */
-.cart-totals{background:var(--surface);border-top:1px solid var(--border);padding:14px 16px}
+.cart-totals{background:var(--surface);border-top:1px solid var(--border);padding:0;flex:0 0 auto;min-height:0;max-height:calc(30% - 56px);overflow-y:auto;overscroll-behavior:contain}
+.cart-checkout-summary{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:space-between;min-height:66px;padding:10px 16px;background:var(--surface);color:var(--primary-dark);cursor:pointer;font-size:.82rem;list-style:none;border-bottom:1px solid var(--border)}
+.cart-checkout-summary::-webkit-details-marker{display:none}.cart-checkout-summary strong{font-size:.96rem}.cart-expand-label{width:100%;font-size:.7rem;color:var(--primary);font-weight:700}.cart-expand-label::after{content:'⌄';margin-right:5px}.cart-checkout[open] .cart-expand-label::after{content:'⌃'}
+.cart-checkout-content{padding:12px 16px 16px}.copy-order-btn{display:block;width:100%;border:1px solid var(--primary);border-radius:9px;padding:10px 8px;margin-top:12px;background:var(--primary-light);color:var(--primary-dark);font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer}.copy-order-btn:hover{background:#d8e4f4}.copy-feedback{font-size:.72rem;line-height:1.7;color:var(--success);margin-top:6px}.copy-feedback:empty{display:none}
+.manual-order{font-size:.72rem;color:var(--text-light);margin-top:9px}.manual-order summary{cursor:pointer;color:var(--primary)}
 .total-row{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px;color:var(--text-light)}
 .total-row.discount{color:var(--success);font-weight:600}
 .installment-chip{margin-top:10px;padding:8px 10px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:1.5px dashed #4caf50;border-radius:10px;font-size:.74rem;font-weight:700;color:#2e7d32;text-align:center}
@@ -667,7 +671,9 @@ footer a{color:var(--primary);text-decoration:none}
   .cart-header{padding:12px 14px}
   .cart-header h2{font-size:.92rem}
   .cart-body{padding:10px 12px}
-  .cart-totals{padding:10px 12px}
+  .cart-totals{padding:0}
+  .cart-checkout-content{padding:10px 12px}
+  .cart-checkout-summary{padding:8px 12px}
   .total-row{font-size:.76rem}
   .total-row.total-burs{font-size:.78rem;padding:6px 8px}
   .total-row.final{font-size:.95rem}
@@ -1326,31 +1332,6 @@ function updateCart() {
   const effectiveShipping = freeShipUnlocked ? 0 : SHIPPING_COST;
   const finalTotal = subtotal + effectiveShipping;
 
-  // === Free Shipping Gamification (high-dopamine) ===
-  const freeShipProgressPct = Math.min(100, Math.round((totalBurs / FREE_SHIPPING_THRESHOLD) * 100));
-  const freeShipBursNeeded = FREE_SHIPPING_THRESHOLD - totalBurs;
-  let freeShipHTML = '';
-  if (freeShipUnlocked) {
-    freeShipHTML = `
-      <div class="free-ship-gamify unlocked">
-        <div class="free-ship-title"><span class="ship-icon">🎁</span> ارسال رایگان شد!</div>
-        <div class="free-ship-msg">سفارش شما بالای ${toPersian(FREE_SHIPPING_THRESHOLD)} عدد است — هزینه پست ${toPersian(SHIPPING_COST)} تومان حذف شد! ✨</div>
-        <div class="free-ship-progress"><div class="free-ship-fill" style="width:100%"></div></div>
-      </div>
-    `;
-  } else {
-    freeShipHTML = `
-      <div class="free-ship-gamify">
-        <div class="free-ship-row">
-          <span><span class="ship-icon">🚚</span> ارسال رایگان</span>
-          <span>${toPersian(freeShipProgressPct)}٪</span>
-        </div>
-        <div class="free-ship-title">با ${toPersian(freeShipBursNeeded)} عدد دیگر، ارسال رایگان می‌شود!</div>
-        <div class="free-ship-progress"><div class="free-ship-fill" style="width:${freeShipProgressPct}%"></div></div>
-      </div>
-    `;
-  }
-
   const itemsHTML = items.map(item => {
     const { product, packCount } = item;
     const mult = product.multiplier || BURS_PER_PACK;
@@ -1376,31 +1357,65 @@ function updateCart() {
       </div>`;
   }).join('');
 
-  cartBody.innerHTML = freeShipHTML + itemsHTML;
+  const listScroll = cartBody.scrollTop;
+  cartBody.innerHTML = itemsHTML;
+  cartBody.scrollTop = listScroll;
 
   const shippingRowHTML = freeShipUnlocked
     ? `<div class="total-row shipping free"><span>${SHIPPING_LABEL}</span><span><span class="ship-original">${toPersian(SHIPPING_COST)} تومان</span><span class="ship-free">رایگان 🎁</span></span></div>`
     : `<div class="total-row shipping"><span>${SHIPPING_LABEL}</span><span>${toPersian(SHIPPING_COST)} تومان</span></div>`;
 
+  const checkoutWasOpen = cartTotals.querySelector('.cart-checkout')?.open || false;
   cartTotals.innerHTML = `
-    <div class="total-row total-burs"><span>🔢 تعداد کل فرزها</span><span>${toPersian(totalBurs)} عدد</span></div>
-    <div class="total-row"><span>مبلغ محصولات</span><span>${toPersian(subtotal)} تومان</span></div>
-    ${shippingRowHTML}
-    <div class="total-row final"><span>مبلغ نهایی قابل پرداخت</span><span>${toPersian(finalTotal)} تومان</span></div>
-    <p class="cart-support">برای سفارش های بالاتر و مشاوره دقیق تر با دندانپزشک مجموعه، بر روی <a href="https://t.me/ddsverified_admin" target="_blank" rel="noopener noreferrer">پشتیبانی</a> کلیک کنید.</p>
-    <div class="checkout-buttons">
-      <button class="checkout-btn telegram" id="telegramBtn">تکمیل سفارش در تلگرام</button>
-      <button class="checkout-btn bale" id="baleBtn">سفارش از طریق بله</button>
-      <button class="checkout-btn rubika" id="rubikaBtn">سفارش از طریق روبیکا</button>
-    </div>
-    <p class="checkout-note">لیست سفارش را کپی کنید و در پیام‌رسان دلخواه برای ما بفرستید؛ یا تماس بگیرید: <a href="tel:+989999587786" dir="ltr">+989999587786</a></p>
-    <label class="checkout-note" for="checkoutMessage">متن سفارش برای کپی</label><textarea id="checkoutMessage" class="checkout-message" readonly aria-label="متن سفارش برای کپی"></textarea>`;
+    <details class="cart-checkout" id="cartCheckout">
+      <summary class="cart-checkout-summary"><span>مبلغ نهایی</span><strong>${toPersian(finalTotal)} تومان</strong><span class="cart-expand-label">جزئیات و ثبت سفارش</span></summary>
+      <div class="cart-checkout-content">
+        <div class="total-row total-burs"><span>🔢 تعداد کل فرزها</span><span>${toPersian(totalBurs)} عدد</span></div>
+        <div class="total-row"><span>مبلغ محصولات</span><span>${toPersian(subtotal)} تومان</span></div>
+        ${shippingRowHTML}
+        <p class="cart-support">برای سفارش های بالاتر و مشاوره دقیق تر با دندانپزشک مجموعه، بر روی <a href="https://t.me/ddsverified_admin" target="_blank" rel="noopener noreferrer">پشتیبانی</a> کلیک کنید.</p>
+        <button type="button" class="copy-order-btn" id="copyOrderBtn">برای کپی کردن لیست خرید کلیک کنید</button>
+        <p class="copy-feedback" id="copyFeedback" role="status" aria-live="polite"></p>
+        <div class="checkout-buttons">
+          <button class="checkout-btn telegram" id="telegramBtn">تکمیل سفارش در تلگرام</button>
+          <button class="checkout-btn bale" id="baleBtn">سفارش از طریق بله</button>
+          <button class="checkout-btn rubika" id="rubikaBtn">سفارش از طریق روبیکا</button>
+        </div>
+        <p class="checkout-note">لیست کپی‌شده را در پیام‌رسان دلخواه بفرستید؛ یا تماس بگیرید: <a href="tel:+989999587786" dir="ltr">+989999587786</a></p>
+        <details class="manual-order"><summary>مشاهده متن سفارش برای کپی دستی</summary><textarea id="checkoutMessage" class="checkout-message" readonly aria-label="متن سفارش برای کپی"></textarea></details>
+      </div>
+    </details>`;
+  document.getElementById('cartCheckout').open = checkoutWasOpen;
   const orderText = () => generateOrderMessage(items, totalBurs, finalTotal, freeShipUnlocked);
   document.getElementById('checkoutMessage').value = orderText();
-  function openCheckout(url, channel) {
+  document.getElementById('copyOrderBtn').addEventListener('click', async () => {
+    const feedback = document.getElementById('copyFeedback');
     const message = orderText();
-    // Direct-message links do not reliably support prefilled text. Copy the order first.
-    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(message).catch(() => {});
+    let copied = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(message);
+        copied = true;
+      }
+    } catch (_) { /* use the legacy fallback below */ }
+    if (!copied) {
+      const helper = document.createElement('textarea');
+      helper.value = message;
+      helper.style.cssText = 'position:fixed;left:-9999px;top:0;';
+      document.body.appendChild(helper);
+      helper.focus(); helper.select();
+      try { copied = document.execCommand('copy'); } catch (_) { copied = false; }
+      helper.remove();
+    }
+    if (copied) {
+      feedback.textContent = 'لیست خرید شما ذخیره شد, به یکی از کانال های ارتباطی مراجعه کنید و لیست خرید را بفرستید';
+    } else {
+      feedback.textContent = 'کپی خودکار انجام نشد. متن سفارش را باز کنید و دستی کپی کنید.';
+      document.querySelector('.manual-order').open = true;
+    }
+    feedback.scrollIntoView({ block: 'nearest' });
+  });
+  function openCheckout(url, channel) {
     window.open(url, '_blank', 'noopener,noreferrer');
     if (typeof window.cfTrack === 'function') window.cfTrack(`checkout_${channel}`, { total_burs: totalBurs });
   }
