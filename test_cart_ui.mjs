@@ -8,11 +8,18 @@ const elements = Object.fromEntries(['cartCheckout', 'checkoutMessage', 'copyOrd
   .map(id => [id, { open: false, value: '', textContent: '', events: {},
     addEventListener(type, handler) { this.events[type] = handler; }, scrollIntoView() {},
   }]));
+const checkoutLabel = { textContent: '' };
+elements.cartCheckout.querySelector = () => checkoutLabel;
+const drawerClasses = new Set();
+const cartDrawer = { classList: {
+  toggle(name, on) { on ? drawerClasses.add(name) : drawerClasses.delete(name); },
+  remove(name) { drawerClasses.delete(name); },
+} };
 const cartBody = { innerHTML: '', scrollTop: 35 };
-const cartTotals = { innerHTML: '', querySelector: () => null };
+const cartTotals = { innerHTML: '', scrollTop: 0, querySelector: () => cartTotals.innerHTML ? elements.cartCheckout : null };
 const cartCountBadge = { style: {}, textContent: '' };
 let clipboardValue = '';
-const ctx = vm.createContext({ cartBody, cartTotals, cartCountBadge,
+const ctx = vm.createContext({ cartBody, cartTotals, cartDrawer, cartCountBadge,
   document: { getElementById: id => elements[id],
     body: { appendChild() {} },
     createElement: () => ({ style: {}, focus() {}, select() {}, remove() {} }),
@@ -40,11 +47,28 @@ test('list owns at least 70% of cart and checkout is collapsed by default', () =
   ctx.updateCart();
   assert.match(html, /\.cart-body\{flex:1 1 auto;min-height:70%;overflow-y:auto/);
   assert.match(html, /\.cart-totals\{[^}]*max-height:calc\(30% - 56px\)/);
+  assert.match(html, /\.cart-drawer\.checkout-open \.cart-totals\{flex:0 0 70%;max-height:70%\}/);
+  assert.match(html, /\.cart-expand-label\{[^}]*color:#c62828;font-weight:800/);
   assert.match(cartTotals.innerHTML, /<details class="cart-checkout"/);
   assert.equal(elements.cartCheckout.open, false);
+  assert.equal(checkoutLabel.textContent, 'جزئیات و ثبت سفارش');
   assert.match(cartBody.innerHTML, /TC-26/);
   assert.ok(!cartBody.innerHTML.includes('free-ship-gamify'));
   assert.equal(cartBody.scrollTop, 35);
+});
+
+test('checkout expands to 70% and collapses back to the product list', () => {
+  ctx.updateCart();
+  elements.cartCheckout.open = true;
+  elements.cartCheckout.events.toggle();
+  assert.ok(drawerClasses.has('checkout-open'));
+  assert.equal(checkoutLabel.textContent, 'بستن جزئیات و ثبت سفارش');
+  ctx.updateCart(); // Quantity changes must not collapse checkout.
+  assert.equal(elements.cartCheckout.open, true);
+  elements.cartCheckout.open = false;
+  elements.cartCheckout.events.toggle();
+  assert.ok(!drawerClasses.has('checkout-open'));
+  assert.equal(checkoutLabel.textContent, 'جزئیات و ثبت سفارش');
 });
 
 test('copy button precedes messenger buttons and copies the current order', async () => {

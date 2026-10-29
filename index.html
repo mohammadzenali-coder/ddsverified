@@ -508,6 +508,7 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .cart-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
 .cart-close:hover{background:rgba(255,255,255,.25)}
 .cart-body{flex:1 1 auto;min-height:70%;overflow-y:auto;overscroll-behavior:contain;padding:12px 14px}
+.cart-drawer.checkout-open .cart-body{min-height:0}
 
 /* Cart Empty */
 .cart-empty{text-align:center;padding:50px 20px;color:var(--text-light)}
@@ -591,9 +592,10 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .total-row.shipping .ship-original{text-decoration:line-through;opacity:.55;font-size:.74rem;margin-left:6px;font-weight:500}
 .total-row.shipping .ship-free{display:inline-flex;align-items:center;gap:4px;font-weight:800;color:var(--success)}
 /* Cart Totals */
-.cart-totals{background:var(--surface);border-top:1px solid var(--border);padding:0;flex:0 0 auto;min-height:0;max-height:calc(30% - 56px);overflow-y:auto;overscroll-behavior:contain}
+.cart-totals{background:var(--surface);border-top:1px solid var(--border);padding:0;flex:0 0 auto;min-height:0;max-height:calc(30% - 56px);overflow-y:auto;overscroll-behavior:contain;transition:max-height .25s ease}
+.cart-drawer.checkout-open .cart-totals{flex:0 0 70%;max-height:70%}
 .cart-checkout-summary{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:space-between;min-height:66px;padding:10px 16px;background:var(--surface);color:var(--primary-dark);cursor:pointer;font-size:.82rem;list-style:none;border-bottom:1px solid var(--border)}
-.cart-checkout-summary::-webkit-details-marker{display:none}.cart-checkout-summary strong{font-size:.96rem}.cart-expand-label{width:100%;font-size:.7rem;color:var(--primary);font-weight:700}.cart-expand-label::after{content:'⌄';margin-right:5px}.cart-checkout[open] .cart-expand-label::after{content:'⌃'}
+.cart-checkout-summary::-webkit-details-marker{display:none}.cart-checkout-summary strong{font-size:.96rem}.cart-expand-label{width:100%;font-size:.84rem;color:#c62828;font-weight:800}.cart-expand-label::after{content:'⌄';margin-right:5px}.cart-checkout[open] .cart-expand-label::after{content:'⌃'}
 .cart-checkout-content{padding:12px 16px 16px}.copy-order-btn{display:block;width:100%;border:1px solid var(--primary);border-radius:9px;padding:10px 8px;margin-top:12px;background:var(--primary-light);color:var(--primary-dark);font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer}.copy-order-btn:hover{background:#d8e4f4}.copy-feedback{font-size:.72rem;line-height:1.7;color:var(--success);margin-top:6px}.copy-feedback:empty{display:none}
 .manual-order{font-size:.72rem;color:var(--text-light);margin-top:9px}.manual-order summary{cursor:pointer;color:var(--primary)}
 .total-row{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px;color:var(--text-light)}
@@ -1321,6 +1323,7 @@ function updateCart() {
         <p style="font-size:.78rem;margin-top:6px;">برای افزودن فرز، روی دکمه «افزودن به سبد» کلیک کنید.</p>
       </div>`;
     cartTotals.innerHTML = '';
+    cartDrawer.classList.remove('checkout-open');
     return;
   }
 
@@ -1385,7 +1388,16 @@ function updateCart() {
         <details class="manual-order"><summary>مشاهده متن سفارش برای کپی دستی</summary><textarea id="checkoutMessage" class="checkout-message" readonly aria-label="متن سفارش برای کپی"></textarea></details>
       </div>
     </details>`;
-  document.getElementById('cartCheckout').open = checkoutWasOpen;
+  const checkoutPanel = document.getElementById('cartCheckout');
+  checkoutPanel.open = checkoutWasOpen;
+  cartDrawer.classList.toggle('checkout-open', checkoutWasOpen);
+  const checkoutLabel = checkoutPanel.querySelector('.cart-expand-label');
+  checkoutLabel.textContent = checkoutWasOpen ? 'بستن جزئیات و ثبت سفارش' : 'جزئیات و ثبت سفارش';
+  checkoutPanel.addEventListener('toggle', () => {
+    cartDrawer.classList.toggle('checkout-open', checkoutPanel.open);
+    checkoutLabel.textContent = checkoutPanel.open ? 'بستن جزئیات و ثبت سفارش' : 'جزئیات و ثبت سفارش';
+    if (!checkoutPanel.open) cartTotals.scrollTop = 0;
+  });
   const orderText = () => generateOrderMessage(items, totalBurs, finalTotal, freeShipUnlocked);
   document.getElementById('checkoutMessage').value = orderText();
   document.getElementById('copyOrderBtn').addEventListener('click', async () => {
