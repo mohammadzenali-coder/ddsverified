@@ -518,16 +518,9 @@ def build_evidence_html(shape_key: str, short: str) -> str:
     refs = _evidence_refs(shape_key)
     num = {k: i + 1 for i, k in enumerate(refs)}
     uses = "".join(f"<li>{u}</li>" for u in ev["uses"])
-    findings = "".join(
-        f'<li>{text} <sup><a href="#ref-{num[key]}" aria-label="منبع {fa(num[key])}">[{fa(num[key])}]</a></sup>'
-        f' <span class="ev-type">({SOURCES[key]["type"]})</span></li>'
-        for text, key in ev["evidence"])
+    findings = "".join(_finding_li(text, key, num[key]) for text, key in ev["evidence"])
     caution = f'<p class="ev-note">⚠️ {ev["caution"]}</p>' if ev.get("caution") else ""
-    ref_items = "".join(
-        f'<li id="ref-{num[k]}" dir="ltr">{SOURCES[k]["authors"]}. {SOURCES[k]["title"]}. '
-        f'<i>{SOURCES[k]["journal"]}</i>. {SOURCES[k]["year"]};{SOURCES[k]["cite"]}. '
-        f'<a href="{pubmed_url(SOURCES[k]["pmid"])}" target="_blank" rel="noopener">PubMed PMID: {SOURCES[k]["pmid"]}</a></li>'
-        for k in refs)
+    ref_items = "".join(_ref_li(k, num[k]) for k in refs)
     return f"""
 <section class="evidence" id="clinical-evidence">
 <h2>فرز {short} برای چه کاری استفاده می‌شود؟</h2>
@@ -541,6 +534,110 @@ def build_evidence_html(shape_key: str, short: str) -> str:
 <ol class="refs">{ref_items}</ol>
 <p class="ev-meta">آخرین بازبینی منابع: {fa(EVIDENCE_REVIEWED)} · این محتوا جنبه آموزشی دارد و جایگزین قضاوت بالینی دندانپزشک نیست.</p>
 </section>"""
+
+
+# --------------------------------------------- per-product evidence brief ----
+# ISO 6360 colour codes for diamond grit classes
+GRIT_CLASS = {"K⚫": "فوق‌درشت", "G🟢": "درشت", "B🔵": "متوسط", "R🔴": "ریز", "Y🟡": "خیلی ریز، EF", "W⚪": "فوق‌ریز"}
+
+# Pin the first finding to the paper that matches the chosen use (use keyword -> source)
+USE_SOURCE = {
+    "round": {"گودی": "cherukara2002", "پوسیدگی": "barros2020", "حفره دسترسی": "alhelou2023"},
+    "flat_cylinder": {"گروو": "goodacre2001", "کلاس": "lussi2003"},
+}
+
+# Grit-specific findings (Siegel 2000 compared medium/coarse/super-coarse; Rues 2017 & Jung 1997 cover fine finishing)
+GRIT_FINDINGS = {
+    "K⚫": [("در آزمایش برش، فرز فوق‌درشت در برش طولانی سریع‌تر از گریت متوسط بود (کاهش سرعت برش ۲۵٪ در برابر ۵۰٪)؛ نویسندگان درباره اثر گریت درشت بر کیفیت سطح، حرارت و آسیب مینا هشدار می‌دهند.", "siegel2000")],
+    "G🟢": [("فرز گریت درشت در برش طولانی سرعت برش خود را بهتر از گریت متوسط حفظ کرد (کاهش ۳۵٪ در برابر ۵۰٪) و برای تراش حجیم مناسب است؛ اما گریت درشت کیفیت سطح را کاهش می‌دهد.", "siegel2000")],
+    "B🔵": [("در آزمایش برش، فرز گریت متوسط در طول کار حدود ۵۰٪ از سرعت برش خود را از دست داد (درشت ۳۵٪)؛ در مقابل، گریت درشت‌تر بر کیفیت سطح و حرارت اثر نامطلوب‌تری دارد.", "siegel2000")],
+    "Y🟡": [_E["rues_grit"], _E["jung_finish"]],
+}
+
+
+def _fa_num(x) -> str:
+    s = str(x)
+    s = s[:-2] if s.endswith(".0") else s
+    return fa(s).replace(".", "٫")
+
+
+def _strip_use(u: str) -> str:
+    u = u.split(": ", 1)[1] if ": " in u else u
+    return re.sub(r"\s*\(به‌ویژه[^)]*\)", "", u)
+
+
+def product_evidence(p: dict, data: dict) -> dict:
+    """Short, model-specific clinical summary + 2 PubMed-cited findings.
+    Siblings rotate through the category's verified findings so pages stay unique."""
+    shape = p["shape"]
+    ev = EVIDENCE.get(shape)
+    if not ev:
+        return {}
+    siblings = [q["model"] for q in group_by_page(data)[shape]]
+    i = siblings.index(p["model"]) if p["model"] in siblings else 0
+    dia = str(p.get("diameter", "-"))
+    size_mm = int(dia) / 10 if re.fullmatch(r"\d{3}", dia) else None
+    big_round = shape == "round" and size_mm is not None and size_mm > 1.2  # Cherukara tested 001–012
+
+    grit = p.get("grit")
+    grit_opts = GRIT_FINDINGS.get(grit, [])
+    grit_f = grit_opts[i % len(grit_opts)] if grit_opts else None
+    pool = [f for f in ev["evidence"]
+            if (not grit_f or f[1] != grit_f[1]) and not (big_round and f[1] == "cherukara2002")]
+    ef_uses = [u for u in ev["uses"] if u.startswith("مدل‌های EF")]
+    named = [u for u in ev["uses"] if ": " in u and p["model"] in u.split(": ", 1)[0]]
+    general = [u for u in ev["uses"] if ": " not in u and not (big_round and "گودی" in u)]
+    if shape == "depth_veneer":
+        use = "ایجاد شیار راهنمای عمق روی سطح لبیال و کنترل یکنواختی تراش لمینت و ونیر سرامیکی"
+    elif grit == "Y🟡" and ef_uses:
+        use = _strip_use(ef_uses[0])
+    elif named:
+        use = _strip_use(named[0])
+    else:
+        use = _strip_use(general[i % len(general)])
+
+    first = pool[i % len(pool)]
+    for word, src in USE_SOURCE.get(shape, {}).items():
+        if word in use:
+            first = next((f for f in pool if f[1] == src), first)
+            break
+    rest = [f for f in pool if f[1] != first[1]]
+    findings = [first, grit_f if grit_f else rest[i % len(rest)]]
+
+    spec = []
+    if shape == "depth_veneer":
+        spec.append(f"عمق برش {_fa_num(dia)} میلی‌متر")
+    elif size_mm is not None:
+        spec.append(f"قطر سر {_fa_num(size_mm)} میلی‌متر (سایز ISO {fa(dia)})")
+    if shape != "carbide" and p.get("length") not in (None, "", "-"):
+        spec.append(f"طول بخش کاری {_fa_num(p['length'])} میلی‌متر")
+    if grit in GRIT_CLASS:
+        spec.append(f"گریت {GRIT_LABELS[grit]} ({GRIT_CLASS[grit]})")
+    if p.get("flutes"):
+        spec.append(f"{fa(p['flutes'])} تیغه جانبی و نوک غیربرنده")
+    return {"use": use, "spec": "، ".join(spec), "findings": findings}
+
+
+def _finding_li(text: str, key: str, n: int) -> str:
+    return (f'<li>{text} <sup><a href="#ref-{n}" aria-label="منبع {fa(n)}">[{fa(n)}]</a></sup>'
+            f' <span class="ev-type">({SOURCES[key]["type"]})</span></li>')
+
+
+def _ref_li(key: str, n: int) -> str:
+    s = SOURCES[key]
+    return (f'<li id="ref-{n}" dir="ltr">{s["authors"]}. {s["title"]}. <i>{s["journal"]}</i>. '
+            f'{s["year"]};{s["cite"]}. <a href="{pubmed_url(s["pmid"])}" target="_blank" rel="noopener">'
+            f'PubMed PMID: {s["pmid"]}</a></li>')
+
+
+def _citation_ld(keys: list) -> list:
+    return [{
+        "@type": "ScholarlyArticle", "name": SOURCES[k]["title"],
+        "author": SOURCES[k]["authors"], "datePublished": SOURCES[k]["year"],
+        "isPartOf": {"@type": "Periodical", "name": SOURCES[k]["journal"]},
+        "url": pubmed_url(SOURCES[k]["pmid"]),
+        "identifier": {"@type": "PropertyValue", "propertyID": "PMID", "value": SOURCES[k]["pmid"]},
+    } for k in keys]
 
 
 def build_collection_page(collection_key: str, data: dict) -> str:
@@ -937,8 +1034,6 @@ h2{font-size:1.05rem;color:#0d47a1;margin:18px 0 10px}
 .faq details{background:#fff;border:1px solid #dce3ec;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:.88rem}
 .faq summary{cursor:pointer;font-weight:700;color:#37474f}.related a{display:inline-block;background:#fff;border:1px solid #dce3ec;border-radius:20px;padding:4px 12px;margin:3px;text-decoration:none;color:#1565c0;font-size:.82rem}
 .trust{display:flex;gap:10px;font-size:.75rem;color:#455a64;margin:16px 0;flex-wrap:wrap}
-.endo-z-reasons{background:linear-gradient(135deg,#e3f2fd,#fff);border:1px solid #90caf9;border-right:5px solid #1565c0;border-radius:14px;padding:18px 20px;margin:18px 0;box-shadow:0 6px 18px rgba(21,101,192,.12)}
-.endo-z-reasons h2{margin:0 0 8px;color:#0d47a1}.endo-z-reasons p{margin-bottom:6px}.endo-z-reasons ol{padding-right:22px}.endo-z-reasons li{padding:4px 0}.endo-z-reasons a{color:#1565c0;font-weight:700;text-decoration:none}.endo-z-reasons a:hover{text-decoration:underline}
 header{background:#fffefa;color:#071b41;border-bottom:1px solid #e1ded6}header .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 14px}
 header a{color:#071b41;text-decoration:none;font-weight:800;font-size:.95rem}.brand img{display:block;width:185px;max-width:100%;height:auto}
 .site-search{display:flex;flex:1;min-width:220px;max-width:420px;gap:6px}.site-search input{min-width:0;flex:1;padding:8px 10px;border:1px solid #dce3ec;border-radius:8px;font:inherit}
@@ -1145,29 +1240,41 @@ def build_product_page(p, data) -> str:
         remaining_specs = "، ".join(spec_bits[1:])
         spec_sentence = f"دارای پیکربندی {fa(p['flutes'])} فلوت است" + (f" و به‌همراه {remaining_specs} است." if remaining_specs else ".")
     pack_note = ("تک‌فروشی (هر عدد جداگانه) یا بسته ۶ عددی" if p.get("pack_size") else "تک‌فروشی (هر عدد جداگانه)") if p.get("multiplier") == 1 else f"بسته {fa(data['burs_per_pack'])} عددی"
-    clinical = p.get("desc") or INTROS.get(shape_key, f"{sname} یکی از خانواده‌های پرکاربرد فرزهای دندانپزشکی است.")
-    clinical_lead = "" if clinical.startswith("فرز") else "این فرز "
-    endo_z_reasons = """
-<div class="endo-z-reasons">
-  <h2>چرا باید فرز اندو زد بگیرید؟</h2>
-  <p>چون:</p>
-  <ol>
-    <li>سرعت کار شما را سریع‌تر می‌کند. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8378494/" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
-    <li>دیواره صاف‌تر و smooth‌تر به شما می‌دهد. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8378494/" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
-    <li>ریسک پرفوریشن به حداقل می‌رسد. <a href="https://www.nature.com/articles/s41415-025-8442-8" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
-    <li>فرز استاندارد در تهیه حفره دسترسی است. <a href="https://www.nature.com/articles/s41415-025-8442-8" target="_blank" rel="noopener noreferrer">منبع پژوهش</a></li>
-  </ol>
-</div>
-""" if model == "ENDO-Z TI" else ""
+    pev = product_evidence(p, data)
+    ev_keys = list(dict.fromkeys(k for _, k in pev.get("findings", [])))
+    if pev:
+        num = {k: n + 1 for n, k in enumerate(ev_keys)}
+        intro_html = f"<p><strong>{sname} مدل {model}</strong> با {pev['spec']}، برای {pev['use']} کاربرد دارد.</p>"
+        evidence_html = f"""
+<section class="evidence" id="clinical-evidence">
+<h2>کاربرد فرز {model} بر پایه شواهد علمی</h2>
+<ul class="ev-list">{"".join(_finding_li(t, k, num[k]) for t, k in pev["findings"])}</ul>
+<ol class="refs">{"".join(_ref_li(k, num[k]) for k in ev_keys)}</ol>
+<p class="ev-meta"><a href="/{cat_path}#clinical-evidence">شواهد کامل و منابع بیشتر درباره فرز {short}</a> · آخرین بازبینی منابع: {fa(EVIDENCE_REVIEWED)}</p>
+</section>"""
+    else:
+        clinical = p.get("desc") or INTROS.get(shape_key, f"{sname} یکی از خانواده‌های پرکاربرد فرزهای دندانپزشکی است.")
+        intro_html = f"<p>{sname} مدل <strong>{model}</strong> {spec_sentence} {clinical.strip()}</p>"
+        evidence_html = ""
 
     siblings = [q for q in group_by_page(data)[shape_key] if q["model"] != model]
     sib_html = "".join(
         f'<a href="/{product_page_url(q["model"])}">{q["model"]}</a>' for q in siblings)
     stock_badge = '<span class="stock in">موجود در انبار</span>' if in_stock else '<span class="stock out">ناموجود</span>'
 
-    title = f"فرز {short} {model} | مشخصات و کیفیت | DDSVerified"
-    desc = (f"فرز دندانپزشکی {short} مدل {model} — {spec_bits[0] if spec_bits else sname}، "
-            f"گریت و مشخصات فنی، کد ISO و USA؛ انتخاب دقیق مدل و ارسال به سراسر ایران.")
+    if pev:
+        title = f"فرز {short} {model} | کاربرد مبتنی بر شواهد و مشخصات | DDSVerified"
+        use_plain = re.sub(r"\s*\([^)]*\)", "", pev["use"])
+        lead = f"فرز {short} مدل {model}؛ {pev['spec'].split('، ')[0]}، برای "
+        tail = ". کاربرد بالینی با منابع PubMed."
+        for sep in (" در ", " و "):
+            if len(lead + use_plain + tail) > 160:
+                use_plain = use_plain.split(sep)[0]
+        desc = lead + use_plain + tail
+    else:
+        title = f"فرز {short} {model} | مشخصات و کیفیت | DDSVerified"
+        desc = (f"فرز دندانپزشکی {short} مدل {model} — {spec_bits[0] if spec_bits else sname}، "
+                f"گریت و مشخصات فنی، کد ISO و USA؛ انتخاب دقیق مدل و ارسال به سراسر ایران.")
     # optional full-width technical drawing (details_img on the PRODUCTS row)
     blueprint_html = ""
     if p.get("details_img"):
@@ -1180,9 +1287,8 @@ def build_product_page(p, data) -> str:
             f'</picture><figcaption>نقشه فنی فرز {model}: شنک کارباید تنگستن، فلوت مارپیچ دوهلیکس، نوک غیربرنده</figcaption></figure>')
     body = f"""
 <h1>فرز {short} مدل {model}</h1>
-<div class="intro"><p>{sname} مدل <strong>{model}</strong> {spec_sentence} {clinical_lead}{clinical.strip()}</p>
-<p>برای انتخاب مدل متناسب با نیاز خود، شکل، دور فرز و مشخصات فنی درج‌شده در جدول را بررسی کنید.</p></div>
-{endo_z_reasons}
+<div class="intro">{intro_html}</div>
+{evidence_html}
 <section class="model-block">
   <div class="model-head"><h3>مشخصات فنی فرز {model}</h3>{stock_badge}</div>
   <div class="mbody">
@@ -1229,6 +1335,13 @@ def build_product_page(p, data) -> str:
         ensure_ascii=False)
     extra = (f'<script type="application/ld+json">{ld_product}</script>\n'
              f'<script type="application/ld+json">{ld_bc}</script>')
+    if pev:
+        ld_page = json.dumps({"@context": "https://schema.org", "@type": "ItemPage",
+                              "name": f"فرز {short} مدل {model}", "description": desc,
+                              "url": f"{BASE}/{page_path}", "inLanguage": "fa-IR",
+                              "lastReviewed": EVIDENCE_REVIEWED,
+                              "citation": _citation_ld(ev_keys)}, ensure_ascii=False)
+        extra += f'\n<script type="application/ld+json">{ld_page}</script>\n<style>{EVIDENCE_CSS}</style>'
     crumbs = f'<a href="/">خانه</a> › <a href="/{cat_path}">{short}</a> › {model}'
     return _layout(title, desc, page_path, crumbs, body, extra)
 
