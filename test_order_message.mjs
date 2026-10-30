@@ -38,7 +38,7 @@ test('catalog pricing prioritizes special models over grit and uses a single fix
   assert.equal(price('VP-20'), 222300);
   assert.equal(price('BR-L46'), 215100);
   assert.equal(price('FO-40EF'), 215100);
-  assert.equal(price('ENDO-Z TI'), 1422000);
+  assert.equal(price('ENDO-Z TI'), 1500000);
   for (const product of d.PRODUCTS) {
     assert.equal(d.salePercent(product), 10, product.model);
     assert.ok(d.listPrice(product) > d.unitPrice(product));
