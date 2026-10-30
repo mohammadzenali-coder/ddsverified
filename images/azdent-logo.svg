@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 64" role="img" aria-label="AZDENT">
+  <title>AZDENT</title>
+  <g fill="#1b3f93" fill-rule="evenodd">
+    <!-- A (stylized, no crossbar) -->
+    <path d="M0 62 L22 2 H44 L66 62 H48 L33 20 L18 62 Z"/>
+    <!-- Z -->
+    <path d="M72 2 H128 V15 L94 49 H128 V62 H72 V49 L106 15 H72 Z"/>
+    <!-- D -->
+    <path d="M136 2 H164 A30 30 0 0 1 164 62 H136 Z M152 16 H162 A16 16 0 0 1 162 48 H152 Z"/>
+    <!-- E -->
+    <path d="M202 2 H250 V15 H218 V25 H246 V39 H218 V49 H250 V62 H202 Z"/>
+    <!-- N -->
+    <path d="M258 2 H274 L302 40 V2 H318 V62 H302 L274 24 V62 H258 Z"/>
+    <!-- T -->
+    <path d="M324 2 H378 V15 H359 V62 H343 V15 H324 Z"/>
+  </g>
+  <!-- ® -->
+  <circle cx="391" cy="8" r="7" fill="none" stroke="#1b3f93" stroke-width="1.6"/>
+  <path d="M388.3 12 V4.3 H391.6 A2.2 2.2 0 0 1 391.6 8.7 H388.3 M391.2 8.7 L393.8 12" fill="none" stroke="#1b3f93" stroke-width="1.5"/>
+</svg>

@@ -41,6 +41,8 @@ SHAPE_OVERRIDE = {
     "pointed_cylinder": {"fa": "فرز دندانپزشکی شمفر استوانه ایی"},
 }
 
+BRAND_ROW = '<tr><td>برند</td><td class="brand-cell">AZDENT <img src="/images/azdent-logo.svg" alt="AZDENT" width="70" height="11" loading="lazy"></td></tr>'
+
 GRIT_ORDER = ["K⚫", "G🟢", "B🔵", "R🔴", "Y🟡", "W⚪"]  # coarsest → finest
 GRIT_LABELS = {"K⚫": "مشکی", "G🟢": "سبز", "B🔵": "آبی", "R🔴": "قرمز", "Y🟡": "زرد", "W⚪": "سفید"}
 
@@ -655,7 +657,7 @@ def build_collection_page(collection_key: str, data: dict) -> str:
             "name": f"فرز {collection['short_title']} {p['model']}",
             "image": img_rel(p["model"]),
             "sku": p["model"],
-            "brand": {"@type": "Brand", "name": "DDSVerified"},
+            "brand": {"@type": "Brand", "name": "AZDENT"},
             "offers": {
                 "@type": "Offer", "priceCurrency": "IRR",
                 "price": product_price(p, data) * 10,  # IRR; catalog prices are toman
@@ -1026,7 +1028,7 @@ def build_campaign_page(p: dict, data: dict) -> bool:
                              "image": [img_rel("400-ferez-1")],
                              "description": intro,
                              "sku": model,
-                             "brand": {"@type": "Brand", "name": "DDSVerified"},
+                             "brand": {"@type": "Brand", "name": "AZDENT"},
                              "url": f"{BASE}/{slug}",
                              "offers": {"@type": "Offer",
                                         "url": f"{BASE}/{slug}",
@@ -1123,6 +1125,7 @@ header a{color:#071b41;text-decoration:none;font-weight:800;font-size:.95rem}.br
 .site-search{display:flex;flex:1;min-width:220px;max-width:420px;gap:6px}.site-search input{min-width:0;flex:1;padding:8px 10px;border:1px solid #dce3ec;border-radius:8px;font:inherit}
 .site-search button{padding:8px 14px;border:0;border-radius:8px;background:#fff;color:#0d47a1;font:inherit;font-weight:700;cursor:pointer}
 .model-head h3 a{color:#1565c0;text-decoration:none}
+.brand-cell{display:flex;align-items:center;gap:8px}.brand-cell img{display:block;width:70px;height:auto}
 footer{text-align:center;font-size:.78rem;color:#455a64;padding:18px}footer .contact-links{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:0 auto 12px}
 footer .contact-links a{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border:1px solid #dce3ec;border-radius:8px;color:#1565c0;background:#fff;text-decoration:none}
 footer .contact-links svg{width:20px;height:20px;flex:none}footer p{margin:4px 0}"""
@@ -1203,6 +1206,7 @@ def _model_block(p, shape_name_short, data):
       <tr><td>کد ISO</td><td dir="ltr">{p.get('iso', '−')}</td></tr>
       <tr><td>کد USA</td><td dir="ltr">{p.get('usa', '−')}</td></tr>
       <tr><td>بسته‌بندی</td><td>{pack_note}</td></tr>
+      {BRAND_ROW}
     </table>
   </div>
   <p class="price">{price_html(p, data)}</p>
@@ -1245,7 +1249,7 @@ def build_category_page(shape_key, data):
                  "item": {"@type": "Product", "name": f"فرز {short} {p['model']}",
                           "image": img_rel(p["model"]),
                           "sku": p["model"],
-                          "brand": {"@type": "Brand", "name": "DDSVerified"},
+                          "brand": {"@type": "Brand", "name": "AZDENT"},
                           "offers": {"@type": "Offer", "priceCurrency": "IRR",
                                      "price": product_price(p, data) * 10,  # IRR; catalog prices are toman
                                      "availability": "https://schema.org/InStock" if p["inventory"] > 0 else "https://schema.org/OutOfStock"}}}
@@ -1392,6 +1396,7 @@ def build_product_page(p, data) -> str:
     <img src="{img_rel(model)}" alt="فرز {short} مدل {model} دندانپزشکی" width="267" height="400" loading="lazy">
     <table class="specs-t">
       <tr><td>مدل</td><td dir="ltr">{model}</td></tr>
+      {BRAND_ROW}
       <tr><td>خانواده</td><td><a href="/{cat_path}">{sname}</a></td></tr>
       {'<tr><td>قطر</td><td>' + fa(p['diameter']) + '</td></tr>' if p.get("diameter") not in (None, "", "-") else ''}
       {'<tr><td>طول</td><td>' + fa(p['length']) + ' mm</td></tr>' if p.get("length") not in (None, "", "-") else ''}
@@ -1416,7 +1421,7 @@ def build_product_page(p, data) -> str:
                              "image": [img_rel(model)] + ([img_rel(p["details_img"])] if p.get("details_img") else []),
                              "description": desc,
                              "sku": model,
-                             "brand": {"@type": "Brand", "name": "DDSVerified"},
+                             "brand": {"@type": "Brand", "name": "AZDENT"},
                              "url": f"{BASE}/{page_path}",
                              "offers": {"@type": "Offer",
                                         "url": f"{BASE}/{page_path}",

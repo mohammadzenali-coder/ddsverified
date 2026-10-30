@@ -488,6 +488,8 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .inventory-badge.out-stock{background:#ffebee;color:var(--danger)}
 .add-btn{width:100%;padding:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:700;font-family:inherit;cursor:pointer;transition:background .2s;margin-top:auto}
 .add-btn:hover:not(:disabled){background:var(--primary-dark)}
+.product-brand{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;font-size:.7rem;color:var(--text-light);font-weight:600}
+.product-brand img{display:block;width:70px;height:auto}
 .add-btn:active:not(:disabled){transform:scale(.97)}
 .add-btn:disabled{background:#b0bec5;cursor:not-allowed}
 
@@ -1067,7 +1069,7 @@ const SHAPE_MAP = {
   depth_veneer:"فرز دندانپزشکی دپس کات (برای ونیر)", 
   pointed_cylinder:"فرز دندانپزشکی فیشور نوک تیز", 
   round_end_cylinder:"فرز دندانپزشکی فیشور روند اند (استوانه ایی ته گرد)", 
-  carbide:"فرز EndoZ کارباید تیتانیومی ساخت انگلیس",
+  carbide:"فرز EndoZ کارباید تیتانیومی",
   bundle:"بسته ۴۰۰ عددی فرزهای پرمصرف"
 };
 const GRIT_DISPLAY = {"K⚫":"مشکی ⚫","G🟢":"سبز 🟢","B🔵":"آبی 🔵","R🔴":"قرمز 🔴","Y🟡":"زرد 🟡","W⚪":"سفید ⚪","-":"-"};
@@ -1167,6 +1169,7 @@ function renderProducts() {
         <span class="inventory-badge ${inStock ? 'in-stock' : 'out-stock'}">${inStock ? 'موجود' : 'ناموجود'}</span>
         ${p.img_note ? `<span class="spec-tag" style="background:#e8f5e9;color:#2e7d32;border-color:#a5d6a7">🚚 ${p.img_note}</span>` : ''}
         <button class="add-btn" ${inStock ? '' : 'disabled'} data-model="${p.model}">${inStock ? 'افزودن به سبد' : 'ناموجود'}</button>
+        <div class="product-brand"><span>برند: AZDENT</span><img src="images/azdent-logo.svg" alt="AZDENT" width="70" height="11" loading="lazy"></div>
       </article>`;
   }).join('');
   resultsInfo.textContent = `${toPersian(filteredProducts.length)} محصول یافت شد`;
@@ -1545,7 +1548,7 @@ function injectProductSchema() {
           "name": isBundle ? (p.card_title || p.model) : `فرز دندانپزشکی ${SHAPE_MAP[p.shape]} مدل ${p.model}`,
           "image": `https://ddsverified.ir/images/${(p.card_img || p.model).toLowerCase()}.webp`,
           "description": p.desc || `فرز ${SHAPE_MAP[p.shape]} با قطر ${p.diameter} و طول ${p.length}، گریت ${GRIT_TEXT[p.grit] || '-'}. تنوع مدل با مشخصات دقیق و کیفیت ساخت.`,
-          "brand": { "@type": "Brand", "name": "DDSVerified" },
+          "brand": { "@type": "Brand", "name": "AZDENT" },
           "sku": p.model,
           "mpn": p.model,
           "category": "Dental Burs",
