@@ -1,5 +1,5 @@
 {
-  "price_per_bur": 215650,
+  "price_per_bur": 204300,
   "old_price_per_bur": 227000,
   "burs_per_pack": 5,
   "shapes": {
@@ -68,7 +68,7 @@
       "inventory": 36,
       "multiplier": 1,
       "old_price": 1580000,
-      "price": 1500000,
+      "price": 1422000,
       "pack_size": 6,
       "details_img": "endo-z-blueprint",
       "desc": "فرز Endo Z با نوک غیر‌بُرنده (Non-cutting tip) و تیغه‌های جانبی برنده، عمدتاً برای تکمیل حفره دسترسی اندودانتیک، حذف باقی‌مانده سقف اتاقک پالپ، رفع آندرکات‌ها و اصلاح دیواره‌های محوری به‌منظور دستیابی به دید مستقیم و دسترسی مناسب به اوریفیس کانال‌ها استفاده می‌شود. طراحی نوک آن احتمال برداشت ناخواسته عاج از کف اتاقک پالپ و ایجاد پرفوراسیون را کاهش می‌دهد؛ بااین‌حال، به‌دلیل برندگی جانبی، استفاده کنترل‌شده و پرهیز از تماس با کف پالپ ضروری است. این فرز برای شکل‌دهی اولیه حفره دسترسی یا برداشت انتخابی عاج از نواحی کلسیفیه، ابزار اختصاصی محسوب نمی‌شود."
@@ -84,7 +84,7 @@
       "inventory": 101,
       "collection": "fixed_prostho",
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "needle",
@@ -97,7 +97,7 @@
       "inventory": 150,
       "collection": "fixed_prostho",
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "needle",
@@ -110,7 +110,7 @@
       "inventory": 150,
       "collection": "fixed_prostho",
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "needle",
@@ -321,7 +321,7 @@
       "grit": "Y🟡",
       "inventory": 300,
       "old_price": 239000,
-      "price": 227050
+      "price": 215100
     },
     {
       "shape": "flame",
@@ -333,7 +333,7 @@
       "grit": "Y🟡",
       "inventory": 200,
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "flame",
@@ -345,7 +345,7 @@
       "grit": "Y🟡",
       "inventory": 300,
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "flame",
@@ -357,7 +357,7 @@
       "grit": "Y🟡",
       "inventory": 200,
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "round_taper",
@@ -403,7 +403,7 @@
       "inventory": 100,
       "collection": "fixed_prostho",
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "round_taper",
@@ -416,7 +416,7 @@
       "inventory": 100,
       "collection": "fixed_prostho",
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "round_taper",
@@ -428,7 +428,7 @@
       "grit": "Y🟡",
       "inventory": 100,
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "round",
@@ -470,7 +470,7 @@
       "grit": "B🔵",
       "inventory": 250,
       "old_price": 239000,
-      "price": 227050
+      "price": 215100
     },
     {
       "shape": "torpedo",
@@ -493,7 +493,7 @@
       "grit": "Y🟡",
       "inventory": 100,
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "football",
@@ -505,7 +505,7 @@
       "grit": "Y🟡",
       "inventory": 150,
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "football",
@@ -517,7 +517,7 @@
       "grit": "Y🟡",
       "inventory": 50,
       "old_price": 233000,
-      "price": 221350
+      "price": 209700
     },
     {
       "shape": "football",
@@ -551,7 +551,7 @@
       "multiplier": 1,
       "collection": "fixed_prostho",
       "old_price": 234000,
-      "price": 222300
+      "price": 210600
     },
     {
       "shape": "depth_veneer",
@@ -565,7 +565,7 @@
       "multiplier": 5,
       "collection": "fixed_prostho",
       "old_price": 247000,
-      "price": 234650
+      "price": 222300
     },
     {
       "shape": "depth_veneer",
@@ -579,7 +579,7 @@
       "multiplier": 5,
       "collection": "fixed_prostho",
       "old_price": 247000,
-      "price": 234650
+      "price": 222300
     },
     {
       "shape": "depth_veneer",
@@ -593,7 +593,7 @@
       "multiplier": 5,
       "collection": "fixed_prostho",
       "old_price": 247000,
-      "price": 234650
+      "price": 222300
     },
     {
       "shape": "pointed_cylinder",

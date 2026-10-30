@@ -143,7 +143,7 @@ def test_campaign_shows_real_savings_without_endorsements(tmp_path, monkeypatch)
     assert g.build_campaign_page(bundle, data)
     html = (tmp_path / "campaign" / "pack-400" / "index.html").read_text(encoding="utf-8")
     assert 'property="og:image" content="https://ddsverified.ir/logo-wordmark-square.webp"' in html
-    assert "حدود ۲۵٪ کمتر" in html and "۱۲٪" not in html
+    assert "حدود ۲۱٪ کمتر" in html and "۱۲٪" not in html
     assert "۸۰ درصد" not in html and "تست شده توسط دندانپزشک" not in html
 
 

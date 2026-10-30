@@ -75,7 +75,7 @@ test('copy button precedes messenger buttons and copies the current order', asyn
   ctx.updateCart();
   assert.ok(cartTotals.innerHTML.indexOf('id="copyOrderBtn"') < cartTotals.innerHTML.indexOf('id="telegramBtn"'));
   await elements.copyOrderBtn.events.click();
-  assert.match(clipboardValue, /TC-26 x 5 @ 215650/);
+  assert.match(clipboardValue, /TC-26 x 5 @ 204300/);
   assert.equal(elements.copyFeedback.textContent,
     'لیست خرید شما ذخیره شد, به یکی از کانال های ارتباطی مراجعه کنید و لیست خرید را بفرستید');
 });

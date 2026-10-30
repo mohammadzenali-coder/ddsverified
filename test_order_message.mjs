@@ -29,18 +29,18 @@ function makeOrder(products, packCount = 1) {
 }
 
 test('catalog pricing prioritizes special models over grit and uses a single fixed price', () => {
-  assert.equal(d.PRICE_PER_BUR, 215650);
+  assert.equal(d.PRICE_PER_BUR, 204300);
   assert.equal(d.LIST_PRICE_PER_BUR, 227000);
   const price = model => d.unitPrice(d.PRODUCTS.find(p => p.model === model));
-  assert.equal(price('TC-26'), 215650);
-  assert.equal(price('TC-26EF'), 221350);
-  assert.equal(price('EX-11S'), 222300);
-  assert.equal(price('VP-20'), 234650);
-  assert.equal(price('BR-L46'), 227050);
-  assert.equal(price('FO-40EF'), 227050);
-  assert.equal(price('ENDO-Z TI'), 1500000);
+  assert.equal(price('TC-26'), 204300);
+  assert.equal(price('TC-26EF'), 209700);
+  assert.equal(price('EX-11S'), 210600);
+  assert.equal(price('VP-20'), 222300);
+  assert.equal(price('BR-L46'), 215100);
+  assert.equal(price('FO-40EF'), 215100);
+  assert.equal(price('ENDO-Z TI'), 1422000);
   for (const product of d.PRODUCTS) {
-    assert.equal(d.salePercent(product), product.model === 'PACK-400' ? 10 : 5, product.model);
+    assert.equal(d.salePercent(product), 10, product.model);
     assert.ok(d.listPrice(product) > d.unitPrice(product));
   }
   assert.equal([...d.GRIT_ORDER].join(','), 'K⚫,G🟢,B🔵,R🔴,Y🟡,W⚪');
@@ -49,10 +49,10 @@ test('catalog pricing prioritizes special models over grit and uses a single fix
 test('small order keeps its model price and paid shipping', () => {
   const o = makeOrder([d.PRODUCTS.find(p => p.model === 'TC-21EF')]);
   assert.equal(o.total, 5);
-  assert.equal(o.final, 1296750); // 5 × 221,350 + 190,000
-  assert.ok(o.text.includes('TC-21EF x 5 @ 221350'));
+  assert.equal(o.final, 1238500); // 5 × 221,350 + 190,000
+  assert.ok(o.text.includes('TC-21EF x 5 @ 209700'));
   assert.ok(o.text.includes('هزینه پست: 190000 تومان'));
-  assert.ok(o.text.includes('مبلغ نهایی قابل پرداخت: 1296750 تومان'));
+  assert.ok(o.text.includes('مبلغ نهایی قابل پرداخت: 1238500 تومان'));
   assert.ok(!o.text.includes('پلکانی'));
 });
 
@@ -63,7 +63,7 @@ test('bundle receives a ten percent discount and ships free', () => {
   assert.equal(o.final, 64872000);
   assert.ok(o.free);
   assert.ok(o.text.includes('PACK-400 x 1 بسته = 64872000 تومان (ارسال رایگان)'));
-  assert.equal(Math.round((1 - bundle.price / (400 * d.PRICE_PER_BUR)) * 100), 25);
+  assert.equal(Math.round((1 - bundle.price / (400 * d.PRICE_PER_BUR)) * 100), 21);
 });
 
 test('mixed orders keep per-model prices even when quantity grows', () => {
@@ -71,9 +71,9 @@ test('mixed orders keep per-model prices even when quantity grows', () => {
   const yellow = d.PRODUCTS.find(p => p.model === 'TC-21EF');
   const o = makeOrder([ordinary, yellow], 20);
   assert.equal(o.total, 200);
-  assert.equal(o.final, 20 * 5 * (215650 + 221350));
-  assert.match(o.text, /TC-26 x 100 @ 215650/);
-  assert.match(o.text, /TC-21EF x 100 @ 221350/);
+  assert.equal(o.final, 20 * 5 * (204300 + 209700));
+  assert.match(o.text, /TC-26 x 100 @ 204300/);
+  assert.match(o.text, /TC-21EF x 100 @ 209700/);
   assert.equal(new URL(`https://t.me/${d.TELEGRAM_USER}?text=${encodeURIComponent(o.text)}`).searchParams.get('text'), o.text);
 });
 
