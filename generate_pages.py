@@ -274,7 +274,7 @@ EVIDENCE = {
             "مدل‌های کوتاه (مانند SF-41 و SF-31C): تراش کنترل‌شده در حفرات کوچک و کم‌عمق",
         ],
         "evidence": [
-            ("مرور اصول علمی تراش روکش توصیه می‌کند وقتی ارتفاع یا همگرایی دیواره‌ها کافی نیست، از گروو محوری یا باکس — ترجیحاً در سطوح پروگزیمال — برای افزایش مقاومت استفاده شود و زوایای داخلی گرد شوند.", "goodacre2001"),
+            ("مرور اصول علمی تراش روکش توصیه می‌کند وقتی ارتفاع یا همگرایی دیواره‌ها کافی نیست، از گروو محوری یا باکس (ترجیحاً در سطوح پروگزیمال) برای افزایش مقاومت استفاده شود و زوایای داخلی گرد شوند.", "goodacre2001"),
             _E["lussi_adj"],
             _E["coolant"],
             _E["pulp_temp"],
@@ -936,7 +936,7 @@ def build_post_page(p) -> str:
 
 
 def build_blog_index(posts: list) -> str:
-    title = "وبلاگ DDSVerified — راهنمای خرید فرز دندانپزشکی"
+    title = "وبلاگ DDSVerified: راهنمای خرید فرز دندانپزشکی"
     desc = "مقالات تخصصی و یافته‌های Drs' Choice: راهنمای گریت و کد ISO فرز، شواهد سایش فرز الماسه و زیرکونیا، مصرف فرز و درخت تصمیم بلیچینگ؛ همراه با پرسش‌های متداول و منابع."
     if posts:
         cards = "".join(
@@ -1070,7 +1070,7 @@ def build_campaign_page(p: dict, data: dict) -> bool:
 </div>
 <h2>پرسشهای متداول</h2>
 <div class="faq">{faq_html}</div>
-<a class="cta" href="/index.html#{quote(model)}">🛒 خرید {title} — افزودن به سبد خرید</a>
+<a class="cta" href="/index.html#{quote(model)}">🛒 خرید {title}: افزودن به سبد خرید</a>
 {TRUST_HTML}"""
 
     crumbs = f'<a href="/">خانه</a> › {title}'
@@ -1175,7 +1175,7 @@ def _layout(title, description, canonical_path, crumbs_html, body_html, extra_he
 {extra_head}
 </head>
 <body>
-<header><div class="wrap"><a class="brand" href="/" aria-label="DDSVerified — صفحه اصلی"><img src="{WORDMARK}" alt="DDSVerified" width="185" height="60"></a><form class="site-search" action="/" method="get" role="search"><input type="search" name="q" aria-label="جستجوی فرزها" placeholder="جستجوی مدل یا نوع فرز" required><button type="submit">جستجو</button></form></div></header>
+<header><div class="wrap"><a class="brand" href="/" aria-label="DDSVerified: صفحه اصلی"><img src="{WORDMARK}" alt="DDSVerified" width="185" height="60"></a><form class="site-search" action="/" method="get" role="search"><input type="search" name="q" aria-label="جستجوی فرزها" placeholder="جستجوی مدل یا نوع فرز" required><button type="submit">جستجو</button></form></div></header>
 <div class="wrap">
 <nav class="crumbs">{crumbs_html}</nav>
 {body_html}
@@ -1210,7 +1210,7 @@ def _model_block(p, shape_name_short, data):
     </table>
   </div>
   <p class="price">{price_html(p, data)}</p>
-  <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model} — افزودن به سبد خرید</a>
+  <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model}: افزودن به سبد خرید</a>
 </section>"""
 
 
@@ -1373,7 +1373,7 @@ def build_product_page(p, data) -> str:
         desc = lead + use_plain + tail
     else:
         title = f"فرز {short} {model} | مشخصات و کیفیت | DDSVerified"
-        desc = (f"فرز دندانپزشکی {short} مدل {model} — {spec_bits[0] if spec_bits else sname}، "
+        desc = (f"فرز دندانپزشکی {short} مدل {model}: {spec_bits[0] if spec_bits else sname}، "
                 f"گریت و مشخصات فنی، کد ISO و USA؛ انتخاب دقیق مدل و ارسال به سراسر ایران.")
     # optional full-width technical drawing (details_img on the PRODUCTS row)
     blueprint_html = ""
@@ -1383,7 +1383,7 @@ def build_product_page(p, data) -> str:
             f'<figure class="bp-figure"><picture>'
             f'<source media="(max-width:600px)" srcset="{img_rel(d_img + "-700")}">'
             f'<img src="{img_rel(d_img)}" width="1280" height="898" loading="lazy" decoding="async" '
-            f'alt="نقشه فنی فرز {model} — شنک کارباید تنگستن، فلوت مارپیچ، نوک غیربرنده">'
+            f'alt="نقشه فنی فرز {model}: شنک کارباید تنگستن، فلوت مارپیچ، نوک غیربرنده">'
             f'</picture><figcaption>نقشه فنی فرز {model}: شنک کارباید تنگستن، فلوت مارپیچ دوهلیکس، نوک غیربرنده</figcaption></figure>')
     body = f"""
 <h1>فرز {short} مدل {model}</h1>
@@ -1409,7 +1409,7 @@ def build_product_page(p, data) -> str:
   </div>
   {blueprint_html}
   <p class="price">{price_html(p, data)}</p>
-  <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model} — افزودن به سبد خرید</a>
+  <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model}: افزودن به سبد خرید</a>
 </section>
 {TRUST_HTML}
 <h2>سایر مدل‌های {short}</h2>

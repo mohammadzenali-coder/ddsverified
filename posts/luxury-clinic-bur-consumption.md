@@ -80,4 +80,4 @@ T تعداد دندان تراش‌خورده در ماه، s سهم موارد 
 
 [1] von Fraunhofer JA, Smith TA, Marshall KR. The effect of multiple uses of disposable diamond burs on restoration leakage. *J Am Dent Assoc*. 2005;136(1):53-57. [PubMed PMID: 15693496](https://pubmed.ncbi.nlm.nih.gov/15693496/)
 [2] Pilcher ES, Tietge JD, Draughn RA. Comparison of cutting rates among single-patient-use and multiple-patient-use diamond burs. *J Prosthodont*. 2000;9(2):66-70. [PubMed PMID: 11070132](https://pubmed.ncbi.nlm.nih.gov/11070132/)
-[3] Kohn WG, Collins AS, Cleveland JL, Harte JA, Eklund KJ, Malvitz DM. Guidelines for infection control in dental health-care settings—2003. *MMWR Recomm Rep*. 2003;52(RR-17):1-61. [PubMed PMID: 14685139](https://pubmed.ncbi.nlm.nih.gov/14685139/)
+[3] Kohn WG, Collins AS, Cleveland JL, Harte JA, Eklund KJ, Malvitz DM. Guidelines for infection control in dental health-care settings, 2003. *MMWR Recomm Rep*. 2003;52(RR-17):1-61. [PubMed PMID: 14685139](https://pubmed.ncbi.nlm.nih.gov/14685139/)

@@ -87,5 +87,5 @@ tags: Drs' Choice
 
 ## منابع
 
-[1] International Organization for Standardization. ISO 6360-1:2004. Dentistry — Number coding system for rotary instruments — Part 1: General characteristics (Introduction, Clauses 1, 4 and 5). [iso.org/standard/37301.html](https://www.iso.org/standard/37301.html)
+[1] International Organization for Standardization. ISO 6360-1:2004. Dentistry: Number coding system for rotary instruments: Part 1: General characteristics (Introduction, Clauses 1, 4 and 5). [iso.org/standard/37301.html](https://www.iso.org/standard/37301.html)
 [2] Busch and Co. / Deutsche Dental Technologien. ISO Bur Code Decoder (manufacturer information on codes 806, 314, 504–544 and size in tenths of a millimetre). [deutschedt.com/pages/iso-bur-code-decoder](https://deutschedt.com/pages/iso-bur-code-decoder)

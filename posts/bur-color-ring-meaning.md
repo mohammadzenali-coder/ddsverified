@@ -68,7 +68,7 @@ tags: Drs' Choice
 
 ## منابع
 
-[1] International Organization for Standardization. ISO 7711-1:2021. Dentistry — Diamond rotary instruments — Part 1: General requirements. Section 5.2 and Table 1. [iso.org/standard/76056.html](https://www.iso.org/standard/76056.html)
+[1] International Organization for Standardization. ISO 7711-1:2021. Dentistry: Diamond rotary instruments: Part 1: General requirements. Section 5.2 and Table 1. [iso.org/standard/76056.html](https://www.iso.org/standard/76056.html)
 [2] Siegel SC, von Fraunhofer JA. Cutting efficiency of three diamond bur grit sizes. *J Am Dent Assoc*. 2000;131(12):1706-1710. [PubMed PMID: 11143734](https://pubmed.ncbi.nlm.nih.gov/11143734/)
 [3] Atsavathavornset C, Saikaew P, Harnirattisai C. The effect of different adhesive strategies and diamond burs on dentin bond strength of universal resin cements. *Clin Oral Investig*. 2025;29(1):41. [PubMed PMID: 39751669](https://pubmed.ncbi.nlm.nih.gov/39751669/)
 [4] Ayad MF. Effects of tooth preparation burs and luting cement types on the marginal fit of extracoronal restorations. *J Prosthodont*. 2009;18(2):145-151. [PubMed PMID: 19054303](https://pubmed.ncbi.nlm.nih.gov/19054303/)
