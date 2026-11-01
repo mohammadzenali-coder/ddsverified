@@ -22,7 +22,9 @@ test('featured product images are local and hero works without JavaScript', () =
   const images = [...hero.matchAll(/<img src="(images\/[^"]+)"/g)].map(m => m[1]);
   assert.equal(images.length, 3);
   for (const image of images) assert.ok(existsSync(new URL(image, import.meta.url)), `${image} exists`);
-  assert.match(hero, /fetchpriority="high"/);
+  // The main banner above the hero is the LCP image and carries the high priority hint.
+  assert.match(html, /class="campaign-banner main-banner"><img [^>]*fetchpriority="high"/);
+  assert.doesNotMatch(hero, /fetchpriority="high"/);
   assert.match(hero, /href="#productGrid"/);
 });
 

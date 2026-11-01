@@ -743,6 +743,8 @@ header{background:#fffefa;color:var(--primary-dark);border-bottom:1px solid var(
 @media(max-width:540px){.header-brand{width:100%}.header-brand h1{font-size:.82rem}.logo-badge{width:126px}.hero-section{border-radius:14px}.hero-copy{padding:26px 22px}.hero-copy h2{margin:15px 0 8px}.hero-actions{margin:18px 0 22px}.hero-highlights{gap:8px}.hero-highlights span{font-size:.67rem}.hero-visual{min-height:245px;padding:20px}.hero-product-lineup{gap:3px;margin:12px 0}.hero-product-lineup img{height:135px}.hero-product-lineup span{font-size:.72rem}.checkout-buttons{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){.hero-actions a,.hero-product-lineup a{transition:none}.hero-actions a:hover,.hero-product-lineup a:hover{transform:none}}
 </style>
+<!-- Main banner is the LCP element: preload the right size per viewport -->
+<link rel="preload" as="image" href="/images/main-banner-770.webp" imagesrcset="/images/main-banner-480.webp 480w, /images/main-banner-770.webp 770w, /images/main-banner-1540.webp 1540w" imagesizes="(max-width:768px) calc(100vw - 20px), 1200px" fetchpriority="high">
 <!-- GA4 — loaded deferred, never blocks rendering -->
 <script>window.gaId='G-DW63K5FG8M';addEventListener('load',function(){var s=document.createElement('script');s.src='https://www.googletagmanager.com/gtag/js?id='+window.gaId;s.async=true;document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function g(){dataLayer.push(arguments)}window.gtag=g;g('js',new Date());g('config',window.gaId,{send_page_view:true})});</script>
 </head>
@@ -772,6 +774,7 @@ header{background:#fffefa;color:var(--primary-dark);border-bottom:1px solid var(
 </header>
 
 <main>
+    <div class="campaign-banner main-banner"><img src="/images/main-banner-770.webp" srcset="/images/main-banner-480.webp 480w, /images/main-banner-770.webp 770w, /images/main-banner-1540.webp 1540w" sizes="(max-width:768px) calc(100vw - 20px), 1200px" alt="۱۸ سال کیفیت؛ مدل‌های متنوع و کاربردی فرزهای AZDENT — تست و خرید در DDSVerified.ir" width="1540" height="784" fetchpriority="high" decoding="async"></div>
     <section class="hero-section" aria-labelledby="heroTitle">
       <div class="hero-copy">
         <h2 id="heroTitle">کیفیت تایید شده<br><em>مدل های متنوع</em></h2>
@@ -782,7 +785,7 @@ header{background:#fffefa;color:var(--primary-dark);border-bottom:1px solid var(
       <div class="hero-visual" aria-label="نمونه‌هایی از مدل‌های فرز">
         <div class="hero-visual-label">THE COLLECTION</div>
         <div class="hero-product-lineup" id="heroProductLineup">
-          <a href="/product/tc-26ef/"><img src="images/tc-26ef.webp" alt="فرز نیدل TC-26EF" width="267" height="400" fetchpriority="high"><span>TC-26EF <small>NEEDLE</small></span></a>
+          <a href="/product/tc-26ef/"><img src="images/tc-26ef.webp" alt="فرز نیدل TC-26EF" width="267" height="400" decoding="async"><span>TC-26EF <small>NEEDLE</small></span></a>
           <a href="/product/fo-32ef/"><img src="images/fo-32ef.webp" alt="فرز فوتبالی FO-32EF" width="267" height="400"><span>FO-32EF <small>FOOTBALL</small></span></a>
           <a href="/product/br-40c/"><img src="images/br-40c.webp" alt="فرز روند BR-40C" width="267" height="400"><span>BR-40C <small>ROUND</small></span></a>
         </div>
