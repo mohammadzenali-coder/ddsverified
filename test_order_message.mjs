@@ -4,15 +4,17 @@ import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
 const html = readFileSync(new URL('./index.html', import.meta.url), 'utf8');
+// Prices + order message live in the shared cart (assets/cart.js); product data stays in index.html.
+const cartJs = readFileSync(new URL('./assets/cart.js', import.meta.url), 'utf8');
 const dataStart = html.indexOf('const PRODUCTS =');
-const dataEnd = html.indexOf('let cart =', dataStart);
-const priceStart = html.indexOf('function unitPrice(');
-const priceEnd = html.indexOf('function renderProducts()', priceStart);
-const messageStart = html.indexOf('function generateOrderMessage(');
-const messageEnd = html.indexOf("productGrid.addEventListener('click'", messageStart);
-assert.ok(dataStart >= 0 && dataEnd > dataStart && priceEnd > priceStart && messageEnd > messageStart);
+const dataEnd = html.indexOf('let filteredProducts =', dataStart);
+const constStart = cartJs.indexOf('const BURS_PER_PACK');
+const constEnd = cartJs.indexOf('let cart =', constStart);
+const logicStart = cartJs.indexOf('function toPersian(');
+const logicEnd = cartJs.indexOf('/* === END CART LOGIC', logicStart);
+assert.ok(dataStart >= 0 && dataEnd > dataStart && constEnd > constStart && logicEnd > logicStart);
 const ctx = vm.createContext({});
-vm.runInContext(html.slice(dataStart, dataEnd) + html.slice(priceStart, priceEnd) + html.slice(messageStart, messageEnd) + `
+vm.runInContext(html.slice(dataStart, dataEnd) + cartJs.slice(constStart, constEnd) + cartJs.slice(logicStart, logicEnd) + `
   globalThis.order = { PRODUCTS, BURS_PER_PACK, SHIPPING_COST, FREE_SHIPPING_THRESHOLD,
     PRICE_PER_BUR, LIST_PRICE_PER_BUR, TELEGRAM_USER, GRIT_ORDER, unitPrice, listPrice, salePercent, generateOrderMessage };
 `, ctx);
@@ -82,4 +84,16 @@ test('all executable inline scripts parse', () => {
     if (/type\s*=\s*["']application\/ld\+json["']/.test(match[1])) continue;
     new vm.Script(match[2]);
   }
+  new vm.Script(cartJs);
+});
+
+test('homepage loads the shared cart before its inline script and defines no duplicate globals', () => {
+  const cartTag = html.indexOf('<script src="/assets/cart.js?v=');
+  const inline = html.indexOf('const PRODUCTS =');
+  assert.ok(cartTag > 0 && cartTag < inline);
+  // A const declared in both scripts would throw "Identifier has already been declared" in the browser.
+  const declared = src => new Set([...src.matchAll(/^(?:const|let)\s+([A-Za-z_$][\w$]*)/gm)].map(m => m[1]));
+  const inlineScript = html.slice(inline, html.indexOf('</script>', inline));
+  const shared = [...declared(cartJs)].filter(name => declared(inlineScript).has(name));
+  assert.deepEqual(shared, []);
 });

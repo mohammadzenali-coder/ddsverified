@@ -8,7 +8,10 @@ test('editorial hero replaces retired rotating promotional banners', () => {
   assert.match(html, /<section class="hero-section" aria-labelledby="heroTitle">/);
   assert.match(html, /کیفیت تایید شده<br><em>مدل های متنوع<\/em>/);
   assert.match(html, /<div class="hero-product-lineup" id="heroProductLineup">/);
-  assert.match(html, /href="#categoryLinks"/);
+  // Hero buttons jump to the "shop by shape" and "shop by specialty" tile sections.
+  assert.match(html, /href="#shopBySpecialty"/);
+  assert.match(html, /id="shopBySpecialty"/);
+  assert.match(html, /id="shopByShape"/);
   assert.match(html, /id="categoryLinks"/);
   assert.match(html, /\.why-cards \{ grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
   assert.match(html, /مسئول علمی مجموعه : دکتر محمد رضا زینلی DMD DDS/);
@@ -25,7 +28,7 @@ test('featured product images are local and hero works without JavaScript', () =
   // The main banner above the hero is the LCP image and carries the high priority hint.
   assert.match(html, /class="campaign-banner main-banner"><img [^>]*fetchpriority="high"/);
   assert.doesNotMatch(hero, /fetchpriority="high"/);
-  assert.match(hero, /href="#productGrid"/);
+  assert.match(hero, /href="#shopByShape"/);
 });
 
 test('hero rotations use three distinct model shapes on a five-second interval', () => {

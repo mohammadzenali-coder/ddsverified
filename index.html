@@ -23,6 +23,9 @@
 
 <!-- Cloudflare Web Analytics: فعال شده با Automatic Setup (از طریق پروکسی CF) -->
 <!-- نیازی به beacon دستی نیست؛ خود Cloudflare آن را به صورت خودکار تزریق می‌کند. -->
+<!-- Shared card + cart styles (also used by category/collection/product pages). Loaded before the inline
+     <style> so homepage-specific overrides below still win. ?v= is refreshed by generate_pages.py. -->
+<link rel="stylesheet" href="/assets/shop.css?v=49b16a513e">
 <style>
   /* Responsive campaign banners */
   .campaign-banner { display:block; width:100%; height:auto; margin:12px 0 16px; border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); box-shadow:var(--shadow-lg); line-height:0; }
@@ -426,111 +429,6 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
 .slider-nav.prev { right: 8px; }
 .slider-nav.next { left: 8px; }
 
-.results-info{font-size:.82rem;color:var(--text-light);margin-bottom:12px;padding:0 4px}
-
-/* Product Grid */
-.product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media(min-width:640px){.product-grid{grid-template-columns:repeat(3,1fr);gap:14px}}
-@media(min-width:960px){.product-grid{grid-template-columns:repeat(4,1fr);gap:16px}}
-
-/* Product Card */
-.product-card{position:relative;background:var(--surface);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);border:1px solid var(--border);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
-.product-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-.product-card.out-of-stock{opacity:.6}
-.product-img-wrap{background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-radius:8px;aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;margin-bottom:10px;overflow:hidden}
-.product-img-wrap img{max-width:75%;max-height:85%;object-fit:contain;transition:transform .3s}
-.product-card:hover .product-img-wrap img{transform:scale(1.08)}
-.product-shape{font-size:.92rem;font-weight:700;color:var(--primary-dark);margin-bottom:2px}
-.product-model{font-size:.74rem;color:var(--text-light);margin-bottom:8px;letter-spacing:.3px;font-weight:600}
-.product-model a{color:inherit;text-decoration:none}
-.product-model a:hover{color:var(--primary,#1565c0)}
-.product-img-link{display:flex;align-items:center;justify-content:center;align-self:stretch;width:100%}
-.product-specs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
-.spec-tag{font-size:.68rem;padding:3px 7px;background:var(--bg);border-radius:6px;color:var(--text-light);border:1px solid var(--border)}
-.spec-tag.grit{font-weight:700}
-.product-codes{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;font-family:'Vazirmatn',Tahoma,sans-serif}
-.code-tag{font-size:.62rem;padding:3px 6px;border-radius:6px;border:1px solid var(--border);background:#fafbff;color:var(--text-light);letter-spacing:.2px;font-weight:600;display:inline-flex;align-items:center;gap:3px;font-feature-settings:"tnum"}
-.code-tag .code-val{font-weight:700;color:var(--primary-dark);font-family:'Vazirmatn',Tahoma,monospace;letter-spacing:.5px}
-.iso-tag{background:#f0f7ff;border-color:#cfe2ff}
-.usa-tag{background:#fff8f0;border-color:#ffe0b2}
-/* Bulk order notice box in cart (appears when totalBurs >= 2000) */
-.cart-bulk-notice{margin:10px 4px 4px;padding:10px 12px;background:linear-gradient(135deg,#fff8e1 0%,#fff3c4 100%);border:1.5px solid #ffb300;border-radius:10px;display:flex;flex-direction:column;gap:6px;animation:pulseNotice 2s ease-in-out infinite}
-.cart-bulk-notice .notice-title{font-size:.85rem;font-weight:700;color:#bf6f00;display:flex;align-items:center;gap:6px}
-.cart-bulk-notice .notice-body{font-size:.74rem;color:#5d4500;line-height:1.6}
-.cart-bulk-notice .notice-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
-.cart-bulk-notice .notice-btn{flex:1;min-width:90px;padding:6px 8px;border:none;border-radius:6px;font-size:.72rem;font-weight:700;cursor:pointer;text-decoration:none;text-align:center;font-family:inherit;color:#fff;transition:transform .15s,box-shadow .15s}
-.cart-bulk-notice .notice-btn:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.15)}
-.cart-bulk-notice .notice-btn.telegram{background:#229ed9}
-.cart-bulk-notice .notice-btn.whatsapp{background:#25d366}
-.cart-bulk-notice .notice-btn.call{background:var(--primary)}
-@keyframes pulseNotice{0%,100%{box-shadow:0 0 0 0 rgba(255,179,0,.4)}50%{box-shadow:0 0 0 6px rgba(255,179,0,0)}}
-.product-price{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:4px}
-.product-price-unit{font-size:.68rem;color:var(--text-light);font-weight:400}
-.product-pack-price{font-size:.76rem;font-weight:700;color:var(--success);margin-top:2px}
-.product-pack-price span{font-weight:400;font-size:.66rem;color:var(--text-light)}
-/* Featured cards (پیشنهاد ویژه) — first row highlight */
-.product-card.is-featured{border:2px solid #f59e0b;background:linear-gradient(180deg,#fffbeb 0%,var(--surface) 42%)}
-.product-card.is-featured:hover{box-shadow:0 10px 26px rgba(245,158,11,.28)}
-.featured-badge{position:absolute;top:10px;right:10px;z-index:5;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:.64rem;font-weight:800;padding:4px 9px;border-radius:50px;box-shadow:0 3px 10px rgba(217,119,6,.45);letter-spacing:.2px}
-.sale-badge{position:absolute;top:10px;left:10px;z-index:5;background:#cc3333;color:#fff;font-size:.68rem;font-weight:700;padding:4px 9px;border-radius:50px}.product-list-price{color:var(--text-light);font-size:.72rem;margin:3px 0}.product-list-price del{opacity:.8}
-.pack-info-box {
-  font-size: 0.65rem;
-  padding: 3px 8px;
-  background: #e3f2fd;
-  color: var(--primary-dark);
-  border-radius: 50px;
-  display: inline-block;
-  margin-bottom: 8px;
-  font-weight: 700;
-}
-.inventory-badge{font-size:.68rem;padding:3px 8px;border-radius:50px;display:inline-block;margin-bottom:10px;width:fit-content;font-weight:600}
-.inventory-badge.in-stock{background:#e8f5e9;color:var(--success)}
-.inventory-badge.out-stock{background:#ffebee;color:var(--danger)}
-.add-btn{width:100%;padding:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:700;font-family:inherit;cursor:pointer;transition:background .2s;margin-top:auto}
-.add-btn:hover:not(:disabled){background:var(--primary-dark)}
-.product-brand{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;font-size:.7rem;color:var(--text-light);font-weight:600}
-.product-brand img{display:block;width:70px;height:auto}
-.add-btn:active:not(:disabled){transform:scale(.97)}
-.add-btn:disabled{background:#b0bec5;cursor:not-allowed}
-
-/* Floating Cart */
-.cart-fab{position:fixed;bottom:20px;left:20px;width:58px;height:58px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(21,101,192,.4);z-index:200;display:flex;align-items:center;justify-content:center;transition:transform .2s}
-.cart-fab:hover{transform:scale(1.08)}
-.cart-count-badge{position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;border-radius:50px;font-size:.7rem;min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;padding:0 6px;border:2px solid #fff;font-weight:700;transition:transform .2s}
-.cart-count-badge.pulse{animation:pulse .4s}
-@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
-
-/* Cart Drawer */
-.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s;z-index:300}
-.cart-overlay.open{opacity:1;pointer-events:all}
-.cart-drawer{position:fixed;top:0;left:0;bottom:0;width:100%;height:100vh;height:100dvh;max-width:420px;background:var(--bg);z-index:400;transform:translateX(-100%);transition:transform .3s ease;display:flex;flex-direction:column;box-shadow:4px 0 30px rgba(0,0,0,.2)}
-.cart-drawer.open{transform:translateX(0)}
-.cart-header{background:var(--primary-dark);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex:none;min-height:56px}
-.cart-header h2{font-size:1rem;font-weight:700}
-.cart-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.cart-close:hover{background:rgba(255,255,255,.25)}
-.cart-body{flex:1 1 auto;min-height:70%;overflow-y:auto;overscroll-behavior:contain;padding:12px 14px}
-.cart-drawer.checkout-open .cart-body{min-height:0}
-
-/* Cart Empty */
-.cart-empty{text-align:center;padding:50px 20px;color:var(--text-light)}
-.cart-empty svg{margin-bottom:12px;opacity:.4}
-
-/* Cart Item */
-.cart-item{background:var(--surface);border-radius:var(--radius);padding:12px;margin-bottom:10px;border:1px solid var(--border)}
-.cart-item-line1{font-size:.82rem;font-weight:700;margin-bottom:3px;color:var(--text);line-height:1.5}
-.cart-item-line1 .cart-item-model{display:inline-block;font-size:.68rem;font-weight:700;font-family:'Vazirmatn',Tahoma,monospace;letter-spacing:.3px;background:var(--primary-light);color:var(--primary-dark);padding:1px 7px;border-radius:6px;border:1px solid #bbdefb;margin-right:2px;vertical-align:middle;font-feature-settings:"tnum"}
-.cart-item-line2{font-size:.76rem;color:var(--text-light);margin-bottom:10px}
-.cart-item-controls{display:flex;align-items:center;justify-content:space-between}
-.stepper{display:flex;align-items:center;gap:6px}
-.step-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:1.1rem;color:var(--primary-dark);font-weight:700;display:flex;align-items:center;justify-content:center;transition:all .15s;line-height:1}
-.step-btn:hover{background:var(--primary-light);border-color:var(--primary)}
-.step-btn:active{transform:scale(.92)}
-.step-value{min-width:28px;text-align:center;font-weight:700;font-size:.88rem}
-.step-input{width:48px;height:30px;border:1.5px solid var(--border);border-radius:8px;text-align:center;font-weight:700;font-size:.88rem;font-family:inherit;color:var(--primary-dark);background:var(--surface)}
-.step-input:focus{outline:none;border-color:var(--primary);background:#fff}
-.cart-item-remove{background:none;border:none;color:var(--danger);cursor:pointer;font-size:.72rem;padding:4px 8px;font-family:inherit}
-.cart-item-remove:hover{text-decoration:underline}
 
 /* === Free Shipping Gamification (high-dopamine) === */
 .free-ship-gamify{
@@ -590,33 +488,6 @@ main{max-width:1280px;margin:0 auto;padding:12px;width:100%;overflow-x:hidden}
   50%{transform:translateY(6px) rotate(8deg)}
 }
 /* Strikethrough on shipping row when free */
-.total-row.shipping.free{color:var(--success);font-weight:700}
-.total-row.shipping .ship-original{text-decoration:line-through;opacity:.55;font-size:.74rem;margin-left:6px;font-weight:500}
-.total-row.shipping .ship-free{display:inline-flex;align-items:center;gap:4px;font-weight:800;color:var(--success)}
-/* Cart Totals */
-.cart-totals{background:var(--surface);border-top:1px solid var(--border);padding:0;flex:0 0 auto;min-height:0;max-height:calc(30% - 56px);overflow-y:auto;overscroll-behavior:contain;transition:max-height .25s ease}
-.cart-drawer.checkout-open .cart-totals{flex:0 0 70%;max-height:70%}
-.cart-checkout-summary{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:space-between;min-height:66px;padding:10px 16px;background:var(--surface);color:var(--primary-dark);cursor:pointer;font-size:.82rem;list-style:none;border-bottom:1px solid var(--border)}
-.cart-checkout-summary::-webkit-details-marker{display:none}.cart-checkout-summary strong{font-size:.96rem}.cart-expand-label{width:100%;font-size:.84rem;color:#c62828;font-weight:800}.cart-expand-label::after{content:'⌄';margin-right:5px}.cart-checkout[open] .cart-expand-label::after{content:'⌃'}
-.cart-checkout-content{padding:12px 16px 16px}.copy-order-btn{display:block;width:100%;border:1px solid var(--primary);border-radius:9px;padding:10px 8px;margin-top:12px;background:var(--primary-light);color:var(--primary-dark);font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer}.copy-order-btn:hover{background:#d8e4f4}.copy-feedback{font-size:.72rem;line-height:1.7;color:var(--success);margin-top:6px}.copy-feedback:empty{display:none}
-.manual-order{font-size:.72rem;color:var(--text-light);margin-top:9px}.manual-order summary{cursor:pointer;color:var(--primary)}
-.total-row{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px;color:var(--text-light)}
-.total-row.discount{color:var(--success);font-weight:600}
-.installment-chip{margin-top:10px;padding:8px 10px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:1.5px dashed #4caf50;border-radius:10px;font-size:.74rem;font-weight:700;color:#2e7d32;text-align:center}
-.total-row.shipping{color:var(--text);font-weight:600}
-.total-row.total-burs{background:var(--primary-light);color:var(--primary-dark);font-weight:700;padding:8px 10px;border-radius:8px;margin-bottom:8px;font-size:.85rem;border:1px solid #bbdefb}
-.total-row.total-burs span:last-child{font-size:1rem}
-.total-row.final{font-size:1.05rem;font-weight:700;color:var(--text);border-top:1px dashed var(--border);padding-top:10px;margin-top:8px}
-.total-row.final span:last-child{color:var(--primary-dark)}
-.checkout-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.checkout-btn{padding:12px 8px;border:none;border-radius:8px;color:#fff;font-weight:700;font-size:.78rem;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;transition:opacity .2s}
-.checkout-btn.telegram{background:#0088cc}
-.checkout-btn.whatsapp{background:#25d366}
-.checkout-btn:hover{opacity:.88}
-.checkout-btn:disabled{background:#b0bec5;cursor:not-allowed;opacity:1}
-
-/* No Results */
-.no-results{text-align:center;padding:50px 20px;color:var(--text-light);grid-column:1/-1}
 
 /* Hero Trust Section (Column 3) */
 .hero-trust-col{justify-content:center;align-items:center}
@@ -633,19 +504,6 @@ footer a{color:var(--primary);text-decoration:none}
 @media(max-width:480px){
   h1{font-size:.92rem}
   .header-subtitle{font-size:.68rem}
-  .product-card{padding:8px}
-  .product-shape{font-size:.8rem}
-  .product-model{font-size:.7rem}
-  .product-specs{gap:3px}
-  .spec-tag{font-size:.62rem;padding:2px 5px}
-  .product-codes{gap:3px}
-  .code-tag{font-size:.55rem;padding:2px 4px}
-  .product-price{font-size:.82rem}
-  .product-price-unit{font-size:.62rem}
-  .pack-info-box{font-size:.6rem;padding:2px 6px}
-  .inventory-badge{font-size:.62rem;padding:2px 6px}
-  .add-btn{padding:8px;font-size:.74rem}
-  .cart-fab{bottom:14px;left:14px;width:48px;height:48px}
   .intro h2{font-size:.88rem}
   .intro p{font-size:.74rem}
   .gamify-discount{font-size:1.1rem}
@@ -658,46 +516,16 @@ footer a{color:var(--primary);text-decoration:none}
 
 /* Small phones (iPhone SE, etc) */
 @media(max-width:360px){
-  .product-grid{gap:8px}
-  .product-card{padding:6px}
-  .product-shape{font-size:.75rem}
-  .product-specs{gap:2px}
-  .spec-tag{font-size:.58rem;padding:2px 4px}
-  .code-tag{font-size:.52rem}
   h1{font-size:.85rem}
   .hero-text h2{font-size:0.82rem}
   .hero-text p{font-size:0.68rem}
 }
 
-/* Cart Drawer Mobile */
-@media(max-width:480px){
-  .cart-drawer{width:100%;max-width:100%}
-  .cart-header{padding:12px 14px}
-  .cart-header h2{font-size:.92rem}
-  .cart-body{padding:10px 12px}
-  .cart-totals{padding:0}
-  .cart-checkout-content{padding:10px 12px}
-  .cart-checkout-summary{padding:8px 12px}
-  .total-row{font-size:.76rem}
-  .total-row.total-burs{font-size:.78rem;padding:6px 8px}
-  .total-row.final{font-size:.95rem}
-  .checkout-btn{padding:10px 6px;font-size:.72rem}
-  .cart-item{padding:10px}
-  .cart-item-line1{font-size:.76rem}
-  .cart-item-line1 .cart-item-model{font-size:.62rem;padding:1px 5px}
-  .cart-item-line2{font-size:.7rem}
-  .step-btn{width:28px;height:28px;font-size:1rem}
-  .cart-bulk-notice{padding:8px 10px;margin:6px 2px}
-  .cart-bulk-notice .notice-title{font-size:.78rem}
-  .cart-bulk-notice .notice-body{font-size:.68rem}
-  .cart-bulk-notice .notice-btn{padding:5px 6px;font-size:.66rem;min-width:70px}
-}
 
 /* Bulk Modal Mobile */
 @media(max-width:480px){
   .bulk-modal{width:94%;padding:24px 16px}
   .bulk-modal h2{font-size:1rem}
-  .checkout-btn{font-size:.74rem;padding:10px}
 }
 
 /* BLOG:SLIDER-CSS */
@@ -736,12 +564,32 @@ header{background:#fffefa;color:var(--primary-dark);border-bottom:1px solid var(
 .hero-product-lineup{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:12px;position:relative;z-index:1;margin:24px 0}
 .hero-product-lineup a{min-width:0;color:inherit;text-align:center;text-decoration:none;transition:transform .2s ease,opacity .25s ease}.hero-product-lineup a:hover{transform:translateY(-6px)}.hero-product-lineup.is-changing a{opacity:.35}.hero-product-lineup img{width:100%;height:240px;object-fit:contain;mix-blend-mode:multiply;filter:drop-shadow(0 15px 14px rgba(20,30,50,.2))}.hero-product-lineup span{display:block;font:700 .9rem Georgia,serif;direction:ltr;border-top:1px solid #9ba9b0;padding-top:8px}.hero-product-lineup small{display:block;letter-spacing:.18em;font-size:.56rem;color:#6a7684;margin-top:3px}
 .hero-support{display:grid;grid-template-columns:minmax(260px,1fr) 1fr;align-items:center;gap:18px;margin-bottom:18px}.tg-join{min-height:72px;background:var(--primary-dark);box-shadow:none}.tg-join:hover{box-shadow:0 7px 22px rgba(7,27,65,.2)}.hero-support .blogs-strip{margin:0}.hero-cert-row{grid-column:1/-1;border-top:1px solid var(--border);padding:10px 0;display:flex;gap:16px;align-items:center}.hero-cert-row img{height:28px}.hero-cert-text{flex:initial;font-size:.77rem;color:var(--text-light)}
-.why-banner-title{background:linear-gradient(110deg,#071b41,#193c65)}.product-card.is-featured{border-color:#c5a66d;background:linear-gradient(180deg,#faf6ea,var(--surface) 42%)}.featured-badge{background:#a98751;box-shadow:none}
+.why-banner-title{background:linear-gradient(110deg,#071b41,#193c65)}
 .contact-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px 0}.contact-links a{display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--primary);font-size:.77rem}.contact-links svg{width:21px;height:21px;flex:none}
-.checkout-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}.checkout-btn.bale{background:#09a57d}.checkout-btn.rubika{background:#854cd1}.cart-support{font-size:.78rem;line-height:1.8;padding:10px 12px;margin-top:10px;background:#eaf0f8;border-radius:9px;color:var(--primary-dark)}.cart-support a{font-weight:700;color:var(--primary-dark);text-decoration:underline}.checkout-note{font-size:.7rem;color:var(--text-light);margin-top:10px;line-height:1.7;display:block}.checkout-message{width:100%;height:65px;resize:vertical;border:1px solid var(--border);background:#fff;border-radius:8px;padding:6px;font:inherit;font-size:.72rem}
 @media(max-width:900px){.hero-section{grid-template-columns:1fr}.hero-visual{min-height:310px}.hero-product-lineup img{height:185px}.hero-support{grid-template-columns:1fr}.hero-cert-row{grid-column:auto}}
 @media(max-width:540px){.header-brand{width:100%}.header-brand h1{font-size:.82rem}.logo-badge{width:126px}.hero-section{border-radius:14px}.hero-copy{padding:26px 22px}.hero-copy h2{margin:15px 0 8px}.hero-actions{margin:18px 0 22px}.hero-highlights{gap:8px}.hero-highlights span{font-size:.67rem}.hero-visual{min-height:245px;padding:20px}.hero-product-lineup{gap:3px;margin:12px 0}.hero-product-lineup img{height:135px}.hero-product-lineup span{font-size:.72rem}.checkout-buttons{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){.hero-actions a,.hero-product-lineup a{transition:none}.hero-actions a:hover,.hero-product-lineup a:hover{transform:none}}
+/* Shop-by tiles: shape families + clinical specialties */
+.shop-tiles{margin:18px 0;scroll-margin-top:140px}
+.tiles-head{display:flex;align-items:baseline;justify-content:space-between;gap:6px 14px;flex-wrap:wrap;margin-bottom:10px;padding:0 2px}
+.tiles-head h2{font-size:1.05rem;color:var(--primary-dark);margin:0}
+.tiles-head p{font-size:.76rem;color:var(--text-light)}
+.tile-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(min-width:900px){.tile-grid{grid-template-columns:repeat(9,minmax(0,1fr))}}
+.shop-tile{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:8px 6px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:var(--text);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.shop-tile:hover,.shop-tile:focus-visible{transform:translateY(-3px);border-color:#c5a66d;box-shadow:var(--shadow-lg)}
+.shop-tile img{width:100%;max-width:120px;aspect-ratio:1;height:auto;border-radius:12px}
+.tile-name{font-size:.9rem;font-weight:700;color:var(--primary-dark);line-height:1.4}
+.tile-meta{font-size:.66rem;color:var(--text-light);line-height:1.5;min-height:1em}
+.tile-grid-specialty{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(min-width:900px){.tile-grid-specialty{grid-template-columns:repeat(3,minmax(0,1fr))}.specialty-tile{flex-direction:row;text-align:right;gap:14px;padding:12px}.specialty-tile img{max-width:96px}}
+.tile-text{display:flex;flex-direction:column;gap:2px}
+.specialty-tile .tile-name{font-size:.95rem}
+.results-title{font-size:1.05rem;color:var(--primary-dark);margin:0 2px 6px}
+.product-results{margin:18px 0}
+body.is-searching .shop-tiles{display:none}
+@media(max-width:480px){.tile-grid{gap:7px}.shop-tile{padding:6px 4px 8px}.tile-name{font-size:.8rem}.tile-meta{font-size:.6rem}}
+@media(prefers-reduced-motion:reduce){.shop-tile{transition:none}.shop-tile:hover{transform:none}}
 </style>
 <!-- Main banner is the LCP element: preload the right size per viewport -->
 <link rel="preload" as="image" href="/images/main-banner-770.webp" imagesrcset="/images/main-banner-480.webp 480w, /images/main-banner-770.webp 770w, /images/main-banner-1540.webp 1540w" imagesizes="(max-width:768px) calc(100vw - 20px), 1200px" fetchpriority="high">
@@ -779,7 +627,7 @@ header{background:#fffefa;color:var(--primary-dark);border-bottom:1px solid var(
       <div class="hero-copy">
         <h2 id="heroTitle">کیفیت تایید شده<br><em>مدل های متنوع</em></h2>
         <p>مجموعه‌ای از فرزهای دندانپزشکی باکیفیت در شکل‌ها، اندازه‌ها و گریت‌های متنوع؛ برای انتخاب مدلی که دقیقاً با نیاز درمان شما هماهنگ است.</p>
-        <div class="hero-actions"><a href="#productGrid" class="hero-cta">کاوش مدل‌ها <span aria-hidden="true">↙</span></a><a href="#categoryLinks" class="hero-secondary">مشاهده دسته‌بندی‌ها</a></div>
+        <div class="hero-actions"><a href="#shopByShape" class="hero-cta">کاوش مدل‌ها <span aria-hidden="true">↙</span></a><a href="#shopBySpecialty" class="hero-secondary">خرید بر اساس تخصص</a></div>
         <div class="hero-highlights"><span>تنوع مدل و گریت</span><span>انتخاب مدل‌ها با تأیید دندانپزشک</span><span>گواهی‌های بین‌المللی</span></div>
       </div>
       <div class="hero-visual" aria-label="نمونه‌هایی از مدل‌های فرز">
@@ -822,6 +670,46 @@ header{background:#fffefa;color:var(--primary-dark);border-bottom:1px solid var(
         <span class="hero-cert-text">تمامی محصولات دارای گواهی TUV Rheinland، ISO و CE هستند.</span>
       </div>
     </div>
+    <!-- Shop by bur shape. data-shapes must match FAMILIES in generate_pages.py (test_generate checks it).
+         Model count + starting price are filled in from PRODUCTS by renderTileMeta(). -->
+    <section class="shop-tiles" id="shopByShape" aria-labelledby="shapeTilesTitle">
+      <div class="tiles-head">
+        <h2 id="shapeTilesTitle">خرید بر اساس شکل فرز</h2>
+        <p>شکل فرز را انتخاب کنید تا همه مدل‌های آن را با مشخصات کامل ببینید.</p>
+      </div>
+      <div class="tile-grid">
+        <a class="shop-tile" href="/category/needle-burs/" data-shapes="needle"><img src="/images/icons/needle.webp" srcset="/images/icons/needle.webp 1x, /images/icons/needle@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-name">نیدل</span><span class="tile-meta"></span></a>
+        <a class="shop-tile" href="/family/fissure/" data-shapes="flat_cylinder,round_end_cylinder,pointed_cylinder"><img src="/images/icons/fissure.webp" srcset="/images/icons/fissure.webp 1x, /images/icons/fissure@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-name">فیشور</span><span class="tile-meta"></span></a>
+        <a class="shop-tile" href="/family/taper/" data-shapes="taper_round_edge,round_taper,taper_flat"><img src="/images/icons/taper.webp" srcset="/images/icons/taper.webp 1x, /images/icons/taper@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-name">تیپر</span><span class="tile-meta"></span></a>
+        <a class="shop-tile" href="/family/flame/" data-shapes="flame,flame_long"><img src="/images/icons/flame.webp" srcset="/images/icons/flame.webp 1x, /images/icons/flame@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-name">فلیم</span><span class="tile-meta"></span></a>
+        <a class="shop-tile" href="/family/round/" data-shapes="round,round_long"><img src="/images/icons/round.webp" srcset="/images/icons/round.webp 1x, /images/icons/round@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-name">روند</span><span class="tile-meta"></span></a>
+        <a class="shop-tile" href="/category/football-burs/" data-shapes="football"><img src="/images/icons/football.webp" srcset="/images/icons/football.webp 1x, /images/icons/football@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-name">فوتبالی</span><span class="tile-meta"></span></a>
+        <a class="shop-tile" href="/category/torpedo-burs/" data-shapes="torpedo"><img src="/images/icons/torpedo.webp" srcset="/images/icons/torpedo.webp 1x, /images/icons/torpedo@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-name">تورپیدو</span><span class="tile-meta"></span></a>
+        <a class="shop-tile" href="/family/special/" data-shapes="inverted_cone,barrel,depth_veneer"><img src="/images/icons/special.webp" srcset="/images/icons/special.webp 1x, /images/icons/special@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-name">اشکال خاص</span><span class="tile-meta"></span></a>
+        <a class="shop-tile" href="/category/endoz-carbide-burs/" data-shapes="carbide"><img src="/images/icons/endoz.webp" srcset="/images/icons/endoz.webp 1x, /images/icons/endoz@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-name">اندو زد کارباید</span><span class="tile-meta"></span></a>
+      </div>
+    </section>
+
+    <!-- Shop by clinical specialty (collection pages built by generate_pages.py). -->
+    <section class="shop-tiles" id="shopBySpecialty" aria-labelledby="specialtyTilesTitle">
+      <div class="tiles-head">
+        <h2 id="specialtyTilesTitle">خرید بر اساس تخصص</h2>
+        <p>فرزهای منتخب برای هر حوزه درمانی، یک‌جا.</p>
+      </div>
+      <div class="tile-grid tile-grid-specialty">
+        <a class="shop-tile specialty-tile" href="/collection/fixed-prostho/"><img src="/images/icons/fixed-prostho.webp" srcset="/images/icons/fixed-prostho.webp 1x, /images/icons/fixed-prostho@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-text"><span class="tile-name">پروتز ثابت</span><span class="tile-meta">تراش روکش، بریج و ونیر</span></span></a>
+        <a class="shop-tile specialty-tile" href="/collection/restorative-specialists/"><img src="/images/icons/restorative-cosmetic.webp" srcset="/images/icons/restorative-cosmetic.webp 1x, /images/icons/restorative-cosmetic@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-text"><span class="tile-name">ترمیمی و زیبایی</span><span class="tile-meta">ترمیم، کانتورینگ، لمینت و ونیر</span></span></a>
+        <a class="shop-tile specialty-tile" href="/collection/endodontics/"><img src="/images/icons/endodontics.webp" srcset="/images/icons/endodontics.webp 1x, /images/icons/endodontics@2x.webp 2x" alt="" width="256" height="256" loading="lazy"><span class="tile-text"><span class="tile-name">اندودانتیکس</span><span class="tile-meta">حفره دسترسی و درمان ریشه</span></span></a>
+      </div>
+    </section>
+
+    <!-- Featured products by default; search results while the search box has a query. -->
+    <section class="product-results" id="productResults" aria-labelledby="resultsTitle">
+      <h2 class="results-title" id="resultsTitle">پیشنهاد ویژه</h2>
+      <div class="results-info" id="resultsInfo"></div>
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+
     <!-- Intro / Explanation (full width) -->
        <section class="intro">
       <h2>خرید انواع فرز دندانپزشکی و فرز توربین الماسی</h2>
@@ -941,11 +829,6 @@ header{background:#fffefa;color:var(--primary-dark);border-bottom:1px solid var(
     </div>
   </section>
 
-  <section>
-    <h2 class="visually-hidden">فهرست محصولات</h2>
-    <div class="results-info" id="resultsInfo"></div>
-    <div class="product-grid" id="productGrid"></div>
-  </section>
 </main>
 
 <footer>
@@ -969,28 +852,8 @@ header{background:#fffefa;color:var(--primary-dark);border-bottom:1px solid var(
   <p>© 1405 مرکز تخصصی فرزهای دندانپزشکی | DDSVerified. تمامی حقوق محفوظ است.</p>
 </footer>
 
-<button class="cart-fab" id="cartFab" aria-label="باز کردن سبد خرید">
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-  </svg>
-  <span class="cart-count-badge" id="cartCountBadge" style="display:none;" aria-live="polite">۰</span>
-</button>
-<div class="cart-overlay" id="cartOverlay"></div>
-
-<aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="سبد خرید">
-  <div class="cart-header">
-    <h2>سبد خرید</h2>
-    <button class="cart-close" id="cartClose" aria-label="بستن سبد خرید">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
-    </button>
-  </div>
-  <div class="cart-body" id="cartBody"></div>
-  <div class="cart-totals" id="cartTotals"></div>
-</aside>
-
+<!-- Shared cart (drawer markup, saving, checkout). Must load before the inline script below. -->
+<script src="/assets/cart.js?v=2cf0b4a590"></script>
 <script>
 // ==========================================
 //  DATA — 50 Dental Bur Products
@@ -1075,59 +938,36 @@ const SHAPE_MAP = {
   carbide:"فرز EndoZ کارباید تیتانیومی",
   bundle:"بسته ۴۰۰ عددی فرزهای پرمصرف"
 };
-const GRIT_DISPLAY = {"K⚫":"مشکی ⚫","G🟢":"سبز 🟢","B🔵":"آبی 🔵","R🔴":"قرمز 🔴","Y🟡":"زرد 🟡","W⚪":"سفید ⚪","-":"-"};
 const GRIT_TEXT = {"K⚫":"مشکی","G🟢":"سبز","B🔵":"آبی","R🔴":"قرمز","Y🟡":"زرد","W⚪":"سفید","-":"-"};
 const GRIT_ORDER = ["K⚫", "G🟢", "B🔵", "R🔴", "Y🟡", "W⚪"];
 const LIST_PRICE_PER_BUR = 227000; // قیمت پایه هر فرز معمولی، پیش از تخفیف
 const PRICE_PER_BUR = 204300; // ۱۰٪ تخفیف برای فرزهای معمولی
 // per-product page slug — must mirror generate_pages.anchor_id (space dropped, alnum+hyphen kept)
 const productSlug = m => m.toLowerCase().replace(/ /g, "").replace(/[^a-z0-9-]/g, "");
-const BURS_PER_PACK = 5;
-const SHIPPING_COST = 190000;
-const SHIPPING_LABEL = "هزینه پست";
-const FREE_SHIPPING_THRESHOLD = 100;
-const TELEGRAM_USER = "ddsverified_admin";
+// Cart constants, price helpers, GRIT_DISPLAY and the cart itself live in /assets/cart.js.
 
-let cart = {};
 let filteredProducts = [...PRODUCTS];
 
 const productGrid = document.getElementById('productGrid');
 const searchInput = document.getElementById('searchInput');
-const cartFab = document.getElementById('cartFab');
-const cartCountBadge = document.getElementById('cartCountBadge');
-const cartDrawer = document.getElementById('cartDrawer');
-const cartOverlay = document.getElementById('cartOverlay');
-const cartClose = document.getElementById('cartClose');
-const cartBody = document.getElementById('cartBody');
-const cartTotals = document.getElementById('cartTotals');
 const resultsInfo = document.getElementById('resultsInfo');
-
-function toPersian(num) { return Number(num).toLocaleString('fa-IR'); }
-function toPersianDigits(str) { return String(str).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]); }
 
 const PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150'%3E%3Crect width='100' height='150' fill='%23e3f2fd' rx='8'/%3E%3Cpath d='M50 35 L50 115 M35 125 Q50 145 65 125' stroke='%231565c0' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Crect x='42' y='25' width='16' height='12' rx='3' fill='%231565c0'/%3E%3C/svg%3E";
 
-function unitPrice(product) {
-  return product.price !== undefined ? product.price : PRICE_PER_BUR;
-}
-function listPrice(product) {
-  return product.old_price !== undefined ? product.old_price : LIST_PRICE_PER_BUR;
-}
-function salePercent(product) {
-  return Math.round(100 * (1 - unitPrice(product) / listPrice(product)));
-}
-// PACK-400 price is for the entire 400-bur bundle.
-function bundlePerBur(product) {
-  return product.multiplier > 0 ? product.price / product.multiplier : product.price;
-}
-
+// Without a search query the homepage shows only the featured cards; the full catalog is reached through
+// the shape / specialty tiles. While searching, the tiles hide and every match is listed here.
+const resultsTitle = document.getElementById('resultsTitle');
 function renderProducts() {
-  if (filteredProducts.length === 0) {
+  const searching = searchInput.value.trim() !== '';
+  document.body.classList.toggle('is-searching', searching);
+  resultsTitle.textContent = searching ? 'نتایج جستجو' : 'پیشنهاد ویژه';
+  const shown = searching ? filteredProducts : filteredProducts.filter(p => p.featured);
+  if (shown.length === 0) {
     productGrid.innerHTML = '<div class="no-results">محصولی مطابق جستجوی شما یافت نشد.</div>';
     resultsInfo.textContent = '۰ محصول یافت شد';
     return;
   }
-  const ordered = [...filteredProducts].sort((a, b) =>
+  const ordered = [...shown].sort((a, b) =>
     (b.featured || 0) - (a.featured || 0) ||
     (GRIT_ORDER.indexOf(a.grit) < 0 ? 99 : GRIT_ORDER.indexOf(a.grit)) -
     (GRIT_ORDER.indexOf(b.grit) < 0 ? 99 : GRIT_ORDER.indexOf(b.grit)) ||
@@ -1175,7 +1015,18 @@ function renderProducts() {
         <div class="product-brand"><span>برند: AZDENT</span><img src="images/azdent-logo.svg" alt="AZDENT" width="70" height="11" loading="lazy"></div>
       </article>`;
   }).join('');
-  resultsInfo.textContent = `${toPersian(filteredProducts.length)} محصول یافت شد`;
+  resultsInfo.textContent = searching ? `${toPersian(shown.length)} محصول یافت شد` : '';
+}
+// Shape tiles: "N مدل · از X تومان" from the live catalog, so counts never go stale.
+function renderTileMeta() {
+  document.querySelectorAll('.shop-tile[data-shapes]').forEach(tile => {
+    const shapes = tile.dataset.shapes.split(',');
+    const items = PRODUCTS.filter(p => shapes.includes(p.shape));
+    const meta = tile.querySelector('.tile-meta');
+    if (!items.length || !meta) return;
+    const from = Math.min(...items.map(unitPrice));
+    meta.textContent = `${toPersian(items.length)} مدل · از ${toPersian(from)} تومان`;
+  });
 }
 // Normalize Persian/Arabic letters and digits, separators, and diacritics so model
 // searches such as "TC 26EF", "tc-26ef" and Persian queries find the same item.
@@ -1260,252 +1111,6 @@ document.addEventListener('pointerdown', e => {
 const initialQuery = new URLSearchParams(window.location.search).get('q');
 if (initialQuery) { searchInput.value = initialQuery; filterProducts(initialQuery); }
 
-function addToCart(model) {
-  cart[model] = (cart[model] || 0) + 1;
-  updateCart();
-  cartCountBadge.classList.remove('pulse');
-  void cartCountBadge.offsetWidth;
-  cartCountBadge.classList.add('pulse');
-}
-
-/* === Deep-link support: category pages link here as index.html#MODEL === */
-function handleCartHash() {
-  const model = decodeURIComponent(window.location.hash.replace('#', '')).trim();
-  if (!model) return;
-  const product = PRODUCTS.find(p => p.model === model);
-  if (!product) return;
-  // scroll the product card into view (helpful when landing from a category page)
-  setTimeout(() => {
-    const card = productGrid.querySelector(`[data-model="${model}"]`) || productGrid.querySelector('.add-btn');
-    if (card) card.closest('.product-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 300);
-  if (product.inventory > 0) {
-    addToCart(product.model);
-    cartDrawer.classList.add('open');
-    cartOverlay.classList.add('open');
-  }
-}
-window.addEventListener('hashchange', handleCartHash);
-// Run immediately: this inline script sits before </body>, so the DOM (product grid) already exists.
-// The old 'load' hook missed desktop cases: cached/bfcache restores and fast loads where 'load'
-// never re-fires after the click (Android Chrome re-fires more aggressively, which is why it worked there).
-if (window.location.hash) { handleCartHash(); }
-window.addEventListener('pageshow', (e) => { if (e.persisted && window.location.hash) handleCartHash(); });
-
-function changePackCount(model, delta) {
-  cart[model] = (cart[model] || 0) + delta;
-  if (cart[model] <= 0) delete cart[model];
-  updateCart();
-}
-
-function removeItem(model) { delete cart[model]; updateCart(); }
-
-function getCartItems() {
-  return Object.keys(cart).map(model => {
-    const product = PRODUCTS.find(p => p.model === model);
-    return product ? { product, packCount: cart[model] } : null;
-  }).filter(Boolean);
-}
-
-function isFreeShipItem(p) { return p.free_shipping === true; }
-function getTotalBurs() {
-  return getCartItems().reduce((sum, item) => sum + item.packCount * (item.product.multiplier || BURS_PER_PACK), 0);
-}
-
-function updateCart() {
-  const items = getCartItems();
-  const totalBurs = getTotalBurs();
-  const totalPacks = items.reduce((s, i) => s + i.packCount, 0);
-
-  if (totalPacks > 0) {
-    cartCountBadge.textContent = toPersian(totalPacks);
-    cartCountBadge.style.display = 'flex';
-  } else {
-    cartCountBadge.style.display = 'none';
-  }
-
-  if (items.length === 0) {
-    cartBody.innerHTML = `
-      <div class="cart-empty">
-        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-        </svg>
-        <p>سبد خرید شما خالی است.</p>
-        <p style="font-size:.78rem;margin-top:6px;">برای افزودن فرز، روی دکمه «افزودن به سبد» کلیک کنید.</p>
-      </div>`;
-    cartTotals.innerHTML = '';
-    cartDrawer.classList.remove('checkout-open');
-    return;
-  }
-
-  const subtotal = items.reduce((sum, item) => {
-    const burCount = item.packCount * (item.product.multiplier || BURS_PER_PACK);
-    return sum + (item.product.bundle ? item.packCount * item.product.price : burCount * unitPrice(item.product));
-  }, 0);
-  const freeShipUnlocked = totalBurs >= FREE_SHIPPING_THRESHOLD || items.some(i => isFreeShipItem(i.product));
-  const effectiveShipping = freeShipUnlocked ? 0 : SHIPPING_COST;
-  const finalTotal = subtotal + effectiveShipping;
-
-  const itemsHTML = items.map(item => {
-    const { product, packCount } = item;
-    const mult = product.multiplier || BURS_PER_PACK;
-    const burCount = packCount * mult;
-    const shapeName = SHAPE_MAP[product.shape] || product.shape;
-    const gritDisp = GRIT_DISPLAY[product.grit] || product.grit;
-    return `
-      <div class="cart-item">
-        <div class="cart-item-line1">${product.bundle
-          ? `${product.card_title || shapeName} <span class="cart-item-model">${product.model}</span>`
-          : `${toPersian(burCount)} عدد ${shapeName} قطر ${toPersianDigits(product.diameter)} دور ${gritDisp} <span class="cart-item-model">${product.model}</span>`}</div>
-        <div class="cart-item-line2">${product.bundle
-          ? `${toPersian(packCount)} بسته × ${toPersian(product.price)} تومان (هر بسته ${toPersian(mult)} عدد)`
-          : `${toPersian(burCount)} × ${toPersian(unitPrice(product))} تومان`}</div>
-        <div class="cart-item-controls">
-          <div class="stepper">
-            <button class="step-btn" data-model="${product.model}" data-delta="-1" aria-label="کاهش تعداد">−</button>
-            <input class="step-input" type="text" inputmode="numeric" dir="ltr" value="${toPersianDigits(packCount)}" data-model="${product.model}" aria-label="تعداد بسته: عدد را دستی وارد کنید" title="تعداد بسته را دستی وارد کنید (هر بسته ${toPersian(mult)} عدد)">
-            <button class="step-btn" data-model="${product.model}" data-delta="1" aria-label="افزایش تعداد">+</button>
-          </div>
-          <button class="cart-item-remove" data-model="${product.model}" data-action="remove">حذف</button>
-        </div>
-      </div>`;
-  }).join('');
-
-  const listScroll = cartBody.scrollTop;
-  cartBody.innerHTML = itemsHTML;
-  cartBody.scrollTop = listScroll;
-
-  const shippingRowHTML = freeShipUnlocked
-    ? `<div class="total-row shipping free"><span>${SHIPPING_LABEL}</span><span><span class="ship-original">${toPersian(SHIPPING_COST)} تومان</span><span class="ship-free">رایگان 🎁</span></span></div>`
-    : `<div class="total-row shipping"><span>${SHIPPING_LABEL}</span><span>${toPersian(SHIPPING_COST)} تومان</span></div>`;
-
-  const checkoutWasOpen = cartTotals.querySelector('.cart-checkout')?.open || false;
-  cartTotals.innerHTML = `
-    <details class="cart-checkout" id="cartCheckout">
-      <summary class="cart-checkout-summary"><span>مبلغ نهایی</span><strong>${toPersian(finalTotal)} تومان</strong><span class="cart-expand-label">جزئیات و ثبت سفارش</span></summary>
-      <div class="cart-checkout-content">
-        <div class="total-row total-burs"><span>🔢 تعداد کل فرزها</span><span>${toPersian(totalBurs)} عدد</span></div>
-        <div class="total-row"><span>مبلغ محصولات</span><span>${toPersian(subtotal)} تومان</span></div>
-        ${shippingRowHTML}
-        <p class="cart-support">برای سفارش های بالاتر و مشاوره دقیق تر با دندانپزشک مجموعه، بر روی <a href="https://t.me/ddsverified_admin" target="_blank" rel="noopener noreferrer">پشتیبانی</a> کلیک کنید.</p>
-        <button type="button" class="copy-order-btn" id="copyOrderBtn">برای کپی کردن لیست خرید کلیک کنید</button>
-        <p class="copy-feedback" id="copyFeedback" role="status" aria-live="polite"></p>
-        <div class="checkout-buttons">
-          <button class="checkout-btn telegram" id="telegramBtn">تکمیل سفارش در تلگرام</button>
-          <button class="checkout-btn bale" id="baleBtn">سفارش از طریق بله</button>
-          <button class="checkout-btn rubika" id="rubikaBtn">سفارش از طریق روبیکا</button>
-        </div>
-        <p class="checkout-note">لیست کپی‌شده را در پیام‌رسان دلخواه بفرستید؛ یا تماس بگیرید: <a href="tel:+989999587786" dir="ltr">+989999587786</a></p>
-        <details class="manual-order"><summary>مشاهده متن سفارش برای کپی دستی</summary><textarea id="checkoutMessage" class="checkout-message" readonly aria-label="متن سفارش برای کپی"></textarea></details>
-      </div>
-    </details>`;
-  const checkoutPanel = document.getElementById('cartCheckout');
-  checkoutPanel.open = checkoutWasOpen;
-  cartDrawer.classList.toggle('checkout-open', checkoutWasOpen);
-  const checkoutLabel = checkoutPanel.querySelector('.cart-expand-label');
-  checkoutLabel.textContent = checkoutWasOpen ? 'بستن جزئیات و ثبت سفارش' : 'جزئیات و ثبت سفارش';
-  checkoutPanel.addEventListener('toggle', () => {
-    cartDrawer.classList.toggle('checkout-open', checkoutPanel.open);
-    checkoutLabel.textContent = checkoutPanel.open ? 'بستن جزئیات و ثبت سفارش' : 'جزئیات و ثبت سفارش';
-    if (!checkoutPanel.open) cartTotals.scrollTop = 0;
-  });
-  const orderText = () => generateOrderMessage(items, totalBurs, finalTotal, freeShipUnlocked);
-  document.getElementById('checkoutMessage').value = orderText();
-  document.getElementById('copyOrderBtn').addEventListener('click', async () => {
-    const feedback = document.getElementById('copyFeedback');
-    const message = orderText();
-    let copied = false;
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(message);
-        copied = true;
-      }
-    } catch (_) { /* use the legacy fallback below */ }
-    if (!copied) {
-      const helper = document.createElement('textarea');
-      helper.value = message;
-      helper.style.cssText = 'position:fixed;left:-9999px;top:0;';
-      document.body.appendChild(helper);
-      helper.focus(); helper.select();
-      try { copied = document.execCommand('copy'); } catch (_) { copied = false; }
-      helper.remove();
-    }
-    if (copied) {
-      feedback.textContent = 'لیست خرید شما ذخیره شد, به یکی از کانال های ارتباطی مراجعه کنید و لیست خرید را بفرستید';
-    } else {
-      feedback.textContent = 'کپی خودکار انجام نشد. متن سفارش را باز کنید و دستی کپی کنید.';
-      document.querySelector('.manual-order').open = true;
-    }
-    feedback.scrollIntoView({ block: 'nearest' });
-  });
-  function openCheckout(url, channel) {
-    window.open(url, '_blank', 'noopener,noreferrer');
-    if (typeof window.cfTrack === 'function') window.cfTrack(`checkout_${channel}`, { total_burs: totalBurs });
-  }
-  document.getElementById('telegramBtn').addEventListener('click', () => openCheckout(`https://t.me/${TELEGRAM_USER}`, 'telegram'));
-  document.getElementById('baleBtn').addEventListener('click', () => openCheckout('https://ble.ir/ddsverified_admin', 'bale'));
-  document.getElementById('rubikaBtn').addEventListener('click', () => openCheckout('https://rubika.ir/ddsverified_admin', 'rubika'));
-}
-
-function generateOrderMessage(items, totalBurs, finalTotal, freeShipUnlocked) {
-  let msg = 'سلام\nسفارش فرز:\nمدل x تعداد عدد @ قیمت واحد (تومان)\n\n';
-  items.forEach(({ product, packCount }) => {
-    const burCount = packCount * (product.multiplier || BURS_PER_PACK);
-    if (product.bundle) {
-      msg += `${product.model} x ${packCount} بسته = ${packCount * product.price} تومان (ارسال رایگان)\n`;
-    } else {
-      msg += `${product.model} x ${burCount} @ ${unitPrice(product)}\n`;
-    }
-  });
-  msg += `\nتعداد کل فرزها: ${totalBurs} عدد\n`;
-  msg += `هزینه پست: ${freeShipUnlocked ? '0 (رایگان)' : SHIPPING_COST} تومان\n`;
-  msg += `مبلغ نهایی قابل پرداخت: ${finalTotal} تومان\n`;
-  return msg;
-}
-
-productGrid.addEventListener('click', (e) => {
-  const btn = e.target.closest('.add-btn');
-  if (btn && !btn.disabled) addToCart(btn.dataset.model);
-});
-
-cartBody.addEventListener('click', (e) => {
-  const stepBtn = e.target.closest('.step-btn');
-  if (stepBtn) { changePackCount(stepBtn.dataset.model, parseInt(stepBtn.dataset.delta)); return; }
-  const removeBtn = e.target.closest('.cart-item-remove');
-  if (removeBtn) removeItem(removeBtn.dataset.model);
-});
-
-/* ورود دستی تعداد بسته با کیبورد — اعداد فارسی/عربی/لاتین را می‌پذیرد */
-function parsePackCount(str) {
-  const fa = '۰۱۲۳۴۵۶۷۸۹', ar = '٠١٢٣٤٥٦٧٨٩';
-  const latin = String(str)
-    .replace(/[۰-۹]/g, d => fa.indexOf(d))
-    .replace(/[٠-٩]/g, d => ar.indexOf(d))
-    .replace(/[^0-9]/g, '');
-  if (!latin) return null;
-  const n = parseInt(latin, 10);
-  return n >= 1 ? n : null;
-}
-cartBody.addEventListener('change', (e) => {
-  const inp = e.target.closest('.step-input');
-  if (!inp) return;
-  const model = inp.dataset.model;
-  const parsed = parsePackCount(inp.value);
-  if (parsed === null || parsed === cart[model]) { updateCart(); return; } // نامعتبر/بدون تغییر → بازگردانی مقدار قبلی
-  cart[model] = Math.min(parsed, 99999);
-  updateCart();
-});
-cartBody.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && e.target.closest('.step-input')) { e.target.blur(); e.preventDefault(); }
-});
-
-cartFab.addEventListener('click', () => { cartDrawer.classList.add('open'); cartOverlay.classList.add('open'); });
-cartClose.addEventListener('click', closeCart);
-cartOverlay.addEventListener('click', closeCart);
-function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); }
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && cartDrawer.classList.contains('open')) closeCart(); });
-
 // JSON-LD Product Schema Injection for SEO
 function injectProductSchema() {
   // Shared shipping & return policy for all offers
@@ -1581,7 +1186,7 @@ function injectProductSchema() {
 }
 injectProductSchema();
 renderProducts();
-updateCart();
+renderTileMeta();
 
 // Rotate three distinct models every five seconds. Keep the initial HTML visible without JS.
 function initHeroRotation() {

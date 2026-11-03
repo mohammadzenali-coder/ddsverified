@@ -5,7 +5,7 @@ import vm from 'node:vm';
 
 const html = readFileSync(new URL('./index.html', import.meta.url), 'utf8');
 const start = html.indexOf('const PRODUCTS =');
-const end = html.indexOf('let cart =', start);
+const end = html.indexOf('let filteredProducts =', start);
 const normalizeStart = html.indexOf('function normalizeSearch(');
 const searchEnd = html.indexOf('const suggestions =', normalizeStart);
 const ctx = vm.createContext({ rendered: 0 });

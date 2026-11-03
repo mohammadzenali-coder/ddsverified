@@ -249,3 +249,89 @@ def test_every_blog_post_starts_with_faq_and_cites_only_listed_sources():
         listed = set(re.findall(r'id="ref-(\d+)"', html))
         assert cited and cited == listed, (post["slug"], cited ^ listed)
         assert 'dateModified' in html
+
+
+# ------------------------------------------------- shop by shape / specialty + shared cart ----
+def test_every_shape_belongs_to_exactly_one_family():
+    data = g.load_data()
+    shapes = [s for f in g.FAMILIES.values() for s in f["shapes"]]
+    assert len(shapes) == len(set(shapes))
+    assert set(shapes) == {p["shape"] for p in data["products"] if not p.get("bundle")}
+    assert {"needle", "torpedo", "football"} <= {k for k, f in g.FAMILIES.items() if len(f["shapes"]) == 1}
+
+
+def test_homepage_tiles_match_families_and_icons_exist():
+    import os
+    html = open("index.html", encoding="utf-8").read()
+    tiles = dict(re.findall(r'<a class="shop-tile" href="/([^"]+)" data-shapes="([^"]+)"', html))
+    assert tiles == {g.family_url(k): ",".join(f["shapes"]) for k, f in g.FAMILIES.items()}
+    for k in g.FAMILIES:
+        assert os.path.exists(f"images/icons/{k}.webp") and os.path.exists(f"images/icons/{k}@2x.webp")
+    for slug in ("fixed-prostho", "restorative-specialists", "endodontics"):
+        assert f'href="/collection/{slug}/"' in html
+    # the full catalog is no longer dumped on the homepage: only featured cards by default
+    assert "filteredProducts.filter(p => p.featured)" in html
+
+
+def test_family_page_lists_every_model_with_add_to_cart_and_filters():
+    data = g.load_data()
+    html = g.build_family_page("fissure", data)
+    models = [p["model"] for p in g.family_products(data, "fissure")]
+    assert len(models) == 9  # 6 fissure + 2 round-end fissure + 1 chamfer
+    for m in models:
+        assert f'class="add-btn" data-model="{m}"' in html
+        assert f'href="/{g.product_page_url(m)}"' in html
+    for slug in ("fissure-burs", "round-end-fissure-burs", "chamfer-burs"):
+        assert f'href="/category/{slug}/"' in html
+    assert 'data-filter="shape"' in html and 'data-filter="grit"' in html
+    assert 'rel="canonical" href="https://ddsverified.ir/family/fissure/"' in html
+    ld = [json.loads(x) for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)]
+    assert len(next(x for x in ld if x["@type"] == "ItemList")["itemListElement"]) == 9
+
+
+def test_specialty_collections():
+    data = g.load_data()
+    resto = {p["model"] for p in g.collection_products(data, "restorative")}
+    assert {"VP-20", "CP-12C", "SR-21C", "RS-11", "CR-12EF", "TC-26", "FO-21C", "SF-41", "BR-49"} <= resto
+    endo = {p["model"] for p in g.collection_products(data, "endodontics")}
+    assert endo == {"ENDO-Z TI", "BR-40C", "BR-46C", "BR-49", "BR-L46", "SO-21C"}
+    prostho = {p["model"] for p in g.collection_products(data, "fixed_prostho")}
+    assert prostho == {p["model"] for p in data["products"] if p.get("collection") == "fixed_prostho"}
+    html = g.build_collection_page("restorative", data)
+    assert "فرزهای ترمیمی و زیبایی" in html
+    assert 'rel="canonical" href="https://ddsverified.ir/collection/restorative-specialists/"' in html
+    assert all(f'data-model="{m}"' in html for m in resto)
+
+
+def test_generated_pages_load_shared_cart_and_buy_in_place():
+    data = g.load_data()
+    tc = next(p for p in data["products"] if p["model"] == "TC-21EF")
+    for html in (g.build_category_page("needle", data), g.build_product_page(tc, data),
+                 g.build_family_page("taper", data), g.build_collection_page("endodontics", data)):
+        assert re.search(r'href="/assets/shop\.css\?v=[0-9a-f]{10}"', html)
+        catalog = html.index('src="/assets/catalog.js?v=')
+        assert catalog < html.index('src="/assets/cart.js?v=')  # data before cart logic
+    for html in (g.build_category_page("needle", data), g.build_product_page(tc, data)):
+        assert 'href="/index.html#TC-21EF" data-add-to-cart="TC-21EF"' in html
+
+
+def test_catalog_js_matches_data_and_homepage_versions_refresh():
+    data = g.load_data()
+    js = g.build_catalog_js(data)
+    products = json.loads(re.search(r"const PRODUCTS = (\[.*?\]);\n", js).group(1))
+    assert products == data["products"]
+    assert f"const PRICE_PER_BUR = {data['price_per_bur']};" in js
+    stale = '<link href="/assets/shop.css?v=1"><script src="/assets/cart.js?v=abc"></script>'
+    fresh = g.inject_asset_versions(stale)
+    assert f"shop.css?v={g.asset_version('assets/shop.css')}" in fresh
+    assert f"cart.js?v={g.asset_version('assets/cart.js')}" in fresh
+
+
+def test_category_breadcrumb_links_parent_family_and_sitemap_lists_families():
+    data = g.load_data()
+    assert '<a href="/family/fissure/">فرز فیشور</a>' in g.build_category_page("pointed_cylinder", data)
+    assert 'href="/family/' not in g.build_category_page("needle", data).split('class="crumbs"')[1].split("</nav>")[0]
+    sitemap = g.build_sitemap(data)
+    for k in ("fissure", "taper", "flame", "round", "special"):
+        assert f"{g.BASE}/family/{k}/" in sitemap
+    assert f"{g.BASE}/collection/endodontics/" in sitemap

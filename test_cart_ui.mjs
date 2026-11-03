@@ -29,26 +29,29 @@ const ctx = vm.createContext({ cartBody, cartTotals, cartDrawer, cartCountBadge,
   navigator: { clipboard: { async writeText(text) { clipboardValue = text; } } },
   window: { open() {} },
 });
+// The cart (logic + styles) is shared by every page: assets/cart.js and assets/shop.css.
+const cartJs = readFileSync(new URL('./assets/cart.js', import.meta.url), 'utf8');
+const css = readFileSync(new URL('./assets/shop.css', import.meta.url), 'utf8');
 const dataStart = html.indexOf('const PRODUCTS =');
-const dataEnd = html.indexOf('let cart =', dataStart);
-const updateStart = html.indexOf('function updateCart()');
-const updateEnd = html.indexOf("productGrid.addEventListener('click'", updateStart);
-vm.runInContext(html.slice(dataStart, dataEnd) + `
+const dataEnd = html.indexOf('let filteredProducts =', dataStart);
+const constStart = cartJs.indexOf('const BURS_PER_PACK');
+const constEnd = cartJs.indexOf('let cart =', constStart);
+const logicStart = cartJs.indexOf('function toPersian(');
+const logicEnd = cartJs.indexOf('/* === END CART LOGIC', logicStart);
+assert.ok(dataEnd > dataStart && constEnd > constStart && logicEnd > logicStart);
+vm.runInContext(html.slice(dataStart, dataEnd) + cartJs.slice(constStart, constEnd) + cartJs.slice(logicStart, logicEnd) + `
 const chosen = PRODUCTS.find(p => p.model === 'TC-26');
 function getCartItems(){return [{product: chosen, packCount: 1}];}
 function getTotalBurs(){return 5;}
-function isFreeShipItem(p){return p.free_shipping === true;}
-function unitPrice(p){return p.price ?? PRICE_PER_BUR;}
-function toPersian(n){return Number(n).toLocaleString('fa-IR');}
-function toPersianDigits(s){return String(s).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);}
-` + html.slice(updateStart, updateEnd) + 'globalThis.updateCart = updateCart;', ctx);
+function saveCart(){}
+globalThis.updateCart = updateCart;`, ctx);
 
 test('list owns at least 70% of cart and checkout is collapsed by default', () => {
   ctx.updateCart();
-  assert.match(html, /\.cart-body\{flex:1 1 auto;min-height:70%;overflow-y:auto/);
-  assert.match(html, /\.cart-totals\{[^}]*max-height:calc\(30% - 56px\)/);
-  assert.match(html, /\.cart-drawer\.checkout-open \.cart-totals\{flex:0 0 70%;max-height:70%\}/);
-  assert.match(html, /\.cart-expand-label\{[^}]*color:#c62828;font-weight:800/);
+  assert.match(css, /\.cart-body\{flex:1 1 auto;min-height:70%;overflow-y:auto/);
+  assert.match(css, /\.cart-totals\{[^}]*max-height:calc\(30% - 56px\)/);
+  assert.match(css, /\.cart-drawer\.checkout-open \.cart-totals\{flex:0 0 70%;max-height:70%\}/);
+  assert.match(css, /\.cart-expand-label\{[^}]*color:#c62828;font-weight:800/);
   assert.match(cartTotals.innerHTML, /<details class="cart-checkout"/);
   assert.equal(elements.cartCheckout.open, false);
   assert.equal(checkoutLabel.textContent, 'جزئیات و ثبت سفارش');

@@ -1,7 +1,8 @@
 """Generate static product, category, collection, campaign and blog pages.
 
 Reads products_data.json and posts/*.md. Re-run when data changes:
-python generate_pages.py. The homepage is maintained separately.
+python generate_pages.py. The homepage is maintained separately (only the ?v= cache-busting
+numbers on its shared asset links are refreshed). Also writes assets/catalog.js for the shared cart.
 """
 import json
 import os
@@ -138,12 +139,25 @@ COLLECTIONS = {
         "description": "مجموعه فرزهای مناسب پروتز ثابت شامل مدل‌های انتخاب‌شده با سایز و مشخصات موجود هر مدل.",
         "intro_note": "این مجموعه مدل‌های مناسب پروتز ثابت را همراه با سایز، دور، کد ISO و معادل USA نشان می‌دهد.",
     },
+    # Restorative and cosmetic/veneer were merged into one specialty; the slug stays (already indexed).
     "restorative": {
         "slug": "restorative-specialists",
-        "title": "برای متخصصان ترمیمی",
-        "short_title": "مناسب متخصصان ترمیمی",
-        "description": "مجموعه فرزهای مناسب متخصصان ترمیمی شامل فرزهای نیدل، فلیم و تخم‌مرغی، به‌همراه SF-41 و BR-49.",
-        "intro_note": "این مجموعه مدل‌های مناسب کانتورینگ اکلوزال، فرم‌دهی و پرداخت ترمیمی را همراه با سایز، دور، کد ISO و معادل USA نشان می‌دهد.",
+        "title": "فرزهای ترمیمی و زیبایی",
+        "short_title": "ترمیمی و زیبایی",
+        "description": "مجموعه فرزهای مناسب درمان‌های ترمیمی و زیبایی: نیدل، فلیم و تخم‌مرغی برای کانتورینگ و پرداخت، به‌همراه دپس کات ونیر، شمفر، تیپر روند اند و فیشور روند اند برای تراش لمینت و ونیر.",
+        "intro_note": "این مجموعه مدل‌های مناسب ترمیم کامپوزیت، کانتورینگ اکلوزال، تراش لمینت و ونیر و پرداخت را همراه با سایز، دور، کد ISO و معادل USA نشان می‌دهد.",
+        "shapes": {"needle", "flame", "flame_long", "football",
+                   "depth_veneer", "pointed_cylinder", "round_end_cylinder", "taper_round_edge", "round_taper"},
+        "models": {"SF-41", "BR-49"},
+    },
+    "endodontics": {
+        "slug": "endodontics",
+        "title": "فرزهای اندودانتیکس",
+        "short_title": "اندودانتیکس",
+        "description": "مجموعه فرزهای مناسب اندودانتیکس: فرز اندو زد کارباید با نوک غیربرنده، فرزهای روند و روند شنک بلند و فرز تورپیدو برای تهیه و اصلاح حفره دسترسی.",
+        "intro_note": "این مجموعه مدل‌های مناسب باز کردن سقف پالپ، تکمیل حفره دسترسی و یافتن اوریفیس کانال‌ها را همراه با سایز، دور، کد ISO و معادل USA نشان می‌دهد.",
+        "shapes": {"carbide", "round", "round_long", "torpedo"},
+        "models": set(),
     },
 }
 
@@ -153,15 +167,41 @@ def collection_url(collection_key: str) -> str:
 
 
 def collection_products(data: dict, collection_key: str) -> list:
-    if collection_key == "restorative":
-        products = [
-            p for p in data["products"]
-            if p.get("shape") in {"needle", "flame", "flame_long", "football"}
-            or p.get("model") in {"SF-41", "BR-49"}
-        ]
-    else:
-        products = [p for p in data["products"] if p.get("collection") == collection_key]
+    """fixed_prostho is hand-flagged per product (collection field); the others are rule-based."""
+    c = COLLECTIONS[collection_key]
+    products = [
+        p for p in data["products"]
+        if p.get("collection") == collection_key
+        or p.get("shape") in c.get("shapes", ())
+        or p.get("model") in c.get("models", ())
+    ]
     return sorted(products, key=grit_sort_key)
+
+
+# Shape families for the homepage "shop by shape" tiles. Families with one shape link straight to the
+# existing (indexed) category page; multi-shape families get a /family/<slug>/ page. The homepage tile
+# data-shapes attributes must list the same shapes (test_generate checks this).
+FAMILIES = {
+    "needle":   {"fa": "نیدل", "shapes": ["needle"]},
+    "fissure":  {"fa": "فیشور", "shapes": ["flat_cylinder", "round_end_cylinder", "pointed_cylinder"],
+                 "intro": "فرزهای فیشور (استوانه‌ای) در سه نوع ته تخت، ته گرد و شمفر؛ برای دیواره‌های موازی، کف مشخص و مارجین شمفر در ترمیم و آماده‌سازی روکش."},
+    "taper":    {"fa": "تیپر", "shapes": ["taper_round_edge", "round_taper", "taper_flat"],
+                 "intro": "فرزهای تیپر (مخروطی) با نوک گرد یا تخت؛ انتخاب اصلی برای تراش روکش، ایجاد همگرایی دیواره‌ها و شیاردهی."},
+    "flame":    {"fa": "فلیم", "shapes": ["flame", "flame_long"],
+                 "intro": "فرزهای فلیم (شعله‌ای) با شنک معمولی و بلند؛ برای آماده‌سازی مارجین، شکل‌دهی سولکوس و پرداخت ترمیم."},
+    "round":    {"fa": "روند", "shapes": ["round", "round_long"],
+                 "intro": "فرزهای روند (کروی) با شنک معمولی و بلند؛ برای حذف پوسیدگی، باز کردن حفره و دسترسی عمقی."},
+    "football": {"fa": "فوتبالی", "shapes": ["football"]},
+    "torpedo":  {"fa": "تورپیدو", "shapes": ["torpedo"]},
+    "special":  {"fa": "اشکال خاص", "shapes": ["inverted_cone", "barrel", "depth_veneer"],
+                 "intro": "فرزهای با شکل خاص: اینورتد برای زیربرش و کف تخت، دابل برل برای کاهش سریع اکلوزال و دپس کات برای کنترل عمق تراش ونیر."},
+    "endoz":    {"fa": "اندو زد کارباید", "shapes": ["carbide"]},
+}
+
+
+def family_url(family_key: str) -> str:
+    shapes = FAMILIES[family_key]["shapes"]
+    return cat_url(shapes[0]) if len(shapes) == 1 else f"family/{family_key}/"
 
 
 # ---------------------------------------------------------------- intros ----
@@ -642,6 +682,157 @@ def _citation_ld(keys: list) -> list:
     } for k in keys]
 
 
+# ------------------------------------------------- product cards (family + collection pages) ----
+# Same look as the homepage cards (styles in assets/shop.css); the button is handled by assets/cart.js.
+LISTING_CSS = """.listing-filters{background:#fff;border:1px solid #dce3ec;border-radius:12px;padding:10px 12px;margin:0 0 14px;display:flex;flex-direction:column;gap:8px}
+.chip-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.chip-label{font-size:.74rem;color:#78909c;margin-left:4px}
+.chip{border:1px solid #dce3ec;background:#fff;color:#102856;border-radius:20px;padding:4px 12px;font:inherit;font-size:.78rem;cursor:pointer}
+.chip.is-active{background:#102856;border-color:#102856;color:#fff}
+.listing-section{margin:0 0 18px}.listing-section[hidden]{display:none}
+.listing-head{display:flex;align-items:baseline;justify-content:space-between;gap:4px 12px;flex-wrap:wrap;margin:0 0 8px}
+.listing-head h2{margin:0}.listing-head a{font-size:.78rem;color:#1565c0;text-decoration:none;font-weight:700}
+.product-card[hidden]{display:none}.product-card .price{font-size:.9rem;margin:2px 0 4px}.product-card .price small{display:block}
+.product-card .price .old-price{font-size:.72rem}.product-card .price .discount-badge{font-size:.62rem;padding:1px 6px}
+.listing-empty{text-align:center;color:#78909c;padding:24px 0}
+.family-links{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.family-links a{display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:1px solid #dce3ec;border-radius:12px;padding:6px;text-decoration:none;color:#102856;font-size:.8rem;font-weight:700}
+.family-links img{width:64px;height:64px;border-radius:10px}"""
+
+# Chips filter cards by data-shape / data-grit; sections with no visible card hide themselves.
+LISTING_JS = """<script>(function(){var root=document.getElementById('listing');if(!root)return;var f={shape:'',grit:''};
+function apply(){var any=false;root.querySelectorAll('.listing-section').forEach(function(s){var n=0;
+s.querySelectorAll('.product-card').forEach(function(c){var ok=(!f.shape||c.dataset.shape===f.shape)&&(!f.grit||c.dataset.grit===f.grit);c.hidden=!ok;if(ok)n++;});
+s.hidden=n===0;if(n)any=true;});document.getElementById('listingEmpty').hidden=any;}
+document.querySelectorAll('.chip-row[data-filter]').forEach(function(row){row.addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;
+row.querySelectorAll('.chip').forEach(function(x){x.classList.toggle('is-active',x===b);x.setAttribute('aria-pressed',String(x===b));});
+f[row.dataset.filter]=b.dataset.value;apply();});});})();</script>"""
+
+
+def _fa_money(n: int) -> str:
+    """Matches JS toLocaleString('fa-IR') used on homepage cards: ۲۰۴٬۳۰۰"""
+    return fa(f"{int(n):,}").replace(",", "٬")
+
+
+def shape_short(shape_key: str, data: dict) -> str:
+    sname = shape_fa(shape_key, data)
+    return sname.replace("فرز دندانپزشکی ", "").replace("فرز ", "", 1) if sname.startswith("فرز") else sname
+
+
+def product_card(p: dict, data: dict) -> str:
+    model = p["model"]
+    in_stock = p["inventory"] > 0
+    href = f"/{product_page_url(model)}"
+    short = shape_short(p["shape"], data)
+    grit = p.get("grit", "-")
+    grit_disp = f'{data["grits"].get(grit, "-")} {grit[1:]}'.strip() if grit != "-" else "-"
+    price = product_price(p, data)
+    per_pack = p.get("pack_size") or data["burs_per_pack"]
+    specs = []
+    if p.get("diameter") not in (None, "", "-"):
+        specs.append(f'<span class="spec-tag">قطر: {fa(p["diameter"])}</span>')
+    if p.get("length") not in (None, "", "-"):
+        specs.append(f'<span class="spec-tag">طول: {fa(p["length"])}</span>')
+    specs.append(f'<span class="spec-tag grit">{grit_disp}</span>')
+    if p.get("multiplier") == 1:
+        specs.append('<span class="spec-tag" style="background:#fff3e0;color:#ef6c00;border-color:#ffe0b2">تک‌فروشی</span>')
+    if p.get("multiplier") == 1:
+        pack_note = f"تک‌فروشی یا بستهٔ {fa(p['pack_size'])} عددی" if p.get("pack_size") else "فروش به صورت تکی"
+    else:
+        pack_note = f"فروش به صورت بسته {fa(data['burs_per_pack'])} عددی"
+    alt = f"فرز {short} {model}"
+    return f"""<article class="product-card{'' if in_stock else ' out-of-stock'}" data-shape="{p['shape']}" data-grit="{grit}">
+<div class="product-img-wrap"><a class="product-img-link" href="{href}" aria-label="صفحه محصول {model}"><img src="{img_rel(model)}" alt="{alt}" width="267" height="400" loading="lazy"></a></div>
+<div class="product-shape">{short}</div>
+<h3 class="product-model"><a href="{href}">{model}</a></h3>
+<div class="product-specs">{"".join(specs)}</div>
+<div class="product-codes"><span class="code-tag iso-tag" title="کد استاندارد ISO">ISO: <span class="code-val">{p.get('iso') or '−'}</span></span><span class="code-tag usa-tag" title="کد آمریکایی USA">USA: <span class="code-val">{p.get('usa') or '−'}</span></span></div>
+<p class="price">{price_html(p, data)}</p>
+<div class="product-pack-price">{_fa_money(price * per_pack)} <span>تومان / بستهٔ {fa(per_pack)} عددی</span></div>
+<span class="pack-info-box">{pack_note}</span>
+<span class="inventory-badge {'in-stock' if in_stock else 'out-stock'}">{'موجود' if in_stock else 'ناموجود'}</span>
+<button type="button" class="add-btn" data-model="{model}"{'' if in_stock else ' disabled'}>{'افزودن به سبد' if in_stock else 'ناموجود'}</button>
+<div class="product-brand"><span>برند: AZDENT</span><img src="/images/azdent-logo.svg" alt="AZDENT" width="70" height="11" loading="lazy"></div>
+</article>"""
+
+
+def _chip_row(kind: str, label: str, all_label: str, options: list) -> str:
+    chips = [f'<button type="button" class="chip is-active" data-value="" aria-pressed="true">{all_label}</button>']
+    chips += [f'<button type="button" class="chip" data-value="{v}" aria-pressed="false">{t}</button>' for v, t in options]
+    return f'<div class="chip-row" data-filter="{kind}" role="group" aria-label="{label}"><span class="chip-label">{label}:</span>{"".join(chips)}</div>'
+
+
+def build_listing(products: list, data: dict) -> str:
+    """Filter chips + one card grid per shape, ordered like the homepage families."""
+    shape_order = [s for fam in FAMILIES.values() for s in fam["shapes"]]
+    groups = {}
+    for p in products:
+        groups.setdefault(p["shape"], []).append(p)
+    shapes = sorted(groups, key=lambda s: shape_order.index(s) if s in shape_order else len(shape_order))
+    filters = []
+    if len(shapes) > 1:
+        filters.append(_chip_row("shape", "نوع فرز", f"همه ({fa(len(products))})",
+                                 [(s, f"{shape_short(s, data)} ({fa(len(groups[s]))})") for s in shapes]))
+    grits = [g_ for g_ in GRIT_ORDER if any(p.get("grit") == g_ for p in products)]
+    if len(grits) > 1:
+        filters.append(_chip_row("grit", "دور", "همه دورها", [(g_, data["grits"].get(g_, GRIT_LABELS[g_])) for g_ in grits]))
+    sections = "".join(f"""
+<section class="listing-section">
+<div class="listing-head"><h2>فرز {shape_short(s, data)} ({fa(len(groups[s]))} مدل)</h2><a href="/{cat_url(s)}">کاربرد بالینی و شواهد علمی ←</a></div>
+<div class="product-grid">{"".join(product_card(p, data) for p in sorted(groups[s], key=grit_sort_key))}</div>
+</section>""" for s in shapes)
+    filters_html = f'<div class="listing-filters">{"".join(filters)}</div>' if filters else ""
+    return f'<div id="listing">{filters_html}{sections}<p class="listing-empty" id="listingEmpty" hidden>مدلی با این فیلتر پیدا نشد.</p></div>{LISTING_JS}'
+
+
+def family_links_html(exclude: str = "") -> str:
+    return '<div class="family-links">' + "".join(
+        f'<a href="/{family_url(k)}"><img src="/images/icons/{k}.webp" alt="" width="64" height="64" loading="lazy">{f["fa"]}</a>'
+        for k, f in FAMILIES.items() if k != exclude) + "</div>"
+
+
+def _listing_ld(products: list, data: dict, name_prefix_fn) -> str:
+    items = [{"@type": "ListItem", "position": i + 1,
+              "item": {"@type": "Product", "name": name_prefix_fn(p),
+                       "image": img_rel(p["model"]), "sku": p["model"],
+                       "url": f"{BASE}/{product_page_url(p['model'])}",
+                       "brand": {"@type": "Brand", "name": "AZDENT"},
+                       "offers": {"@type": "Offer", "priceCurrency": "IRR",
+                                  "price": product_price(p, data) * 10,  # IRR; catalog prices are toman
+                                  "availability": "https://schema.org/InStock" if p["inventory"] > 0 else "https://schema.org/OutOfStock"}}}
+             for i, p in enumerate(products)]
+    return json.dumps({"@context": "https://schema.org", "@type": "ItemList", "itemListElement": items}, ensure_ascii=False)
+
+
+def family_products(data: dict, family_key: str) -> list:
+    shapes = FAMILIES[family_key]["shapes"]
+    return [p for p in sorted(data["products"], key=grit_sort_key) if p["shape"] in shapes]
+
+
+def build_family_page(family_key: str, data: dict) -> str:
+    fam = FAMILIES[family_key]
+    products = family_products(data, family_key)
+    slug_url = family_url(family_key)
+    n_models = fa(len(products))
+    title = f"فرز {fam['fa']} | همه {n_models} مدل با مشخصات و قیمت | DDSVerified"
+    desc = f"خرید فرز دندانپزشکی {fam['fa']}: {n_models} مدل در انواع " + "، ".join(shape_short(s, data) for s in fam["shapes"]) + " با قطر، طول، دور، کد ISO و USA و افزودن مستقیم به سبد خرید."
+    ld_bc = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "خانه", "item": f"{BASE}/"},
+        {"@type": "ListItem", "position": 2, "name": f"فرز {fam['fa']}", "item": f"{BASE}/{slug_url}"}]}, ensure_ascii=False)
+    extra = (f'<script type="application/ld+json">{_listing_ld(products, data, lambda p: f"فرز {shape_short(p["shape"], data)} {p["model"]}")}</script>\n'
+             f'<script type="application/ld+json">{ld_bc}</script>\n<style>{LISTING_CSS}</style>')
+    grit_strip = "".join(f"<span>{data['grits'].get(g_, GRIT_LABELS[g_])}</span>" for g_ in GRIT_ORDER)
+    body = f"""
+<h1>فرز {fam['fa']}: همه مدل‌ها و مشخصات</h1>
+<div class="intro"><p>{fam.get('intro', '')} {n_models} مدل موجود است؛ با فیلترها نوع و دور فرز را انتخاب کنید و مستقیم به سبد خرید اضافه کنید.</p>
+<p class="grits">ترتیب سختی دور فرز از سخت‌ترین به نرم‌ترین: {grit_strip}</p></div>
+{build_listing(products, data)}
+<h2>سایر شکل‌های فرز</h2>
+{family_links_html(exclude=family_key)}
+{TRUST_HTML}"""
+    crumbs = f'<a href="/">خانه</a> › فرز {fam["fa"]}'
+    return _layout(title, desc, slug_url, crumbs, body, extra)
+
+
 def build_collection_page(collection_key: str, data: dict) -> str:
     collection = COLLECTIONS[collection_key]
     products = collection_products(data, collection_key)
@@ -649,7 +840,7 @@ def build_collection_page(collection_key: str, data: dict) -> str:
     slug_url = collection_url(collection_key)
     n_models = fa(len(products))
     intro = collection["description"]
-    blocks = "".join(_model_block(p, collection["short_title"], data) for p in products)
+    blocks = build_listing(products, data)
     ld_items = [{
         "@type": "ListItem", "position": i + 1,
         "item": {
@@ -671,15 +862,20 @@ def build_collection_page(collection_key: str, data: dict) -> str:
         {"@type": "ListItem", "position": 2, "name": title, "item": f"{BASE}/{slug_url}"},
     ]}, ensure_ascii=False)
     extra = (f'<script type="application/ld+json">{ld_itemlist}</script>\n'
-             f'<script type="application/ld+json">{ld_bc}</script>')
+             f'<script type="application/ld+json">{ld_bc}</script>\n<style>{LISTING_CSS}</style>')
+    others = "".join(f'<a href="/{collection_url(k)}">{c["title"]}</a>'
+                     for k, c in COLLECTIONS.items() if k != collection_key and collection_products(data, k))
     body = f"""
 <p class="collection-note">اگر مدل مدنظر شما اینجا نیست، در <a href="{BASE}/">صفحه اصلی ddsverified.ir</a> مشاهده کنید.</p>
 <h1>{title}</h1>
 <div class="intro"><p>{intro}</p>
 <p>{collection["intro_note"]}</p></div>
-<h2>مدل‌های موجود ({n_models} مدل)</h2>
+<p><strong>مدل‌های موجود ({n_models} مدل)</strong></p>
 {blocks}
-<p><a class="cta" href="{BASE}/">← بازگشت به فروشگاه و مشاهده همه فرزها</a></p>
+<h2>سایر تخصص‌ها</h2>
+<div class="related">{others}</div>
+<h2>خرید بر اساس شکل فرز</h2>
+{family_links_html()}
 {TRUST_HTML}"""
     crumbs = f'<a href="/">خانه</a> › {title}'
     return _layout(f"{title} | DDSVerified", intro, slug_url, crumbs, body, extra)
@@ -1080,6 +1276,9 @@ def build_campaign_page(p: dict, data: dict) -> bool:
     return True
 def build_sitemap(data, posts=None) -> str:
     urls = [("", "1.0"), ("blog/", "0.6")]
+    for family_key, fam in FAMILIES.items():
+        if len(fam["shapes"]) > 1 and family_products(data, family_key):
+            urls.append((family_url(family_key), "0.9"))
     for collection_key in COLLECTIONS:
         if collection_products(data, collection_key):
             urls.append((collection_url(collection_key), "0.9"))
@@ -1148,6 +1347,51 @@ CONTACT_LINKS = f"""<nav class="contact-links" aria-label="راه‌های ار�
 </nav>"""
 
 
+# ------------------------------------------------------------ shared assets ----
+# assets/shop.css + assets/cart.js are hand-written and shared with the homepage. assets/catalog.js is
+# generated here so the cart works on every page without the homepage's inline PRODUCTS. ?v= is a
+# content hash, so browsers pick up changes immediately.
+CATALOG_JS = "assets/catalog.js"
+SHARED_ASSETS = ("assets/shop.css", "assets/cart.js", CATALOG_JS)
+
+
+def build_catalog_js(data: dict) -> str:
+    def js(v):
+        return json.dumps(v, ensure_ascii=False, separators=(",", ":"))
+    return ("/* GENERATED by generate_pages.py from products_data.json (source: index.html). Do not edit. */\n"
+            f"const PRODUCTS = {js(data['products'])};\n"
+            f"const SHAPE_MAP = {js(data['shapes'])};\n"
+            f"const GRIT_TEXT = {js(data['grits'])};\n"
+            f"const PRICE_PER_BUR = {int(data['price_per_bur'])};\n"
+            f"const LIST_PRICE_PER_BUR = {int(data['old_price_per_bur'])};\n")
+
+
+def asset_version(path: str) -> str:
+    try:
+        with open(path, "rb") as f:
+            return __import__("hashlib").sha1(f.read()).hexdigest()[:10]
+    except FileNotFoundError:
+        return "0"
+
+
+def asset_head_tags() -> str:
+    v = {p: asset_version(p) for p in SHARED_ASSETS}
+    return (f'<link rel="stylesheet" href="/assets/shop.css?v={v["assets/shop.css"]}">\n'
+            f'<script src="/{CATALOG_JS}?v={v[CATALOG_JS]}" defer></script>\n'
+            f'<script src="/assets/cart.js?v={v["assets/cart.js"]}" defer></script>')
+
+
+def inject_asset_versions(html: str) -> str:
+    """Refresh ?v= on the homepage's shared asset links (index.html is hand-maintained)."""
+    for path in ("assets/shop.css", "assets/cart.js"):
+        html = re.sub(rf'(/{re.escape(path)})\?v=[0-9a-zA-Z]+', rf'\1?v={asset_version(path)}', html)
+    return html
+
+
+def family_of_shape(shape_key: str):
+    return next((k for k, f in FAMILIES.items() if shape_key in f["shapes"]), None)
+
+
 def _layout(title, description, canonical_path, crumbs_html, body_html, extra_head=""):
     canon = f"{BASE}/{canonical_path}"
     return f"""<!DOCTYPE html>
@@ -1170,6 +1414,7 @@ def _layout(title, description, canonical_path, crumbs_html, body_html, extra_he
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
 <style>{CSS}</style>
+{asset_head_tags()}
 <!-- GA4 — deferred to preserve page performance -->
 <script>window.gaId='G-DW63K5FG8M';addEventListener('load',function(){{var s=document.createElement('script');s.src='https://www.googletagmanager.com/gtag/js?id='+window.gaId;s.async=true;document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function g(){{dataLayer.push(arguments)}}window.gtag=g;g('js',new Date());g('config',window.gaId)}});</script>
 {extra_head}
@@ -1210,7 +1455,7 @@ def _model_block(p, shape_name_short, data):
     </table>
   </div>
   <p class="price">{price_html(p, data)}</p>
-  <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model}: افزودن به سبد خرید</a>
+  <a class="cta" href="/index.html#{quote(model)}" data-add-to-cart="{model}">🛒 خرید فرز {model}: افزودن به سبد خرید</a>
 </section>"""
 
 
@@ -1293,7 +1538,10 @@ def build_category_page(shape_key, data):
 <h2>خانواده‌های دیگر</h2>
 <div class="related">{related_html}</div>
 {TRUST_HTML}"""
-    crumbs = f'<a href="/">خانه</a> › {short}'
+    fam_key = family_of_shape(shape_key)
+    fam_crumb = (f'<a href="/{family_url(fam_key)}">فرز {FAMILIES[fam_key]["fa"]}</a> › '
+                 if fam_key and len(FAMILIES[fam_key]["shapes"]) > 1 else "")
+    crumbs = f'<a href="/">خانه</a> › {fam_crumb}{short}'
     return _layout(title, desc, slug_url, crumbs, body, extra)
 
 
@@ -1409,7 +1657,7 @@ def build_product_page(p, data) -> str:
   </div>
   {blueprint_html}
   <p class="price">{price_html(p, data)}</p>
-  <a class="cta" href="/index.html#{quote(model)}">🛒 خرید فرز {model}: افزودن به سبد خرید</a>
+  <a class="cta" href="/index.html#{quote(model)}" data-add-to-cart="{model}">🛒 خرید فرز {model}: افزودن به سبد خرید</a>
 </section>
 {TRUST_HTML}
 <h2>سایر مدل‌های {short}</h2>
@@ -1532,6 +1780,24 @@ def main():
     data = load_data()
     posts = load_posts()
     n = 0
+    # Shared cart data first: every page below embeds its content hash in ?v=.
+    os.makedirs("assets", exist_ok=True)
+    with open(CATALOG_JS, "w", encoding="utf-8", newline="\n") as f:
+        f.write(build_catalog_js(data))
+    # The homepage is hand-maintained; only the ?v= of its shared asset links is refreshed here.
+    with open("index.html", encoding="utf-8", newline="") as f:
+        home = f.read()
+    home_new = inject_asset_versions(home)
+    if home_new != home:
+        with open("index.html", "w", encoding="utf-8", newline="") as f:
+            f.write(home_new)
+    for family_key, fam in FAMILIES.items():
+        if len(fam["shapes"]) > 1 and family_products(data, family_key):
+            d = os.path.join("family", family_key)
+            os.makedirs(d, exist_ok=True)
+            with open(os.path.join(d, "index.html"), "w", encoding="utf-8", newline="\n") as f:
+                f.write(build_family_page(family_key, data))
+            n += 1
     for collection_key in COLLECTIONS:
         if collection_products(data, collection_key):
             d = os.path.join("collection", COLLECTIONS[collection_key]["slug"])

@@ -11,6 +11,8 @@ on:
       - "tools/generate_torob_feed.py"
       - "tools/torob_added.json"
       - "generate_pages.py"
+      - "assets/cart.js"
+      - "assets/shop.css"
   workflow_dispatch:
 
 permissions:

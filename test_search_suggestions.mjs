@@ -29,7 +29,7 @@ const document = { hidden: false, getElementById: () => suggestions, addEventLis
 const location = { assigned: null, assign(url) { this.assigned = url; } };
 const ctx = vm.createContext({ document, window: { location }, searchInput: input, URLSearchParams });
 const dataStart = html.indexOf('const PRODUCTS =');
-const dataEnd = html.indexOf('let cart =', dataStart);
+const dataEnd = html.indexOf('let filteredProducts =', dataStart);
 const codeStart = html.indexOf('function normalizeSearch(');
 const codeEnd = html.indexOf('const initialQuery =', codeStart);
 vm.runInContext(html.slice(dataStart, dataEnd) + `
