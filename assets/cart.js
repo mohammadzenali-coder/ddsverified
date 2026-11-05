@@ -56,7 +56,8 @@ function saveCart() {
 /* ---------- cart actions ---------- */
 function addToCart(model) {
   const product = PRODUCTS.find(p => p.model === model);
-  if (!product || product.inventory <= 0) return;
+  if (!product) return;
+  if (product.inventory <= 0) { showCartToast(`${model} فعلاً ناموجود است`, false); return; }
   cart[model] = (cart[model] || 0) + 1;
   updateCart();
   cartCountBadge.classList.remove('pulse');
@@ -279,9 +280,11 @@ function openCart() { cartDrawer.classList.add('open'); cartOverlay.classList.ad
 function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); }
 
 let cartToastTimer = null;
-function showCartToast(text) {
+function showCartToast(text, added = true) {
   if (!cartToast) return;
-  cartToast.innerHTML = `<span>✓ ${text}</span><button type="button" class="cart-toast-open">مشاهده سبد</button>`;
+  cartToast.innerHTML = added
+    ? `<span>✓ ${text}</span><button type="button" class="cart-toast-open">مشاهده سبد</button>`
+    : `<span>${text}</span>`;
   cartToast.hidden = false;
   clearTimeout(cartToastTimer);
   cartToastTimer = setTimeout(() => { cartToast.hidden = true; }, 2600);

@@ -46,10 +46,10 @@ test('saved models that no longer exist, are out of stock, or have bad counts ar
   store.ddsverified_cart_v1 = JSON.stringify({ 'TC-26': 3, 'OLD-MODEL': 2, 'SF-41': 1, 'TC-27': -4, 'TC-21C': 'x' });
   api.cart = api.loadCart();
   assert.deepEqual({ ...api.cart }, { 'TC-26': 3 });
-  api.addToCart('SF-41'); // out of stock: ignored
-  api.addToCart('NOPE');
+  api.addToCart('SF-41'); // out of stock: not added, but the shopper is told why
+  api.addToCart('NOPE');  // unknown model: ignored silently
   assert.deepEqual({ ...api.cart }, { 'TC-26': 3 });
-  assert.equal(api.toasts.length, 0);
+  assert.deepEqual([...api.toasts], ['SF-41 فعلاً ناموجود است']);
 });
 
 test('broken storage never breaks the page', () => {

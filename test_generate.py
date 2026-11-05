@@ -335,3 +335,29 @@ def test_category_breadcrumb_links_parent_family_and_sitemap_lists_families():
     for k in ("fissure", "taper", "flame", "round", "special"):
         assert f"{g.BASE}/family/{k}/" in sitemap
     assert f"{g.BASE}/collection/endodontics/" in sitemap
+
+
+def test_generator_source_stays_python_311_compatible():
+    """CI runs Python 3.11: f-string expressions may not reuse the outer quote or contain backslashes
+    (that is only legal from 3.12, PEP 701). A reused quote broke the regenerate workflow once."""
+    import tokenize
+    if not hasattr(tokenize, "FSTRING_START"):
+        return  # running on 3.11 itself: importing generate_pages above already proved it parses
+    problems = []
+    for path in ("generate_pages.py", "tools/extract_products.py", "tools/generate_emalls_feed.py",
+                 "tools/generate_torob_feed.py", "tools/crop_icons.py"):
+        with open(path, "rb") as f:
+            stack = []
+            for t in tokenize.tokenize(f.readline):
+                if t.type == tokenize.FSTRING_START:
+                    quote = t.string.lstrip("rbfuRBFU")
+                    if stack and len(stack[-1]) == 1 and quote[0] == stack[-1]:
+                        problems.append((path, t.start[0]))
+                    stack.append(quote)
+                elif t.type == tokenize.FSTRING_END:
+                    stack.pop()
+                elif stack and t.type == tokenize.STRING:
+                    body = t.string.lstrip("rbfuRBFU")
+                    if (len(stack[-1]) == 1 and body[0] == stack[-1]) or "\\" in t.string:
+                        problems.append((path, t.start[0]))
+    assert problems == []

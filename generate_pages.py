@@ -818,7 +818,11 @@ def build_family_page(family_key: str, data: dict) -> str:
     ld_bc = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "خانه", "item": f"{BASE}/"},
         {"@type": "ListItem", "position": 2, "name": f"فرز {fam['fa']}", "item": f"{BASE}/{slug_url}"}]}, ensure_ascii=False)
-    extra = (f'<script type="application/ld+json">{_listing_ld(products, data, lambda p: f"فرز {shape_short(p["shape"], data)} {p["model"]}")}</script>\n'
+    # Keep f-string expressions free of reused quotes: CI runs Python 3.11 (no PEP 701).
+    def item_name(p):
+        return "فرز " + shape_short(p["shape"], data) + " " + p["model"]
+    ld_items = _listing_ld(products, data, item_name)
+    extra = (f'<script type="application/ld+json">{ld_items}</script>\n'
              f'<script type="application/ld+json">{ld_bc}</script>\n<style>{LISTING_CSS}</style>')
     grit_strip = "".join(f"<span>{data['grits'].get(g_, GRIT_LABELS[g_])}</span>" for g_ in GRIT_ORDER)
     body = f"""
@@ -1266,7 +1270,7 @@ def build_campaign_page(p: dict, data: dict) -> bool:
 </div>
 <h2>پرسشهای متداول</h2>
 <div class="faq">{faq_html}</div>
-<a class="cta" href="/index.html#{quote(model)}">🛒 خرید {title}: افزودن به سبد خرید</a>
+<a class="cta" href="/index.html#{quote(model)}" data-add-to-cart="{model}">🛒 خرید {title}: افزودن به سبد خرید</a>
 {TRUST_HTML}"""
 
     crumbs = f'<a href="/">خانه</a> › {title}'
